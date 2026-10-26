@@ -19,7 +19,8 @@ jobs:
         with:
           node-version: 24
 
-      # 화면 동작·금지어·출처 표시·인증키 누출·응답 모양 (의존성 없음)
+      # 화면 동작·금지어·출처 표시·인증키 누출·응답 모양,
+      # 디자인 원본(tokens·components·copy.json)과 DESIGN.md·index.html :root의 값 대조 (의존성 없음)
       - name: node --test
         run: node --test tests/*.test.mjs
 
@@ -27,6 +28,9 @@ jobs:
         run: |
           jq empty .claude/settings.json
           bash -n .claude/hooks/after-edit.sh
+          bash -n .claude/hooks/before-stop.sh
 
-      # design-harness lint:web은 로컬 플러그인(Chrome 필요)이라 CI에 없다.
-      # 화면 토큰·터치 크기 검사는 로컬 훅과 PR 전 수동 실행으로 확인한다.
+      # design-harness는 로컬 플러그인이라 CI에 없다. 아래 둘은 로컬(편집 훅·Stop 훅)에서만 돈다.
+      # - lint:web: 렌더링한 화면의 토큰 밖 색·글자 크기, 44px 미만 버튼, 금지 카피
+      # - check: DESIGN.md 글자 단위 최신 여부와 공식 린트, 단계 승인
+      # PR 전에 `design-harness lint:web index.html`과 `design-harness check`를 돌려 확인한다.

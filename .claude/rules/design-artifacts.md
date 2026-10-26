@@ -15,6 +15,7 @@ paths:
 
 ## 파생 파일
 - `DESIGN.md`·`HANDOFF.md`는 JSON에서 만들어진다(`design-harness design-md`, `design-harness handoff`). 손으로 고치지 말고 원본 JSON을 고친 뒤 다시 만든다.
+- `tokens`·`components`·`copy.json`이 바뀌면 `DESIGN.md`가 낡는다. `tests/design.test.mjs`와 `design-harness check`의 "DESIGN.md 최신"이 실패하므로, 원본이 승인된 뒤 `design-harness design-md`로 다시 만든다. `tokens.json`이 바뀌면 `index.html` `:root`도 같은 값으로 옮긴다.
 - `out/` 아래 와이어프레임 SVG는 `design-harness wireframe`이 만든다.
 - `failures.jsonl`은 하네스가 남기는 기록이다. 지우거나 고치지 않는다.
 - `references/`의 이미지는 공개 화면을 캡처한 레퍼런스다. 앱 화면에 그대로 가져다 쓰지 않는다.

@@ -58,6 +58,18 @@
           }
         ]
       }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/before-stop.sh",
+            "timeout": 150,
+            "statusMessage": "끝내기 전 앱 검사 중"
+          }
+        ]
+      }
     ]
   }
 }

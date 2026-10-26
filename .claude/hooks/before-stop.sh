@@ -2,6 +2,7 @@
 # Stop: 답을 끝내기 전에, 커밋 안 된 변경이 있는 영역만 다시 검사한다.
 # 편집 훅(after-edit.sh)을 거치지 않은 변경(Bash로 고침, design-harness design-md로 다시 만듦)도 여기서 잡는다.
 # 디자인 단계 게이트(DESIGN.md 최신·공식 린트·승인)는 design-harness 플러그인의 Stop 훅이 따로 돌린다.
+# (플러그인 훅은 FAIL에서만 막고, 승인 대기·승인 풀림(WAIT)은 막지 않는다.)
 # 실패하면 exit 2로 한 번 막는다. 이 훅 때문에 이어 가는 중(stop_hook_active)이면 다시 막지 않는다.
 set -u
 root="${CLAUDE_PROJECT_DIR:-$(cd "$(dirname "$0")/../.." && pwd)}"
@@ -21,7 +22,7 @@ if has '^(index\.html|.*\.(html|css)|data/|tests/|work/seoul-parking/(tokens|com
   fi
 fi
 
-if has '^(index\.html|.*\.(html|css)|work/seoul-parking/(tokens|copy)\.json)'; then
+if has '^(index\.html|.*\.(html|css)|work/seoul-parking/(tokens|copy|ia)\.json)'; then
   if command -v design-harness >/dev/null 2>&1; then
     if ! out=$(design-harness lint:web index.html 2>&1); then
       add "[lint:web] 오류:"$'\n'"$(printf '%s\n' "$out" | tail -30)"

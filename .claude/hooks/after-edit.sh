@@ -37,9 +37,9 @@ case "$rel" in
     fi ;;
 esac
 
-# 4) 화면이나 그 기준(토큰·금지어)을 고쳤으면 lint:web(토큰·글자 크기·터치 크기·금지 카피)
+# 4) 화면이나 그 기준(토큰·금지어·ia.json의 viewport)을 고쳤으면 lint:web(토큰·글자 크기·터치 크기·금지 카피)
 case "$rel" in
-  index.html|*.html|*.css|work/seoul-parking/tokens.json|work/seoul-parking/copy.json)
+  index.html|*.html|*.css|work/seoul-parking/tokens.json|work/seoul-parking/copy.json|work/seoul-parking/ia.json)
     if command -v design-harness >/dev/null 2>&1; then
       if ! out=$(design-harness lint:web index.html 2>&1); then
         add "[lint:web] 오류:"$'\n'"$(printf '%s\n' "$out" | tail -30)"

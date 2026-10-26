@@ -1,0 +1,32 @@
+name: check
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      # 화면 동작·금지어·출처 표시·인증키 누출·응답 모양 (의존성 없음)
+      - name: node --test
+        run: node --test tests/*.test.mjs
+
+      - name: 설정·훅 문법
+        run: |
+          jq empty .claude/settings.json
+          bash -n .claude/hooks/after-edit.sh
+
+      # design-harness lint:web은 로컬 플러그인(Chrome 필요)이라 CI에 없다.
+      # 화면 토큰·터치 크기 검사는 로컬 훅과 PR 전 수동 실행으로 확인한다.

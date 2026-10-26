@@ -7,6 +7,7 @@
 - 데이터는 저장해 둔 실제 API 응답 `data/parking.json`을 읽는다. Open API를 부르는 서버(프록시)는 아직 없다.
 - 로컬 확인: `fetch`를 쓰므로 `file://`로 열지 말고 `python3 -m http.server`로 띄운다.
 - 화면 검사: `design-harness lint:web index.html` (토큰 밖 색·글자 크기, 44px 미만 버튼, 금지 카피). 화면을 바꾸면 돌리고 오류 0개를 확인한다.
+- 테스트: `node --test tests/*.test.mjs` (의존성 없음). 동작을 바꿀 때는 `/tdd` 순서를 따른다. 파일을 고치면 `.claude/hooks/after-edit.sh`가, PR에서는 `.github/workflows/check.yml`이 돈다(CI에는 lint:web이 없다).
 
 ## 무엇을 기준으로 삼나
 - 기능과 범위: `PRD.md`. 범위 밖(지도·현재 위치·예약·결제·로그인·즐겨찾기·빈자리 예측)은 요청이 없으면 만들지 않는다.

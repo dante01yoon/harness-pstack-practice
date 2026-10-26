@@ -1,0 +1,105 @@
+{
+  "viewport": {
+    "width": 360,
+    "height": 800
+  },
+  "requiredStates": [
+    "default",
+    "loading",
+    "empty",
+    "error",
+    "stale",
+    "no-realtime"
+  ],
+  "screens": [
+    {
+      "id": "list",
+      "name": "주차장 목록",
+      "features": [
+        "F1",
+        "F2",
+        "F3",
+        "F4",
+        "F6",
+        "F7"
+      ],
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "stale",
+        "no-realtime"
+      ]
+    },
+    {
+      "id": "detail",
+      "name": "주차장 상세",
+      "features": [
+        "F4",
+        "F5",
+        "F6",
+        "F7"
+      ],
+      "states": [
+        "default",
+        "loading",
+        "error",
+        "stale",
+        "no-realtime"
+      ]
+    }
+  ],
+  "flows": [
+    {
+      "steps": [
+        "list",
+        "list:loading",
+        "list",
+        "detail"
+      ],
+      "goal": "구로 찾아 빈자리 확인"
+    },
+    {
+      "steps": [
+        "list",
+        "list:empty",
+        "list",
+        "detail"
+      ],
+      "goal": "이름 검색으로 빈자리 확인"
+    },
+    {
+      "steps": [
+        "list:stale",
+        "list:loading",
+        "list"
+      ],
+      "goal": "오래된 숫자 확인 후 새로고침"
+    },
+    {
+      "steps": [
+        "list:error",
+        "list:loading",
+        "list"
+      ],
+      "goal": "불러오기 실패 후 다시 시도"
+    },
+    {
+      "steps": [
+        "list:no-realtime",
+        "detail:no-realtime"
+      ],
+      "goal": "실시간 없는 주차장 상세 확인"
+    },
+    {
+      "steps": [
+        "detail",
+        "detail:stale",
+        "detail:error",
+        "list"
+      ],
+      "goal": "상세에서 요금·운영시간 확인"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "list": [
+    { "region": "헤더·새로고침", "priority": 6, "height": 48, "content": "서울 공영주차장 빈자리 · 새로고침(44px)" },
+    { "region": "이름·주소 검색", "priority": 2, "height": 56, "content": "주차장 이름·주소 검색 (예: 세종로)" },
+    { "region": "구 필터 칩(가로 스크롤)", "priority": 3, "height": 56, "content": "전체 · 종로구 · 중구 · 영등포구 … 23개 구" },
+    { "region": "결과 건수·기준", "priority": 5, "height": 44, "content": "총 122곳 · 목록 불러온 시각 표시" },
+    { "region": "오래됨 경고(20분 초과 시)", "priority": 4, "height": 64, "content": "기준 시각이 20분 넘게 지났어요. 새로고침 [버튼]" },
+    { "region": "구 묶음 제목", "priority": 9, "height": 40, "content": "종로구 16곳 (구별 묶음)" },
+    { "region": "행: 실시간 연계", "priority": 1, "height": 96, "content": "PKLT_NM / 종로구 ADDR / 빈 {TPKCT-NOW}/{TPKCT}면 · 기준 HH:MM" },
+    { "region": "행: 실시간 미연계", "priority": 7, "height": 96, "content": "PKLT_NM / ADDR / 실시간 정보 없음 (0 아님)" },
+    { "region": "행: 버스전용", "priority": 8, "height": 96, "content": "PKLT_NM / ADDR / [버스전용] 승용차 해당 없음" },
+    { "region": "상태 영역(대체 표시)", "priority": 10, "height": 120, "content": "불러오는 중 · 실패: 다시 시도 · 결과 없음" },
+    { "region": "하단 출처", "priority": 11, "height": 72, "content": "출처: 서울 열린데이터광장, 서울시 시영주차장 실시간 주차대수 정보 (공공누리 1유형)" }
+  ],
+  "detail": [
+    { "region": "상단 바", "priority": 9, "height": 48, "content": "← 목록 · PKLT_NM · 새로고침" },
+    { "region": "빈자리·기준 시각", "priority": 1, "height": 112, "content": "빈 {TPKCT-NOW}/{TPKCT}면 · 기준 HH:MM (미연계: 실시간 정보 없음)" },
+    { "region": "오래됨 경고", "priority": 2, "height": 56, "content": "20분 넘게 지난 숫자예요. 새로고침" },
+    { "region": "전화·주소", "priority": 3, "height": 80, "content": "ADDR / TELNO 탭하면 전화 걸기(44px)" },
+    { "region": "운영시간", "priority": 4, "height": 104, "content": "평일·주말·공휴일 / 0000~0000은 정보 없음" },
+    { "region": "요금", "priority": 5, "height": 128, "content": "기본 BSC_PRK_CRG/BSC_PRK_HR · 추가 · 월 정기권" },
+    { "region": "유형·구분", "priority": 6, "height": 104, "content": "노상/노외 · 시간제/버스전용 · 유료/무료" },
+    { "region": "토·공휴일·야간", "priority": 7, "height": 72, "content": "토요일·공휴일 유무료 · 야간 개방" },
+    { "region": "하단 출처", "priority": 8, "height": 72, "content": "출처: 서울 열린데이터광장, 서울시 시영주차장 실시간 주차대수 정보 (공공누리 1유형)" }
+  ]
+}

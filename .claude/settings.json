@@ -1,7 +1,4 @@
 {
-  "enabledPlugins": {
-    "design-harness@design-harness": true
-  },
   "permissions": {
     "allow": [
       "Bash(node --test *)",
@@ -17,19 +14,6 @@
       "Bash(git log)",
       "Edit(/tests/**)"
     ],
-    "ask": [
-      "Edit(/work/seoul-parking/PRD.md)",
-      "Edit(/work/seoul-parking/tokens.json)",
-      "Edit(/work/seoul-parking/components.json)",
-      "Edit(/work/seoul-parking/copy.json)",
-      "Edit(/work/seoul-parking/ia.json)",
-      "Edit(/work/seoul-parking/wireframes.json)",
-      "Edit(/data/parking.json)",
-      "Edit(/.claude/settings.json)",
-      "Edit(/.github/workflows/**)",
-      "Bash(git push *)",
-      "Bash(git commit *)"
-    ],
     "deny": [
       "Read(/.env)",
       "Read(/.env.*)",
@@ -43,6 +27,19 @@
       "Edit(/work/seoul-parking/DESIGN.md)",
       "Edit(/work/seoul-parking/HANDOFF.md)",
       "Bash(design-harness approve *)"
+    ],
+    "ask": [
+      "Edit(/work/seoul-parking/PRD.md)",
+      "Edit(/work/seoul-parking/tokens.json)",
+      "Edit(/work/seoul-parking/components.json)",
+      "Edit(/work/seoul-parking/copy.json)",
+      "Edit(/work/seoul-parking/ia.json)",
+      "Edit(/work/seoul-parking/wireframes.json)",
+      "Edit(/data/parking.json)",
+      "Edit(/.claude/settings.json)",
+      "Edit(/.github/workflows/**)",
+      "Bash(git push *)",
+      "Bash(git commit *)"
     ]
   },
   "hooks": {
@@ -71,5 +68,9 @@
         ]
       }
     ]
+  },
+  "enabledPlugins": {
+    "design-harness@design-harness": true,
+    "pstack@cursor-plugins": true
   }
 }

@@ -30,7 +30,7 @@ esac
 
 # 3) 화면·데이터·테스트·디자인 원본을 고쳤으면 테스트(design.test: DESIGN.md·:root가 원본과 같은지)
 case "$rel" in
-  index.html|*.html|*.css|data/*|tests/*|\
+  index.html|*.html|*.css|data/*|tests/*|server/*|\
   work/seoul-parking/tokens.json|work/seoul-parking/components.json|work/seoul-parking/copy.json)
     if ! out=$(node --test tests/*.test.mjs 2>&1); then
       add "[테스트] node --test 실패:"$'\n'"$(printf '%s\n' "$out" | grep -E '^(✖|not ok|  [A-Za-z]+Error|    at |  (actual|expected|message|operator)|ℹ (pass|fail))' | head -40)"

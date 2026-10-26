@@ -23,7 +23,6 @@ export async function open({ body = response, now, hash = '' } = {}) {
     querySelector: () => null, querySelectorAll: () => [], addEventListener() {} });
   const view = el('view');
   const results = el('results');
-  const note = el('snapshot-note');
   const listeners = {};
   view.addEventListener = (type, fn) => { (listeners[type] ??= []).push(fn); };
 
@@ -39,7 +38,7 @@ export async function open({ body = response, now, hash = '' } = {}) {
     Date: FixedDate, Intl, Object, Array, Map, Set, String, Number, Boolean, Promise, TypeError, isNaN,
     console,
     document: {
-      getElementById: (id) => ({ view, 'snapshot-note': note,
+      getElementById: (id) => ({ view,
         results: view.innerHTML.includes('id="results"') ? results : null }[id] ?? null),
       activeElement: null,
     },

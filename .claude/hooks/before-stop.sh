@@ -16,7 +16,7 @@ has() { printf '%s\n' "$changed" | grep -Eq "$1"; }
 fail=""
 add() { fail="${fail}$1"$'\n'; }
 
-if has '^(index\.html|.*\.(html|css)|data/|tests/|work/seoul-parking/(tokens|components|copy)\.json|work/seoul-parking/DESIGN\.md)'; then
+if has '^(index\.html|.*\.(html|css)|data/|tests/|server/|work/seoul-parking/(tokens|components|copy)\.json|work/seoul-parking/DESIGN\.md)'; then
   if ! out=$(node --test tests/*.test.mjs 2>&1); then
     add "[테스트] node --test 실패:"$'\n'"$(printf '%s\n' "$out" | grep -E '^(✖|  [A-Za-z]+Error|  (\+|-) |ℹ (pass|fail))' | head -40)"
   fi

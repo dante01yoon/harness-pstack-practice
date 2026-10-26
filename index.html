@@ -241,7 +241,6 @@
   <main id="view" tabindex="-1"></main>
   <footer class="source">
     <p>출처: 서울 열린데이터광장, 서울시 시영주차장 실시간 주차대수 정보 (공공누리 제1유형)</p>
-    <p id="snapshot-note"></p>
   </footer>
 </div>
 
@@ -260,7 +259,7 @@
 
 <script>
 (() => {
-  const DATA_URL = 'data/parking.json';
+  const DATA_URL = 'api/parking';
   const STALE_MS = 20 * 60 * 1000; // PRD F6: 기준 시각이 20분을 넘으면 오래됨
   const TZ = 'Asia/Seoul';
 
@@ -620,9 +619,6 @@
   });
   window.addEventListener('popstate', render);
   window.addEventListener('hashchange', render);
-
-  document.getElementById('snapshot-note').textContent =
-    '이 화면은 저장해 둔 응답(data/parking.json)을 보여 줘요. 새로고침해도 같은 숫자예요.';
 
   render();
   load();

@@ -71,10 +71,12 @@ try {
   skip("playwright-core가 없습니다 (design-harness setup)");
 }
 
-// 저장소 루트를 내보내는 정적 서버. fetch("data/parkings.json")이 file://에서는 막히므로 필요하다.
+// 저장소 루트를 내보내는 정적 서버. fetch("api/parkings")가 file://에서는 막히므로 필요하다.
+// /api/parkings에는 server.mjs 대신 data/parkings.json(같은 모양의 실제 응답 스냅샷)을 준다. 인증키·네트워크 없이 같은 화면이 나온다.
 const TYPES = { ".html": "text/html; charset=utf-8", ".json": "application/json", ".svg": "image/svg+xml", ".png": "image/png" };
 const server = http.createServer((req, res) => {
-  const p = path.join(root, decodeURIComponent(new URL(req.url, "http://x").pathname));
+  const u = new URL(req.url, "http://x").pathname;
+  const p = path.join(root, u === "/api/parkings" ? "data/parkings.json" : decodeURIComponent(u));
   if (!p.startsWith(root + path.sep) || !fs.existsSync(p) || !fs.statSync(p).isFile()) return res.writeHead(404).end();
   res.writeHead(200, { "content-type": TYPES[path.extname(p)] ?? "application/octet-stream" }).end(fs.readFileSync(p));
 });
@@ -128,8 +130,8 @@ const shown = (sel) => (page) => page.waitForSelector(sel, { state: "visible" })
 fs.rmSync(cacheDir, { recursive: true, force: true });
 fs.mkdirSync(cacheDir, { recursive: true });
 try {
-  await scenario("불러오는 중", (p) => p.route("**/data/parkings.json", () => {}), [["loading", shown("#veil")]]);
-  await scenario("불러오기 실패", (p) => p.route("**/data/parkings.json", (r) => r.abort()), [["error", shown("#errorBanner")]]);
+  await scenario("불러오는 중", (p) => p.route("**/api/parkings", () => {}), [["loading", shown("#veil")]]);
+  await scenario("불러오기 실패", (p) => p.route("**/api/parkings", (r) => r.abort()), [["error", shown("#errorBanner")]]);
   await scenario("WebGL 없음", (p) => p.addInitScript(() => {
     const get = HTMLCanvasElement.prototype.getContext;
     HTMLCanvasElement.prototype.getContext = function (t, ...a) { return /webgl/.test(t) ? null : get.call(this, t, ...a); };

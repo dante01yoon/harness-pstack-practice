@@ -717,7 +717,7 @@ function dragSheet() {
 
 // ---- 데이터 ----
 async function load() {
-  const res = await fetch("data/parkings.json", { cache: "no-store" });
+  const res = await fetch("api/parkings", { cache: "no-store" });
   if (!res.ok) throw new Error("HTTP " + res.status);
   const j = await res.json();
   return j.rows;

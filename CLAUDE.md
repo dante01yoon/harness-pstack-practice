@@ -18,11 +18,12 @@ pstack 플러그인(`enabledPlugins`)이 일반 작업 방식(TDD 순서, 원칙
 
 ## 구조
 - `index.html` — 앱 전체(HTML·CSS·JS 한 파일, 빌드 없음)
-- `data/parkings.json` — API 응답 결합 스냅샷
+- `server.mjs` — 앱과 `/api/parkings`(실시간 데이터)를 내보내는 서버. 인증키는 여기서만 읽는다
+- `data/parkings.json` — 화면 검사·테스트용 실제 응답 스냅샷(`/api/parkings`와 같은 모양)
 - `work/seoul-parking/` — 디자인 하네스 산출물(PRD·토큰·카피·IA·핸드오프), `out/` — 내보낸 와이어프레임
 - `scripts/lint-web.mjs` — 앱을 상태별로 띄워 design-harness `lint:web`에 넘기는 드라이버
 
-확인은 저장소 루트에서 정적 서버로 연다: `python3 -m http.server` → http://localhost:8000
+확인은 저장소 루트에서 서버로 연다(데이터가 `/api`에서 오므로 정적 서버로는 안 된다): `node server.mjs` → http://localhost:8000
 테스트(의존성 없음, Node 18+): `node --test tests/*.test.mjs`
 
 ## 디자인 하네스 검사

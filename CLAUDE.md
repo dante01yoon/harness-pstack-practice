@@ -11,6 +11,11 @@
 - 휴대폰 웹(390×844)이 기준이다. 데스크톱은 같은 화면을 가운데 폭 고정으로 보인다.
 - 디자인 판단이 PRD·승인된 산출물(`work/seoul-parking/`)과 코드가 다르면 산출물이 맞다. 코드를 산출물에 맞춘다.
 
+## pstack과 나눈 일
+pstack 플러그인(`enabledPlugins`)이 일반 작업 방식(TDD 순서, 원칙, 플레이북)을 맡고, 이 파일과 `.claude/`는 이 앱만의 사실만 둔다. 둘이 다르면 이쪽이 앞선다.
+- 위의 "먼저 묻는다"와 사람 승인(`approvals.json`)은 pstack의 "사람을 기다리지 않는다"·자율 진행보다 앞선다.
+- pstack 플레이북의 다른 디자인 시안 만들기(prototype·arena)는 승인된 산출물을 바꾸지 않는 범위에서만 쓴다.
+
 ## 구조
 - `index.html` — 앱 전체(HTML·CSS·JS 한 파일, 빌드 없음)
 - `data/parkings.json` — API 응답 결합 스냅샷

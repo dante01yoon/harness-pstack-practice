@@ -21,7 +21,8 @@
     ]
   },
   "enabledPlugins": {
-    "design-harness@design-harness": true
+    "design-harness@design-harness": true,
+    "pstack@cursor-plugins": true
   },
   "hooks": {
     "PostToolUse": [

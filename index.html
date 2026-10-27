@@ -386,12 +386,11 @@
       if (!Array.isArray(rows)) throw new TypeError('rows');
       const prev = state.lots;
       state.lots = rows.map(toLot);
-      if (hadData) {
-        const found = openings(prev, state.lots, state.favorites)
-          .map(({ id, name, available, updated }) => ({ id, name, available, updated }));
-        const ids = new Set(found.map((o) => o.id));
-        state.openings = [...state.openings.filter((o) => !ids.has(o.id)), ...found];
-      }
+      // PRD F10: 띄운 배너도 이번 응답의 숫자로 바꾸고, 다시 만차이거나 실시간 정보 없음이 되면 내린다.
+      const byId = new Map(state.lots.map((l) => [l.id, l]));
+      const kept = state.openings.map((o) => byId.get(o.id)).filter((l) => l && l.realtime && l.available >= 1);
+      state.openings = [...kept, ...openings(prev, state.lots, state.favorites)]
+        .map(({ id, name, available, updated }) => ({ id, name, available, updated }));
       state.loadedFor = district;
       state.loadedAt = new Date();
       state.status = 'ready';

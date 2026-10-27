@@ -9,7 +9,8 @@ CONSTANTS
   MaxVer,          \* Open API가 내놓는 스냅숏 개수(1..MaxVer, 번호가 클수록 새것)
   MaxLoads,        \* 이 브라우저가 load()를 부르는 최대 횟수(첫 load 포함)
   GuardRefreshing, \* TRUE = 지금 코드. 새로고침 클릭 `if (!state.refreshing) load()`와 canAutoLoad의 `!state.refreshing`
-  DiscardSuperseded \* TRUE = 지금 코드. load()가 `seq !== latestLoad`면 응답을 버리고 refreshing도 건드리지 않는다
+  DiscardSuperseded, \* TRUE = 지금 코드. load()가 `seq !== latestLoad`면 응답을 버리고 refreshing도 건드리지 않는다
+  RefreshBanner    \* TRUE = 지금 코드. 띄운 배너를 새 응답 숫자로 바꾸고, 만차가 되면 내린다
 
 Vers  == 1..MaxVer
 Loads == 1..MaxLoads
@@ -24,7 +25,7 @@ VARIABLES
   fetchFrom,   \* 진행 중인 Open API 호출이 시작될 때의 upVer
   waiters,     \* pending을 기다리는 이 브라우저의 요청 번호들
   toServer,    \* 보냈지만 서버에 아직 닿지 않은 요청 번호
-  net,         \* 서버가 보낸 응답 <<요청 번호, 스냅숏 번호(0 = 502)>>. 어떤 순서로든 도착할 수 있다
+  net,         \* 서버가 보낸 응답 <<요청 번호, 스냅숏 번호(0 = 501)>>. 어떤 순서로든 도착할 수 있다
   phase,       \* load() k의 위치: idle | fetch(:381 await fetch) | json(:383 await res.json()) | done
   had,         \* load() k의 hadData(:378)
   got,         \* load() k가 받은 스냅숏 번호
@@ -56,7 +57,7 @@ Init ==
   /\ snap \in [Vers -> Avail]
   /\ upVer = 1
   /\ cache = 0 /\ cacheFresh = FALSE /\ pending = FALSE /\ fetchFrom = 0 /\ waiters = {}
-  \* index.html:729-730 render(); load(): 첫 load는 hadData=false라 status만 loading
+  \* index.html:728-729 render(); load(): 첫 load는 hadData=false라 status만 loading
   /\ toServer = {1} /\ net = {}
   /\ phase = [k \in Loads |-> IF k = 1 THEN "fetch" ELSE "idle"]
   /\ had = [k \in Loads |-> FALSE] /\ got = [k \in Loads |-> 0]
@@ -66,9 +67,9 @@ Init ==
 ---------------------------------------------------------------------------
 (* 브라우저 *)
 
-(* load()를 부르는 세 길(구 칩은 아래 Switch). 새로고침 버튼은 status=ready일 때만 그려지고(:502 :591),
-   다시 시도는 error이거나 고른 구를 못 받았을 때(status=ready)만(:532), 클릭 처리는 :703. 30초 타이머(:724)와
-   visibilitychange(:726)는 canAutoLoad(:722). 보임·검색창 초점·30초 경과 조건은 막기만 하므로 빼서 더 넓게 본다. *)
+(* load()를 부르는 세 길(구 칩은 아래 Switch). 새로고침 버튼은 status=ready일 때만 그려지고(:501 :590),
+   다시 시도는 error이거나 고른 구를 못 받았을 때(status=ready)만(:531), 클릭 처리는 :702. 30초 타이머(:723)와
+   visibilitychange(:725)는 canAutoLoad(:721). 보임·검색창 초점·30초 경과 조건은 막기만 하므로 빼서 더 넓게 본다. *)
 CanStart == /\ GuardRefreshing => ~refreshing
             /\ status \in {"ready", "error"}
 
@@ -88,7 +89,9 @@ Begin ==
 
 Start == CanStart /\ Begin
 
-(* 구 칩(pickDistrict). 칩은 status=ready일 때만 그려지고, 불러오는 중이어도 막지 않는다.
+(* pickDistrict()(:408)를 부르는 두 길: 구 칩(:698)과 검색어 지우기(:703, '전체'로). 칩은 status=ready일 때만
+   그려진다(:512). 지우기 버튼은 status를 보지 않지만 검색어가 있을 때만 보이고 검색창은 ready일 때만 입력되며,
+   즐겨찾기가 늘 응답에 있어 lots가 비지 않으므로 한 번 ready면 계속 ready다. 둘 다 불러오는 중이어도 막지 않는다.
    목록이 어느 구를 담았는지는 보지 않는다. 즐겨찾기 주차장은 어느 구를 골라도 응답에 들어 있다(dataUrl). *)
 Switch == status = "ready" /\ Begin
 
@@ -103,7 +106,7 @@ FailLoad(k) ==
             /\ refreshing' = FALSE
        ELSE UNCHANGED <<status, refreshing>>
 
-(* :381-383 fetch가 응답을 받음. 502면 :382에서 던짐 *)
+(* :381-383 fetch가 응답을 받음. 501면 :382에서 던짐 *)
 Receive(k, v) ==
   /\ <<k, v>> \in net
   /\ phase[k] = "fetch"
@@ -128,7 +131,8 @@ JsonFail(k) ==
   /\ FailLoad(k)
   /\ UNCHANGED <<snap, upVer, server, toServer, net, had, got, lots, banner, notes, maxSeen, nextK, latest>>
 
-(* :384-407 seq 검사 뒤 state.lots를 바꾸고, hadData면 openings()(:356-362)로 배너를 고른다(:389-394).
+(* :384-406 seq 검사 뒤 state.lots를 바꾸고, 띄운 배너는 새 숫자로 바꾸거나 만차면 내린 뒤(kept)
+   openings()(:356-362)가 새로 고른 배너를 붙인다. 처음 load는 prev가 비어 openings()가 아무것도 고르지 않는다.
    즐겨찾기이고 양쪽 숫자가 실시간·20분 이내라고 둔다. 알림이 갈 수 있는 경우만 본다. *)
 JsonDone(k) ==
   /\ phase[k] = "json"
@@ -138,7 +142,10 @@ JsonDone(k) ==
                 prev   == lots
                 notify == had[k] /\ prev # 0 /\ snap[prev] = 0 /\ snap[v] >= 1
             IN /\ lots' = v
-               /\ banner' = IF notify THEN v ELSE banner
+               /\ banner' = CASE notify                          -> v
+                              [] ~RefreshBanner                   -> banner
+                              [] banner # 0 /\ snap[v] >= 1       -> v
+                              [] OTHER                            -> 0
                /\ notes' = IF notify THEN [notes EXCEPT ![Opening(v)] = @ + 1] ELSE notes
                /\ maxSeen' = Max(maxSeen, v)
                /\ status' = "ready"
@@ -146,7 +153,7 @@ JsonDone(k) ==
        ELSE UNCHANGED <<lots, banner, notes, maxSeen, status, refreshing>>   \* 버린 응답
   /\ UNCHANGED <<snap, upVer, server, toServer, net, had, got, nextK, latest>>
 
-(* :712 배너 닫기 *)
+(* :711 배너 닫기 *)
 Dismiss ==
   /\ banner # 0
   /\ banner' = 0
@@ -186,7 +193,7 @@ UpstreamOk ==
   /\ pending' = FALSE /\ waiters' = {}
   /\ UNCHANGED <<snap, upVer, fetchFrom, toServer, client>>
 
-(* :18-27·:58-61 실패는 저장하지 않고 기다리던 요청에 502 *)
+(* :18-27·:58-61 실패는 저장하지 않고 기다리던 요청에 501 *)
 UpstreamFail ==
   /\ pending
   /\ net' = net \cup Reply(waiters, 0)
@@ -219,7 +226,7 @@ Spec == Init /\ [][Next]_vars
    구를 바꿔 버린 앞 응답은 다른 구 목록이라 반영 대상이 아니다. *)
 ScreenLatest == lots = maxSeen
 
-(* 약속 1을 화면 전체로: 빈자리 배너의 숫자도 지금 목록과 같은 응답에서 나온다. *)
+(* 약속 1을 배너로: 빈자리 배너의 숫자도 지금 목록과 같은 응답에서 나온다(PRD F10). *)
 BannerLatest == banner \in {0, lots}
 
 (* 약속 2: 만차에서 빈자리로 바뀐 한 번의 사건에 배너는 한 번만 뜬다(닫은 뒤 다시 뜨는 것도 두 번). *)

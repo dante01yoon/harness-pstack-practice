@@ -214,6 +214,34 @@ test('빈자리 배너의 닫기를 누르면 배너가 사라진다', async () 
   assert.doesNotMatch(app.text(), anyOpening, '빈자리가 이어지면 다시 알리지 않는다');
 });
 
+test('빈자리 배너의 숫자는 목록처럼 가장 새 응답을 따른다', async () => {
+  const app = await open({ now: updated + 5 * MIN, storage: favorites(BANGHWA) });
+  app.serve(reopened());
+  await app.tick();
+  assert.ok(app.text().includes(OPENING));
+  app.serve(reopened((r) => { r.NOW_PRK_VHCL_CNT = r.TPKCT - 2; }));
+  await app.tick();
+  assert.match(app.rowOf(BANGHWA), /avail-count">2</);
+  assert.ok(app.text().includes('방화역(동) 공영주차장(시) 빈자리 2면 · 07:55 기준'), app.text().slice(0, 300));
+  assert.equal(app.text().match(/빈자리 [\d,]+면 · /g).length, 1, '배너는 하나');
+});
+
+test('빈자리 배너를 띄운 주차장이 다시 만차이거나 실시간 정보 없음이 되면 배너를 내린다', async () => {
+  for (const [label, next, shown] of [
+    ['만차', response, /만차/],
+    ['실시간 정보 없음', reopened((r) => { r.PRK_STTS_YN = '0'; }), /실시간 정보 없음/],
+  ]) {
+    const app = await open({ now: updated + 5 * MIN, storage: favorites(BANGHWA) });
+    app.serve(reopened());
+    await app.tick();
+    assert.ok(app.text().includes(OPENING));
+    app.serve(next);
+    await app.tick();
+    assert.match(app.rowOf(BANGHWA), shown, label);
+    assert.doesNotMatch(app.text(), anyOpening, label);
+  }
+});
+
 test('빈자리 배너도 기준 시각이 20분을 넘으면 오래됨을 표시한다', async () => {
   const app = await open({ now: updated + 5 * MIN, storage: favorites(BANGHWA) });
   app.serve(reopened());

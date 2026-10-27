@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # 30초 새로고침·빈자리 알림 순서 검증. 쓰는 법: verify/refresh-order/run.sh  (더 넓게: DEEP=1 verify/refresh-order/run.sh)
-# 성공(exit 0) = 코드 앵커 그대로 + 약속 두 개 통과 + 망가뜨린 변형은 잡힘. 알려진 발견 F1은 따로 알린다.
+# 성공(exit 0) = 코드 앵커 그대로 + 약속 세 개 통과 + 망가뜨린 변형은 잡힘.
 set -u
 here="$(cd "$(dirname "$0")" && pwd)"
 cd "$here" || exit 1
@@ -29,23 +29,17 @@ passed() { grep -q "No error has been found" "$work/$1.out"; }
 status=0
 node anchors.mjs || exit 2
 
-echo "== 약속 1(목록·상세 숫자는 가장 새 응답)·약속 2(빈자리 알림 한 번) — RefreshOrder.cfg"
+echo "== 약속 1(목록·상세 숫자는 가장 새 응답)·약속 2(빈자리 알림 한 번)·약속 3(배너 숫자도 가장 새 응답) — RefreshOrder.cfg"
 tlc RefreshOrder
 if passed RefreshOrder; then grep -E "distinct states found|depth of the complete" "$work/RefreshOrder.out"; echo "통과"
 else echo "실패: $work/RefreshOrder.out"; grep -E "Error|violated" "$work/RefreshOrder.out"; status=1; fi
 
-echo "== 망가뜨린 변형(구를 바꿔 겹친 load의 늦은 앞 응답을 버리지 않음)은 두 약속을 모두 깨야 한다"
-for m in mutant-screen mutant-notify; do
+echo "== 망가뜨린 변형은 지키던 약속을 깨야 한다"
+echo "   mutant-screen·mutant-notify: 구를 바꿔 겹친 load의 늦은 앞 응답을 버리지 않음 / mutant-banner: 띄운 배너를 새 응답에 맞추지 않음"
+for m in mutant-screen mutant-notify mutant-banner; do
   tlc "$m"
   if violated "$m"; then echo "$m: 잡힘 ($(grep -o 'Invariant [A-Za-z]* is violated' "$work/$m.out"))"
   else echo "$m: 못 잡음 — 검증이 틀렸어요. $work/$m.out"; status=1; fi
 done
-
-echo "== 알려진 발견 F1: 배너 숫자도 가장 새 응답인가(BannerLatest) — finding-banner.cfg"
-tlc finding-banner
-if violated finding-banner; then echo "F1 남아 있음(모델 반례: $work/finding-banner.out)"
-elif passed finding-banner; then echo "F1이 모델에서 사라졌어요. 고친 것이 맞는지 확인하고 SKILL.md의 발견 목록을 고치세요."
-else echo "finding-banner 실행 실패: $work/finding-banner.out"; status=1; fi
-node replay-banner.mjs
 
 exit $status

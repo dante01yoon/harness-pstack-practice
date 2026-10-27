@@ -11,15 +11,19 @@ const anchors = [
   ['index.html', "if (hadData) { state.refreshing = true; render(); } else { state.status = 'loading'; render(); }", 'Start'],
   ['index.html', "const res = await fetch(dataUrl(district), { cache: 'no-store' });", 'Start → Receive'],
   ['index.html', 'const seq = ++latestLoad;', 'Begin latest'],
-  ['index.html', 'if (seq !== latestLoad) return;', 'Current: JsonDone·FailLoad 버림'],
+  // 같은 seq 검사가 두 곳에 있어 앞줄까지 붙여 본다(한 줄만 보면 하나를 지워도 다른 하나와 맞는다)
+  ['index.html', 'const body = await res.json();\n      if (seq !== latestLoad) return;', 'Current: JsonDone 버림'],
+  ['index.html', '} catch (_) {\n      if (seq !== latestLoad) return;', 'Current: FailLoad 버림'],
   ['index.html', 'if (seq === latestLoad) {', 'Current: finally refreshing'],
   ['index.html', 'if (chip) { pickDistrict(chip.dataset.district); return; }', 'Switch'],
+  ['index.html', "else if (act === 'clear') { state.query = ''; pickDistrict('전체'); render(); document.getElementById('q')?.focus(); }", 'Switch 검색어 지우기'],
   ['index.html', "${state.status === 'ready' ? `<nav class=\"chips\" aria-label=\"구 선택\">${chips}</nav>` : ''}", 'Switch status'],
   ['index.html', 'const body = await res.json();', 'Receive → JsonDone'],
   ['index.html', 'const prev = state.lots;', 'JsonDone prev'],
   ['index.html', 'state.lots = rows.map(toLot);', 'JsonDone lots'],
   ['index.html', "return favorites.has(l.id) && p && fresh(p) && p.available <= 0 && fresh(l) && l.available >= 1;", 'JsonDone notify'],
-  ['index.html', 'state.openings = [...state.openings.filter((o) => !ids.has(o.id)), ...found];', 'JsonDone banner'],
+  ['index.html', 'const kept = state.openings.map((o) => byId.get(o.id)).filter((l) => l && l.realtime && l.available >= 1);', 'JsonDone banner RefreshBanner'],
+  ['index.html', 'state.openings = [...kept, ...openings(prev, state.lots, state.favorites)]', 'JsonDone banner notify'],
   ['index.html', 'if (hadData) state.refreshFailed = true; else state.status = \'error\';', 'FailLoad'],
   ['index.html', 'state.refreshing = false;', 'FailLoad·JsonDone'],
   ['index.html', "if (act === 'refresh' || act === 'retry') { if (!state.refreshing) load(); }", 'CanStart GuardRefreshing'],
@@ -33,13 +37,17 @@ const anchors = [
 ];
 
 const missing = anchors.filter(([f, code]) => !read(f).includes(code));
-const counts = { 'index.html': (read('index.html').match(/(?<!function )\bload\(\)/g) || []).length };
+const count = (re) => (read('index.html').match(re) || []).length;
 // load()를 부르는 곳: 새로고침·다시 시도 클릭, pickDistrict(Switch), 타이머, visibilitychange, 처음. 새 곳이 생기면 CanStart·Switch를 다시 본다.
-if (counts['index.html'] !== 5) missing.push(['index.html', `load() 호출 ${counts['index.html']}곳(모델은 5곳)`, 'CanStart·Switch']);
+const loads = count(/(?<!function )\bload\(\)/g);
+if (loads !== 5) missing.push(['index.html', `load() 호출 ${loads}곳(모델은 5곳)`, 'CanStart·Switch']);
+// pickDistrict()를 부르는 곳: 구 칩, 검색어 지우기. 새 곳이 생기면 Switch의 조건(status=ready)이 그 곳에도 맞는지 본다.
+const picks = count(/\bpickDistrict\(/g);
+if (picks !== 2) missing.push(['index.html', `pickDistrict() 호출 ${picks}곳(모델은 2곳)`, 'Switch']);
 
 if (missing.length) {
   console.log('모델이 기대는 코드가 바뀌었어요. RefreshOrder.tla의 해당 동작을 다시 확인하세요:');
   for (const [f, code, where] of missing) console.log(`  - ${f} [${where}] ${code}`);
   process.exit(2);
 }
-console.log(`코드 앵커 ${anchors.length + 1}개 그대로`);
+console.log(`코드 앵커 ${anchors.length + 2}개 그대로`);

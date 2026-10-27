@@ -76,6 +76,6 @@ TLC 결과(통과든 반례든)는 pstack `/statechart` 스킬로 읽는다. 반
 
 ## 동기화 기록
 - 덮는 코드: `index.html` 375-413(`load`·`pickDistrict`), 356-362(`openings`), 502·513·532·591(버튼·칩이 그려지는 조건), 699·703·712(클릭 처리), 722-730(`canAutoLoad`·타이머·visibilitychange·첫 load). `server/index.mjs` 12-40(`createApp`·`cachedParking`).
-- 마지막으로 모델이 코드를 그대로 설명한다고 확인한 커밋: `ef51acf` (2026-10-26). 도구: TLA+ tools 1.7.4(TLC 2.19), Java 26.
-- 이 커밋 뒤에 위 파일이 바뀌었는지: `git log --oneline ef51acf..HEAD -- index.html server/index.mjs`. 나오는 커밋이 있으면 위 "코드를 바꿨을 때"를 따른다.
+- 마지막으로 모델이 코드를 그대로 설명한다고 확인한 커밋: `1f192e8` (2026-10-26). 도구: TLA+ tools 1.7.4(TLC 2.19), Java 26.
+- 이 커밋 뒤에 위 파일이 바뀌었는지: `git log --oneline 1f192e8..HEAD -- index.html server/index.mjs`. 나오는 커밋이 있으면 위 "코드를 바꿨을 때"를 따른다.
 - 오래 손보지 않은 검증을 다시 맞출 때는 pstack `/maintain-formal-verification-skill`.

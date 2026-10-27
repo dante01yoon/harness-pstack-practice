@@ -14,7 +14,7 @@ EXTENDS Naturals, FiniteSets
 
 CONSTANTS
   MaxClicks,              \* 사람이 누르는 횟수 상한(새로고침 + 다시 시도)
-  RefreshDropsStale,      \* refresh()가 마지막 요청이 아닌 응답을 버리는가 (현재 코드: FALSE)
+  RefreshDropsStale,      \* refresh()가 마지막 요청이 아닌 응답을 버리는가 (현재 코드: TRUE)
   StartDropsStale,        \* start()가 마지막 요청이 아닌 응답을 버리는가 (현재 코드: FALSE)
   ClearsListOnStartFail   \* start() 실패 때 map이 없으면 #listBody를 비우는가 (현재 코드: TRUE)
 
@@ -63,18 +63,24 @@ Init ==
   /\ banner = FALSE
   /\ wiped = FALSE
 
-\* 새로고침 버튼(#refresh 또는 #refresh2) → refresh() → load()
-\* 이미 받는 중이어도 막지 않는다 (refresh()에 진행 중 검사 없음)
+\* 새로고침 버튼(#refresh 또는 #refresh2) → refresh()
+\*  - started 거짓: refresh()가 곧바로 start()를 부른다 ("다시 시도"와 같음)
+\*  - started 참: load(). 이미 받는 중이어도 막지 않는다 (refresh()에 진행 중 검사 없음)
 YouTapRefresh ==
   /\ ~veil
   /\ clicks < MaxClicks
   /\ clicks' = clicks + 1
   /\ sent' = sent + 1
-  /\ pending' = pending \cup {Req(sent + 1, "refresh")}
-  /\ UNCHANGED <<webgl, okIds, applied, rows, screen, started, veil, banner>>
+  /\ IF started
+       THEN /\ pending' = pending \cup {Req(sent + 1, "refresh")}
+            /\ UNCHANGED <<veil, banner>>
+       ELSE /\ pending' = pending \cup {Req(sent + 1, "start")}
+            /\ banner' = FALSE
+            /\ veil' = TRUE
+  /\ UNCHANGED <<webgl, okIds, applied, rows, screen, started>>
   /\ TrackWipe
 
-\* "다시 시도"(#retry) → start(): showError(false), #veil 덮음, load()
+\* "다시 시도"(지도의 #retry 또는 목록의 #retry2) → start(): showError(false), #veil 덮음, load()
 YouTapRetry ==
   /\ ~veil
   /\ banner
@@ -106,36 +112,26 @@ RefreshFails ==
     /\ UNCHANGED <<webgl, sent, clicks, okIds, applied, rows, screen, started, veil, banner>>
     /\ TrackWipe
 
-\* start()의 load() 성공
-\*  - 처음(started 거짓): S.rows = rows, 지도 또는 목록을 그림, #veil 걷음
-\*    (지도의 load 이벤트까지 기다리는 시간은 한 걸음으로 묶었다)
-\*  - 다시(started 참): S.rows = rows, #veil 걷음, refresh() → load() 하나 더
+\* start()의 load() 성공: S.rows = rows, started = true, 지도 또는 목록을 그림, #veil 걷음
+\* (지도의 load 이벤트까지 기다리는 시간은 한 걸음으로 묶었다)
 StartArrives ==
   \E r \in pending :
     /\ r.kind = "start"
+    /\ pending' = pending \ {r}
     /\ okIds' = okIds \cup {r.id}
     /\ veil' = FALSE
-    /\ IF ~Applies(r) THEN
-          /\ pending' = pending \ {r}
-          /\ UNCHANGED <<sent, rows, screen, started, applied>>
-       ELSE IF started THEN
-          /\ rows' = r.id
-          /\ applied' = applied \cup {r.id}
-          /\ sent' = sent + 1
-          /\ pending' = (pending \ {r}) \cup {Req(sent + 1, "refresh")}
-          /\ UNCHANGED <<screen, started>>
-       ELSE
-          /\ pending' = pending \ {r}
-          /\ started' = TRUE
-          /\ rows' = r.id
-          /\ applied' = applied \cup {r.id}
-          /\ screen' = r.id
-          /\ UNCHANGED sent
-    /\ UNCHANGED <<webgl, clicks, banner>>
+    /\ IF Applies(r)
+         THEN /\ started' = TRUE
+              /\ rows' = r.id
+              /\ applied' = applied \cup {r.id}
+              /\ screen' = r.id
+         ELSE UNCHANGED <<rows, screen, started, applied>>
+    /\ UNCHANGED <<webgl, sent, clicks, banner>>
     /\ TrackWipe
 
 \* start()의 load() 실패: #veil 걷음, showError(true),
-\* map이 없으면 setView("list") 뒤 $("listBody").innerHTML = ""
+\* setView("list") 뒤 #listBody를 실패 문구와 "다시 시도"(#retry2)로 바꾼다.
+\* start()는 started 전에만 불리므로 이때 map은 늘 없다 (코드에 map 검사 없음)
 StartFails ==
   \E r \in pending :
     /\ r.kind = "start"

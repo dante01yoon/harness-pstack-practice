@@ -89,11 +89,11 @@ function describe(prev, cur) {
   const added = ids(v.pending).find((i) => !ids(prev.v.pending).includes(i));
   const tail = `→ S.rows = ${num(v.rows)}, 화면 = ${num(v.screen)}`;
   switch (a) {
-    case "YouTapRefresh": return { sig: `${a}#${added}`, text: `새로고침 버튼을 누름 → refresh()가 요청 #${added} 보냄` };
+    case "YouTapRefresh": return { sig: `${a}#${added}`, text: prev.v.started === "TRUE" ? `새로고침 버튼을 누름 → refresh()가 요청 #${added} 보냄` : `새로고침 버튼을 누름 → 숫자를 받기 전이라 start()가 #veil을 덮고 요청 #${added} 보냄` };
     case "YouTapRetry": return { sig: `${a}#${added}`, text: `"다시 시도"를 누름 → start()가 #veil을 덮고 요청 #${added} 보냄` };
     case "RefreshArrives": return { sig: `${a}#${gone}`, text: `refresh()의 요청 #${gone} 응답이 도착 ${tail}` };
     case "RefreshFails": return { sig: `${a}#${gone}`, text: `refresh()의 요청 #${gone} 실패 → toast만 ${tail}` };
-    case "StartArrives": return { sig: `${a}#${gone}`, text: `start()의 요청 #${gone} 응답이 도착${added ? `, refresh()가 요청 #${added} 보냄` : ""} ${tail}` };
+    case "StartArrives": return { sig: `${a}#${gone}`, text: `start()의 요청 #${gone} 응답이 도착 ${tail}` };
     case "StartFails": return { sig: `${a}#${gone}`, text: `start()의 요청 #${gone} 실패 → showError(true)${v.webgl === "TRUE" && v.started === "TRUE" ? "" : ", map 없음"} ${tail}` };
     case "Redraw": return { sig: a, text: `지도 이동·목록 전환으로 다시 그림 ${tail}` };
     default: return { sig: a, text: a };

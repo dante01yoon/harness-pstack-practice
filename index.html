@@ -303,7 +303,7 @@ const SEOUL = [126.99, 37.55];
 const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 // ---- 상태 ----
-const S = { rows: [], maxVac: 1, view: "map", sort: "vacancy", user: null, geoDenied: false, selected: null, heightM: null, anim: new Map() };
+const S = { rows: [], seq: 0, maxVac: 1, view: "map", sort: "vacancy", user: null, geoDenied: false, selected: null, heightM: null, anim: new Map() };
 
 // ---- 도우미 ----
 const $ = (id) => document.getElementById(id);
@@ -730,12 +730,15 @@ function showError(on) {
   $("retry").onclick = () => start();
 }
 async function refresh() {
+  if (!started) return start();
+  const my = ++S.seq;
   const btns = [$("refresh"), $("refresh2")];
   btns.forEach((b) => b.classList.add("spinning"));
   if (reduced) $("updated").textContent = "새로 받는 중";
   const prev = new Map(S.rows.map((r) => [r.code, r]));
   try {
     const rows = await load();
+    if (my !== S.seq) return;
     S.rows = rows; S.maxVac = Math.max(1, ...rows.filter((r) => r.live).map((r) => r.vacant));
     if (map) {
       // 높이 전환(standard 600ms): 이전 높이 → 새 높이
@@ -753,7 +756,7 @@ async function refresh() {
     }
     if (S.view === "list") renderList();
   } catch {
-    toast("새로 받지 못했습니다. 이전 기준 시각의 숫자입니다");
+    if (my === S.seq) toast("새로 받지 못했습니다. 이전 기준 시각의 숫자입니다");
   } finally {
     btns.forEach((b) => b.classList.remove("spinning"));
     renderUpdated();
@@ -780,13 +783,16 @@ let started = false;
 async function start() {
   showError(false);
   $("veil").classList.remove("gone"); $("veil").textContent = "불러오는 중";
+  S.seq++;
   let rows;
   try { rows = await load(); } catch {
-    $("veil").classList.add("gone"); showError(true); if (!map) { setView("list"); $("listBody").innerHTML = ""; } return;
+    $("veil").classList.add("gone"); showError(true); setView("list");
+    $("listBody").innerHTML = `<div class="state"><b>주차장 정보를 불러오지 못했습니다</b>연결을 확인한 뒤 다시 시도하세요<br><br><button class="btn press" type="button" id="retry2">다시 시도</button></div>`;
+    $("retry2").onclick = () => start();
+    return;
   }
   S.rows = rows;
   S.maxVac = Math.max(1, ...rows.filter((r) => r.live).map((r) => r.vacant));
-  if (started) { $("veil").classList.add("gone"); refresh(); return; }
   started = true;
 
   if (!webglOK()) {
@@ -812,6 +818,7 @@ async function start() {
     const arriveZoom = 14.6, pitch = reduced ? T.pitchReduced : T.pitch;
     S.heightM = pxToMetersAt(arriveZoom, CITY_HALL[1], pitch);
     addColumnLayers();
+    if (S.view === "list") setView("map");
     $("veil").classList.add("gone");
     const user = await userP;
     S.user = user; S.geoDenied = !user;

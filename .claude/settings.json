@@ -1,0 +1,19 @@
+{
+  "enabledPlugins": {
+    "design-harness@design-harness": true
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/run-tests.mjs\"",
+            "timeout": 90
+          }
+        ]
+      }
+    ]
+  }
+}

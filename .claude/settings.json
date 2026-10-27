@@ -1,4 +1,22 @@
 {
+  "permissions": {
+    "allow": [
+      "Bash(node --test *)"
+    ],
+    "ask": [
+      "Bash(git push *)"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(**/.env)",
+      "Read(**/.env.*)",
+      "Bash(cat .env*)",
+      "Bash(design-harness approve *)",
+      "Bash(npm run approve *)",
+      "Bash(node *scripts/approve.mjs *)"
+    ]
+  },
   "enabledPlugins": {
     "design-harness@design-harness": true
   },

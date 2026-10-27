@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="844" viewBox="0 0 390 844">
+<rect width="100%" height="100%" fill="#FFF"/>
+<rect x="8" y="4" width="374" height="112" rx="6" fill="#F2F2F2" stroke="#333" stroke-width="5"/>
+<text x="20" y="26" font-size="13" font-family="sans-serif" fill="#111">1. 빈자리 / 총 주차면</text>
+<text x="20" y="46" font-size="12" font-family="sans-serif" fill="#555">1067 / 총 1260면 (현재 193대). 가장 크게. 기준 2026-10-28 0</text>
+<rect x="8" y="124" width="374" height="88" rx="6" fill="#F2F2F2" stroke="#333" stroke-width="4"/>
+<text x="20" y="146" font-size="13" font-family="sans-serif" fill="#111">2. 시트 핸들 + 이름·주소</text>
+<text x="20" y="166" font-size="12" font-family="sans-serif" fill="#555">세종로 공영주차장(시) · 종로구 세종로 80-1 · 공영(유료). 핸들 드래그로 높이</text>
+<rect x="8" y="220" width="374" height="88" rx="6" fill="#F2F2F2" stroke="#333" stroke-width="3"/>
+<text x="20" y="242" font-size="13" font-family="sans-serif" fill="#111">3. 요금</text>
+<text x="20" y="262" font-size="12" font-family="sans-serif" fill="#555">기본 430원/5분 · 추가 요금 — · 일 최대 요금 — (0이면 표시 안 함).</text>
+<rect x="8" y="316" width="374" height="88" rx="6" fill="#F2F2F2" stroke="#333" stroke-width="2"/>
+<text x="20" y="338" font-size="13" font-family="sans-serif" fill="#111">4. 운영시간</text>
+<text x="20" y="358" font-size="12" font-family="sans-serif" fill="#555">평일 24시간 (0000–2400) · 토요일 — · 공휴일 —.</text>
+<rect x="8" y="412" width="374" height="80" rx="6" fill="#F2F2F2" stroke="#333" stroke-width="1"/>
+<text x="20" y="434" font-size="13" font-family="sans-serif" fill="#111">5. 전화 + 길찾기</text>
+<text x="20" y="454" font-size="12" font-family="sans-serif" fill="#555">[02-2290-6566 전화] [외부 지도 앱으로 길찾기]. 위치 정보 없음이면 길찾</text>
+<rect x="8" y="500" width="374" height="32" rx="6" fill="#F2F2F2" stroke="#333" stroke-width="1"/>
+<text x="20" y="520" font-size="12" font-family="sans-serif" fill="#111">7. 저작권 칩 — <tspan fill="#555">서울 열린데이터광장 · © OpenFreeMap © OpenM</tspan></text>
+<rect x="8" y="540" width="374" height="300" rx="6" fill="#F2F2F2" stroke="#333" stroke-width="1"/>
+<text x="20" y="562" font-size="13" font-family="sans-serif" fill="#111">6. 상태·움직임 주석</text>
+<text x="20" y="582" font-size="12" font-family="sans-serif" fill="#555">시트는 아래에서 올라오고 뒤 지도는 해당 기둥으로 살짝 이동. stale: 기준 시각 </text>
+
+</svg>

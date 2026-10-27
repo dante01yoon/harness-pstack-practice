@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="844" viewBox="0 0 390 844">
+<rect width="100%" height="100%" fill="#FFF"/>
+<rect x="8" y="4" width="374" height="48" rx="6" fill="#F2F2F2" stroke="#333" stroke-width="3"/>
+<text x="20" y="26" font-size="13" font-family="sans-serif" fill="#111">3. 상단 바 + 지도/목록 알약 토글</text>
+<text x="20" y="46" font-size="12" font-family="sans-serif" fill="#555">[지도 | 목록] 현재 '목록'이 채워짐. no-webgl이면 '이 기기에서는 3D 지</text>
+<rect x="8" y="60" width="374" height="48" rx="6" fill="#F2F2F2" stroke="#333" stroke-width="4"/>
+<text x="20" y="82" font-size="13" font-family="sans-serif" fill="#111">2. 정렬 전환 + 기준 시각</text>
+<text x="20" y="102" font-size="12" font-family="sans-serif" fill="#555">[거리순 | 빈자리순] 위치 거부 시 거리순 비활성. 오른쪽 '기준 2026-10-28</text>
+<rect x="8" y="116" width="374" height="88" rx="6" fill="#F2F2F2" stroke="#333" stroke-width="5"/>
+<text x="20" y="138" font-size="13" font-family="sans-serif" fill="#111">1. 주차장 항목: 세종로 공영주차장(시)</text>
+<text x="20" y="158" font-size="12" font-family="sans-serif" fill="#555">세종로 공영주차장(시) 종로구 · 빈자리 1067 / 총 1260면 · 기준 2026-</text>
+<rect x="8" y="212" width="374" height="88" rx="6" fill="#F2F2F2" stroke="#333" stroke-width="2"/>
+<text x="20" y="234" font-size="13" font-family="sans-serif" fill="#111">4. 주차장 항목: 종묘주차장 공영주차장(시)</text>
+<text x="20" y="254" font-size="12" font-family="sans-serif" fill="#555">종묘주차장 공영주차장(시) · 빈자리 991 / 총 1312면 · 기준 시각 — · 4</text>
+<rect x="8" y="308" width="374" height="132" rx="6" fill="#F2F2F2" stroke="#333" stroke-width="1"/>
+<text x="20" y="330" font-size="13" font-family="sans-serif" fill="#111">5. 항목 변형: 오래됨 / 실시간 없음 / 위치 없음</text>
+<text x="20" y="350" font-size="12" font-family="sans-serif" fill="#555">오래됨: 숫자 옆 '오래됨' 표시+흐리게. 실시간 없음: 숫자 대신 '실시간 정보 없음</text>
+<rect x="8" y="448" width="374" height="32" rx="6" fill="#F2F2F2" stroke="#333" stroke-width="1"/>
+<text x="20" y="468" font-size="12" font-family="sans-serif" fill="#111">6. 하단 저작권 칩 — <tspan fill="#555">서울 열린데이터광장 · © OpenFreeMap © OpenM</tspan></text>
+<rect x="8" y="488" width="374" height="352" rx="6" fill="#F2F2F2" stroke="#333" stroke-width="1"/>
+<text x="20" y="510" font-size="13" font-family="sans-serif" fill="#111">7. 상태·움직임 주석</text>
+<text x="20" y="530" font-size="12" font-family="sans-serif" fill="#555">loading: 항목 스켈레톤 줄. error: '불러오지 못했습니다' + [다시 시도</text>
+
+</svg>

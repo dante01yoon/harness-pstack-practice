@@ -1,0 +1,83 @@
+{
+  "items": [
+    {
+      "id": "r1",
+      "service": "서울시 공영주차장 실시간 정보 (parking.seoul.go.kr)",
+      "url": "https://parking.seoul.go.kr/",
+      "screenshot": "references/r1.png",
+      "capturedAt": "2026-10-27T15:05:18.015Z",
+      "blocked": false,
+      "observed": "서울시 주차정보안내시스템 모바일 화면. 상단 로고와 3개 탭(주차장검색/커뮤니티/불편신고), 아래 전체 화면 카카오 지도 위에 P 모양 핀이 빽빽하다. 초록 핀은 원활, 회색은 기본정보만 있는 곳. 하단에 만차/혼잡/원활/기본정보 범례. 핀에 숫자(빈자리 수)는 보이지 않고 핀이 서로 겹친다.",
+      "take": "가져올 점: 상태를 색 구간 + 하단 범례로 설명하고 '기본정보만(실시간 없음)' 상태를 따로 구분하는 것(F6). 피할 점: 숫자 없는 핀, 겹침, 상단 탭이 화면을 차지하는 것. 우리는 기둥 높이와 라벨로 수를 직접 보이게 한다."
+    },
+    {
+      "id": "r2",
+      "service": "카카오맵 (모바일 웹 지도+목록)",
+      "url": "https://m.map.kakao.com/",
+      "screenshot": "references/r2.png",
+      "capturedAt": "2026-10-27T15:05:22.518Z",
+      "blocked": false,
+      "observed": "카카오맵 모바일 웹. 지도가 전체 화면이고 상단에 햄버거, 로고, '앱 열기' 버튼, 그 아래 검색창. 좌측에 현위치·확대/축소, 우측에 레이어·전체화면 버튼. 첫 화면에 '앱에서 더 편리하게 사용해 보세요' 모달이 지도를 덮고 하단에도 앱 열기 배너가 있다.",
+      "take": "가져올 점: 지도 위에 검색창과 컨트롤을 떠 있게 두고 엄지 닿는 가장자리에 현위치 버튼. 피할 점: 첫 화면을 덮는 앱 설치 모달/배너. 10초 안에 숫자를 읽어야 하므로 첫 화면은 가리지 않는다."
+    },
+    {
+      "id": "r3",
+      "service": "MapLibre 예시: fill-extrusion 3D 바닥도면",
+      "url": "https://maplibre.org/maplibre-gl-js/docs/examples/extrude-polygons-for-3d-indoor-mapping/",
+      "screenshot": "references/r3.png",
+      "capturedAt": "2026-10-27T15:05:25.323Z",
+      "blocked": false,
+      "observed": "MapLibre 예시 페이지(모바일 폭). 지도 위에서 폴리곤을 fill-extrusion-height로 띄운 3D 실내 지도. 반투명 회색 입체 위에 방마다 노란색·파란색·보라색 면. 지도 하단에 'MapLibre' 저작권 칩과 정보 아이콘. 아래는 JS 코드.",
+      "take": "가져올 점: 같은 지도 엔진에서 fill-extrusion-height와 색을 데이터 속성으로 주는 방식, 기둥 반투명 처리, 저작권을 작은 칩으로 지도 안에 두는 방식. 코드/화면은 복사하지 않는다."
+    },
+    {
+      "id": "r4",
+      "service": "MapLibre 예시: 3D 건물",
+      "url": "https://maplibre.org/maplibre-gl-js/docs/examples/display-buildings-in-3d/",
+      "screenshot": "references/r4.png",
+      "capturedAt": "2026-10-27T15:05:27.987Z",
+      "blocked": false,
+      "observed": "MapLibre 'Display buildings in 3D' 예시. OpenFreeMap 스타일(코드에 tiles.openfreemap.org 보임) 위에 건물이 pitch 45도로 입체 표시, 높은 건물일수록 진한 파랑. 하단 저작권 칩에 'MapLibre | OpenFreeMap © OpenMapTiles Data from OpenStreetMap'.",
+      "take": "가져올 점: 우리와 같은 바탕(OpenFreeMap)에서 3D 건물을 켠 모습과 저작권 문구 형식. 주의점: 건물도 입체라 주차장 기둥과 섞이므로 건물은 연한 무채색, 기둥은 채도 있는 색으로 분리해야 한다."
+    },
+    {
+      "id": "r5",
+      "service": "SpotAngels (해외 주차 지도)",
+      "url": "https://www.spotangels.com/",
+      "screenshot": "references/r5.png",
+      "capturedAt": "2026-10-27T15:05:30.988Z",
+      "blocked": false,
+      "observed": "SpotAngels 모바일 웹 첫 화면. 파란 상단바와 'Get the App' 버튼, 큰 문구 'Where do you need parking?', 시간제/월정액 토글, '주소·장소·공항 입력' 검색창. 지도·빈자리 수는 첫 화면에 없고 앱 설치 유도가 중심이다.",
+      "take": "피할 점: 첫 화면이 검색과 앱 설치 유도뿐이라 빈자리를 바로 못 읽는다. 우리는 지도가 첫 화면. 토글(시간제/월정액)처럼 큰 알약형 전환 버튼은 지도/목록 전환 UI에 참고할 만하다."
+    },
+    {
+      "id": "r6",
+      "service": "서울 따릉이 실시간 대여소 (bikeseoul.com)",
+      "url": "https://www.bikeseoul.com/app/station/moveStationRealTimeStatus.do",
+      "screenshot": "references/r6.png",
+      "capturedAt": "2026-10-27T15:05:34.486Z",
+      "blocked": true,
+      "note": "웹 방화벽 차단 화면. 우회하지 않음."
+    },
+    {
+      "id": "r7",
+      "service": "OpenFreeMap",
+      "url": "https://openfreemap.org/",
+      "screenshot": "references/r7.png",
+      "capturedAt": "2026-10-27T15:05:37.252Z",
+      "blocked": false,
+      "observed": "OpenFreeMap 소개 페이지. 'public instance는 무료, 가입·API 키·쿠키 없음, 지도 데이터는 OpenStreetMap' 설명. 텍스트 중심 페이지.",
+      "take": "가져올 점: 키 없이 쓸 수 있다는 점은 PRD와 일치(지도 호출에 .env 키 불필요). 저작권 표기 의무를 지킨다. 디자인 시사점은 없음, 근거 자료."
+    },
+    {
+      "id": "r8",
+      "service": "deck.gl HexagonLayer 예시 (데이터 기둥 시각화)",
+      "url": "https://deck.gl/examples/hexagon-layer",
+      "screenshot": "references/r8.png",
+      "capturedAt": "2026-10-27T15:05:40.106Z",
+      "blocked": false,
+      "observed": "deck.gl HexagonLayer 예시(영국 도로 안전 데이터). 어두운 지도 위에 육각 기둥이 수없이 서 있고 높이는 건수, 색은 청록에서 노랑·빨강으로 올라간다. 지도 하단에 'MapLibre | OpenFreeMap © OpenMapTiles' 저작권 칩. 상단에 제목 카드. 기둥에 숫자 라벨은 없다.",
+      "take": "가져올 점: 높이와 색을 함께 써서 한눈에 많고 적음을 읽는 방식, 기울인 시점. 피할 점: 기둥이 많고 빽빽하면 개별 값을 못 읽고 라벨이 없다. 우리는 122곳으로 적으므로 기둥 위 숫자 라벨을 둔다."
+    }
+  ]
+}

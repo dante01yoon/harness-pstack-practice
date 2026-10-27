@@ -1,0 +1,5 @@
+{"at":"2026-10-27T15:02:13.085Z","phase":"prd","check":"데이터 라이선스","message":"데이터 출처에 라이선스가 없음"}
+{"at":"2026-10-27T15:14:43.812Z","phase":"system","check":"명도 대비","message":"{color.text-disabled} on {color.surface-sunken} 4.48:1 < 4.5"}
+{"at":"2026-10-27T15:43:42.332Z","phase":"verify","check":"spacing-off-scale","message":"detail/stale > Detail sheet (BottomSheet half): paddingBottom 18px는 간격 토큰 밖"}
+{"at":"2026-10-27T15:43:42.333Z","phase":"verify","check":"spacing-off-scale","message":"detail/no-realtime > Detail sheet (BottomSheet half): paddingBottom 18px는 간격 토큰 밖"}
+{"at":"2026-10-27T15:43:42.333Z","phase":"verify","check":"spacing-off-scale","message":"detail/no-location > Detail sheet (BottomSheet half): paddingBottom 19px는 간격 토큰 밖"}

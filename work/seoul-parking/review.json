@@ -1,0 +1,161 @@
+{
+  "reviewer": "dante",
+  "checklist": [
+    {
+      "id": "hierarchy",
+      "question": "와이어프레임 우선순위 1번 영역이 실제로 가장 먼저 눈에 들어오는가",
+      "suggested": 2,
+      "score": 2,
+      "note": "map/default·stale·no-realtime: 1067 기둥과 숫자 라벨(리더선 있음)이 먼저 읽힘. list는 '빈자리 1067' 큰 숫자, detail은 '빈자리 1067 / 총 1260면'이 시트에서 가장 큼. 약점: map/* 하단 범례+저작권이 y≈620–830(약 210px, 화면의 25%)을 덮고, search/default·no-realtime·no-location 결과 행은 빈자리 수가 회색 본문 크기 한 줄에 묻혀 큰 숫자가 없음."
+    },
+    {
+      "id": "primary-action",
+      "question": "화면마다 주요 행동이 하나로 분명한가",
+      "suggested": 1,
+      "score": 1,
+      "note": "map: 검색·기둥 탭, detail/default·stale·no-realtime: 채운 '길찾기' 하나, detail/no-location '전화 걸기' 하나로 분명. 하지만 search/empty('광화문')와 list/empty는 문구만 있고 누를 다음 행동이 없음(map/empty에는 '목록 보기'가 있는 것과 대조)."
+    },
+    {
+      "id": "status",
+      "question": "시스템 상태가 보이는가: 로딩·빈·오류가 무엇이 일어났고 무엇을 하면 되는지 말하는가 (Nielsen 1, 9)",
+      "suggested": 1,
+      "score": 1,
+      "note": "map/error·list/error는 무엇이 일어났고 '다시 시도'가 분명. map/permission-denied 현위치 버튼이 사선 아이콘으로 비활성 표시됨. 남은 것: list/loading에 '새로 받는 중'과 '불러오는 중'이 동시에 떠 처음 받는지 갱신인지 모호, list/empty 안내가 '…목록에서 찾으세요'인데 이미 목록 화면이라 할 일이 안 맞음, map/loading의 '불러오는 중' 막대가 현위치 버튼 아래로 겹치고 회색 사각형 스켈레톤이 기둥 자리로 읽히지 않음."
+    },
+    {
+      "id": "real-world",
+      "question": "사용자 말로 쓰였는가: 실제 장소 이름·단위 그대로인가 (Nielsen 2)",
+      "suggested": 2,
+      "score": 2,
+      "note": "list·detail 모두 '빈자리 {n} / 총 {m}면', detail '(현재 주차 193대)'로 큰 숫자의 뜻이 분명. 주소 끝 ' 0' 제거(detail/no-realtime '을지로6가 17-442'), '공휴일 시간 정보 없음', '지도 위치 없음'으로 사용자 위치 권한과 구분됨. 실제 주차장 이름·숫자 사용."
+    },
+    {
+      "id": "consistency",
+      "question": "같은 요소가 화면마다 같은 모양·위치인가 (Nielsen 4)",
+      "suggested": 1,
+      "score": 1,
+      "note": "지도/목록 토글과 새로고침 위치가 map(검색창 아래·우하단 원형)과 list(맨 위 왼쪽·우상단)에서 다르고 list에는 검색 진입점이 없음. 빈자리 수 표기가 list(큰 숫자)와 search(본문 크기 한 줄)에서 다름. search/no-location에서 '지도 위치 없음'이 첫 항목은 칩, 둘째 항목은 회색 본문 텍스트로 다르게 표시. 컴포넌트 높이 불일치는 린트 경고로 이미 잡힘."
+    },
+    {
+      "id": "control",
+      "question": "되돌아가기·다시 시도가 항상 가능한가 (Nielsen 3)",
+      "suggested": 2,
+      "score": 2,
+      "note": "search 뒤로가기, 시트 닫기(X), map/list error '다시 시도', map/empty '목록 보기', 모든 화면에 토글 있음. list에서 검색하려면 지도로 돌아가야 하는 점만 약함. map/permission-denied에서는 토스트가 지도/목록 토글을 덮어 토스트가 떠 있는 동안 전환 수단이 가려짐."
+    },
+    {
+      "id": "freshness",
+      "question": "실시간처럼 보이는 숫자에 기준 시각·출처가 보이는가",
+      "suggested": 2,
+      "score": 2,
+      "note": "list·detail·search 항목마다 '기준 2026-10-28 00:01:23', stale은 항목·라벨·요약 칩마다 '오래됨'. map은 라벨이 숫자만이고 시각은 우하단 '가장 오래된 정보 기준 00:01:23' 칩 하나라 PRD '모든 숫자 옆에 기준 시각'을 글자 그대로 지키지는 않지만 보수적 하한이라 판단에는 충분. 출처는 모든 화면 하단 고정."
+    },
+    {
+      "id": "affordance",
+      "question": "누를 수 있는 것이 누를 수 있어 보이는가(화살표, 눌림 상태)",
+      "suggested": 1,
+      "score": 1,
+      "note": "원형 버튼·알약 토글·기둥 라벨(리더선)은 분명. list 항목에 화살표·눌림 표시가 없어 상세(요금·운영시간)로 들어갈 수 있는지 안 보임. search/default '종로구 · 주차장 16곳'은 굵은 구분 제목처럼 보여 탭해서 구로 이동하는 결과로 안 읽힘. '오래됨' 배지가 점선 테두리라 빈 자리표시나 버튼처럼 보임."
+    },
+    {
+      "id": "minimal",
+      "question": "필요 없는 장식·정보가 없는가 (Nielsen 8)",
+      "suggested": 1,
+      "score": 1,
+      "note": "map 범례 6줄+저작권 2줄이 map의 모든 상태(error·empty·loading 포함)에 상시 노출되어 와이어프레임 56+40px 대비 약 2배. list 항목마다 '기준 2026-10-28' 날짜 전체가 반복돼 항목이 4줄이 되고 한 화면에 5개만 보임. 범례 '■0 ■회색 = 실시간 정보 없음'을 한 줄에 묶어 읽기 헷갈림."
+    },
+    {
+      "id": "tone",
+      "question": "카피 톤이 copy.json의 tone과 맞는가",
+      "suggested": 2,
+      "score": 2,
+      "note": "합니다체, 금지어·느낌표 없음, 오류 문구가 탓 없이 다음 행동 하나('연결을 확인한 뒤 다시 시도하세요'). 버튼 8자 이내. 줄바꿈 깨짐(search/empty '없습니/다', list/no-webgl '시/작합니다', detail/no-location '찾으/세요')은 Nit."
+    },
+    {
+      "id": "not-generic",
+      "question": "기본값 같은 인상인가: 똑같은 둥근 카드+회색 그림자, 대문자 라벨, 의미 없는 숫자 표식 등이 없는가",
+      "suggested": 2,
+      "score": 2,
+      "note": "비스듬한 3D 건물 위 셰이딩된 기둥과 왼쪽 색 띠 라벨로 지도 인상이 뚜렷함. 범례·빈 상태·오류 상자는 흰 둥근 카드 기본값 인상이고, 나침반·기울기 단서가 없어 정지 화면에서 '만지는 3D'는 약하게 전달됨."
+    },
+    {
+      "id": "brand",
+      "question": "서비스 성격(공공 서비스, 쓰는 상황)에 맞는 인상인가",
+      "suggested": 2,
+      "score": 2,
+      "note": "무채색 바탕에 의미 색(넉넉·보통·적음·0)만 쓰고 출처를 하단에 고정해 공공 서비스다운 인상. 3D 기둥으로 딱딱함이 덜함."
+    }
+  ],
+  "findings": [
+    {
+      "severity": "Medium",
+      "where": "map/default·stale·no-realtime·permission-denied·loading·error·empty — MapLegend + AttributionChip",
+      "issue": "범례 6줄과 저작권 2줄이 모든 map 상태에서 하단 약 210px(844px의 25%)를 상시 덮는다. 1순위 영역인 지도가 위 3/4로 줄고, 하단 기둥과 라벨이 현위치·새로고침 버튼 쪽으로 밀려 겹친다(아래 항목). 데이터가 없는 error·empty·loading에서도 범례가 남아 의미 없는 정보가 된다."
+    },
+    {
+      "severity": "Medium",
+      "where": "map/stale — ColumnLabel",
+      "issue": "map/default에서는 7·8 기둥에 라벨이 있는데 같은 화면 범위의 map/stale에서는 7·8 기둥(관철동·청계1(북))에 라벨이 없다. 오래됨 배지로 라벨이 넓어진 탓으로 보이며, 목적지가 작은 주차장이면 숫자를 지도에서 읽을 수 없어 기둥을 눌러야 한다(10초 판단 목표)."
+    },
+    {
+      "severity": "Medium",
+      "where": "map/no-realtime 우하단 DDP동측 기둥(7), map/permission-denied 좌우 가장자리 라벨(1, 7)",
+      "issue": "map/no-realtime의 '7' 라벨과 주황 기둥이 현위치·새로고침 버튼 뒤에 걸려 일부 가려진다. map/permission-denied는 '1' 라벨이 왼쪽 끝, '7' 라벨이 오른쪽 끝에서 잘린다. 잘린 숫자는 다른 값으로 읽힐 수 있다."
+    },
+    {
+      "severity": "Medium",
+      "where": "map/permission-denied — 토스트",
+      "issue": "'위치를 쓸 수 없어 시청 근처로 시작합니다' 토스트가 지도/목록 토글을 완전히 덮는다. 위치를 거부한 사용자는 거리순 목록이 막혀 목록 전환이 유력한 다음 행동인데, 토스트가 떠 있는 동안 그 수단이 사라진다."
+    },
+    {
+      "severity": "Medium",
+      "where": "search/default·no-realtime·no-location — SearchResultRow",
+      "issue": "목적지 근처 주차장을 이름으로 찾는 경로인데 결과 행에서 빈자리 수가 '종로구 · 빈자리 1067 / 총 1260면 · 기준 …' 회색 본문 한 줄에 묻혀 있다(list는 큰 숫자). search/default에서는 기준 시각이 '2026-10-28 / 00:01:23'으로 줄이 갈린다. 검색 결과에서 바로 빈자리를 읽기 어렵다."
+    },
+    {
+      "severity": "Medium",
+      "where": "search/empty('광화문')",
+      "issue": "목적지는 보통 장소명인데(세종로 공영주차장이 광화문 바로 옆) 장소 검색은 범위 밖이라 가장 흔한 입력이 막다른 상태가 된다. '이름이나 구 이름으로 다시 검색하세요'뿐이고 누를 다음 행동(구 선택, 지도에서 찾기 등)이 없다."
+    },
+    {
+      "severity": "Medium",
+      "where": "list/empty",
+      "issue": "안내가 map/empty와 같은 '지도를 옮기거나 목록에서 찾으세요'라서 이미 목록에 있는 사용자에게 맞지 않고, 버튼도 없다. 무엇을 하면 되는지 말하지 못한다."
+    },
+    {
+      "severity": "Medium",
+      "where": "list/default·stale·no-realtime·no-location — ListItem, search/default 자치구 행",
+      "issue": "목록 항목에 화살표·눌림 표시가 없어 눌러서 요금·운영시간(PRD가 말한 사용자가 알고 싶은 것 ③)을 볼 수 있다는 단서가 없다. search의 '종로구 · 주차장 16곳'은 구분 제목처럼 보여 탭하면 구로 이동하는 결과로 읽히지 않는다."
+    },
+    {
+      "severity": "Medium",
+      "where": "map ↔ list — 토글·새로고침·검색 위치",
+      "issue": "토글은 map에서 검색창 아래, list에서 맨 위. 새로고침은 map 우하단 원형, list 우상단. list에는 검색이 없어 목록에서 찾던 사용자가 검색하려면 지도로 돌아가야 한다. 전환할 때마다 손이 갈 위치가 바뀐다."
+    },
+    {
+      "severity": "Nit",
+      "where": "list/loading",
+      "issue": "'새로 받는 중'과 '불러오는 중'이 동시에 떠 처음 불러오는지 갱신 중인지 모호하다."
+    },
+    {
+      "severity": "Nit",
+      "where": "map/loading",
+      "issue": "'불러오는 중' 막대 오른쪽 끝이 현위치 버튼 아래로 겹치고, 스켈레톤 회색 사각형 옆으로 지명 글자가 일부('ㅣ') 잘려 보인다. 스켈레톤이 기둥 자리로 읽히지 않는다."
+    },
+    {
+      "severity": "Nit",
+      "where": "StatusBadge '오래됨' (map/stale·list/stale·detail/stale)",
+      "issue": "점선 테두리라 미완성 자리표시나 누르는 버튼처럼 보인다."
+    },
+    {
+      "severity": "Nit",
+      "where": "MapLegend 둘째 줄",
+      "issue": "'■0 ■회색 = 실시간 정보 없음'이 한 줄이라 0도 실시간 정보 없음으로 읽힐 수 있다. '적음'(주황빨강)과 '0'(진홍) 색이 가깝다(0은 숫자 라벨·원판 모양으로 보완됨)."
+    },
+    {
+      "severity": "Nit",
+      "where": "search/empty, list/no-webgl, detail/no-location",
+      "issue": "줄바꿈이 낱말 중간에서 갈린다('없습니/다', '시/작합니다', '찾으/세요')."
+    }
+  ]
+}

@@ -17,3 +17,4 @@
 - `work/seoul-parking/` — 디자인 하네스 산출물(PRD·토큰·카피·IA·핸드오프), `out/` — 내보낸 와이어프레임
 
 확인은 저장소 루트에서 정적 서버로 연다: `python3 -m http.server` → http://localhost:8000
+테스트(의존성 없음, Node 18+): `node --test tests/*.test.mjs`

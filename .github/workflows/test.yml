@@ -1,0 +1,24 @@
+# PR과 main 푸시마다 로컬과 같은 테스트를 돌린다(의존성 없음).
+# .env는 저장소에 없으므로 인증키 비교는 건너뛰고, 키가 든 요청 URL 검사는 그대로 돈다.
+name: test
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [18, 24]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - run: node --test tests/*.test.mjs

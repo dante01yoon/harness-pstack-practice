@@ -13,17 +13,18 @@ async function listen(server) {
   return `http://127.0.0.1:${server.address().port}`;
 }
 
-// reply(path): 가짜 Open API가 돌려줄 [상태, 본문]. null이면 연결을 끊는다.
-async function start(reply) {
+// reply(path): 가짜 Open API가 돌려줄 [상태, 본문](Promise도 됨). null이면 연결을 끊는다.
+// options: createApp에 더 넘길 값(ttlMs, now).
+async function start(reply, options = {}) {
   const seen = [];
-  const upstream = http.createServer((req, res) => {
+  const upstream = http.createServer(async (req, res) => {
     seen.push(req.url);
-    const out = reply(req.url);
+    const out = await reply(req.url);
     if (!out) return req.socket.destroy();
     res.writeHead(out[0], { 'content-type': 'application/json' }).end(JSON.stringify(out[1]));
   });
   const logs = [];
-  const app = createApp({ key: KEY, upstream: await listen(upstream), log: (m) => logs.push(String(m)) });
+  const app = createApp({ key: KEY, upstream: await listen(upstream), log: (m) => logs.push(String(m)), ...options });
   const base = await listen(app);
   const get = async (path) => {
     const res = await fetch(base + path);
@@ -88,4 +89,40 @@ test('화면은 /에서 index.html을 주고, 그 밖의 파일(.env 포함)은 
 test('화면은 저장해 둔 응답이 아니라 서버의 /api/parking을 읽는다', () => {
   assert.match(html, /const DATA_URL = 'api\/parking'/);
   assert.doesNotMatch(html, /data\/parking\.json/);
+});
+
+test('Open API 응답은 30초 동안 저장해 두고 같이 쓴다', async () => {
+  let t = 1_000_000;
+  const { get, seen } = await start(() => [200, response], { now: () => t });
+  assert.equal((await get('/api/parking')).status, 200);
+  t += 30_000 - 1;
+  const r = await get('/api/parking');
+  assert.equal(r.status, 200);
+  assert.deepEqual(JSON.parse(r.text), response);
+  assert.equal(seen.length, 1);
+});
+
+test('30초가 지나면 Open API를 다시 부른다', async () => {
+  let t = 1_000_000;
+  const { get, seen } = await start(() => [200, response], { now: () => t });
+  await get('/api/parking');
+  t += 30_000;
+  assert.equal((await get('/api/parking')).status, 200);
+  assert.equal(seen.length, 2);
+});
+
+test('실패한 불러오기는 저장해 두지 않는다', async () => {
+  let calls = 0;
+  const { get, seen } = await start(() => (++calls === 1 ? null : [200, response]), { now: () => 1_000_000 });
+  assert.equal((await get('/api/parking')).status, 502);
+  assert.equal((await get('/api/parking')).status, 200);
+  assert.equal(seen.length, 2);
+});
+
+test('동시에 온 요청은 Open API를 한 번만 불러 같은 응답을 받는다', async () => {
+  const { get, seen } = await start(() => new Promise((r) => setTimeout(() => r([200, response]), 50)));
+  const all = await Promise.all([get('/api/parking'), get('/api/parking'), get('/api/parking')]);
+  assert.deepEqual(all.map((r) => r.status), [200, 200, 200]);
+  assert.ok(all.every((r) => r.text === all[0].text));
+  assert.equal(seen.length, 1);
 });

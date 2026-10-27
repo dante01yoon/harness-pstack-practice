@@ -129,6 +129,11 @@
   .banner.danger { border-color: var(--color-danger); background: var(--color-danger-soft); color: var(--color-danger); }
   .detail-hero + .banner { margin-top: 0; }
 
+  /* OpeningBanner */
+  .banner.opening { border-color: var(--color-brand); background: var(--color-brand-soft); color: var(--color-text); }
+  .banner.opening > svg { color: var(--color-brand); }
+  .appbar + .banner { margin-top: var(--space-3); }
+
   /* Button */
   .btn {
     flex: none; min-height: var(--size-touch); padding: 0 var(--space-4); border-radius: var(--radius-sm);
@@ -160,6 +165,7 @@
     margin: 0; font-size: var(--font-size-title); font-weight: var(--font-weight-semibold); line-height: var(--line-height-snug);
     display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
   }
+  .row-name .fav { margin-right: var(--space-1); vertical-align: text-bottom; color: var(--color-brand); }
   .row-addr {
     margin: var(--space-1) 0 0; font-size: var(--font-size-label); color: var(--color-text-muted);
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
@@ -254,6 +260,8 @@
   <symbol id="i-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5l9.5 16.5h-19z"/><path d="M12 10v4.5M12 17.5v.01"/></symbol>
   <symbol id="i-no-signal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 19v-2M10 19v-5M15 19v-8M20 19V7"/><path d="M3 4l18 16"/></symbol>
   <symbol id="i-bus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="3.5" width="15" height="14" rx="2"/><path d="M4.5 11h15M8 20.5v-3M16 20.5v-3"/><path d="M8 14.5h.01M16 14.5h.01"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9l-5.2 2.8 1-5.9-4.3-4.1 5.9-.8z"/></symbol>
+  <symbol id="i-star-fill" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9l-5.2 2.8 1-5.9-4.3-4.1 5.9-.8z"/></symbol>
   <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a1 1 0 0 1-1 1A16 16 0 0 1 4 5a1 1 0 0 1 1-1z"/></symbol>
 </svg>
 
@@ -261,6 +269,8 @@
 (() => {
   const DATA_URL = 'api/parking';
   const STALE_MS = 20 * 60 * 1000; // PRD F6: 기준 시각이 20분을 넘으면 오래됨
+  const REFRESH_MS = 30 * 1000;     // PRD F9: 화면이 보일 때 자동 새로고침 간격
+  const FAVORITES_KEY = 'seoul-parking:favorites';
   const TZ = 'Asia/Seoul';
 
   const state = {
@@ -272,6 +282,8 @@
     query: '',
     district: '전체',
     listScroll: 0,
+    favorites: readFavorites(), // PKLT_CD Set, 이 기기에만 저장(PRD F8)
+    openings: [],               // 띄운 빈자리 배너 { id, name, available, updated }
   };
 
   const view = document.getElementById('view');
@@ -322,7 +334,29 @@
       total, realtime: realtime && Boolean(updated), busOnly, updated, available,
     };
   };
-  const isStale = (lot) => lot.realtime && Date.now() - lot.updated.getTime() > STALE_MS;
+  const isOld = (updated) => Date.now() - updated.getTime() > STALE_MS;
+  const isStale = (lot) => lot.realtime && isOld(lot.updated);
+  const fresh = (lot) => lot.realtime && !isOld(lot.updated);
+
+  // 사생활 보호 모드 등에서는 localStorage에 손대기만 해도 예외가 난다. 못 읽으면 빈 목록, 못 쓰면 이번 화면에서만 유지.
+  function readFavorites() {
+    try {
+      const ids = JSON.parse(localStorage.getItem(FAVORITES_KEY));
+      return new Set(Array.isArray(ids) && ids.every((id) => typeof id === 'string') ? ids : []);
+    } catch (_) { return new Set(); }
+  }
+  const saveFavorites = () => {
+    try { localStorage.setItem(FAVORITES_KEY, JSON.stringify([...state.favorites].sort())); } catch (_) {}
+  };
+
+  // PRD F10: 즐겨찾기 가운데 직전에 만차였다가 이번에 1면 이상이 된 주차장. 양쪽 다 실시간이고 20분 이내 숫자일 때만.
+  function openings(prevLots, nextLots, favorites) {
+    const prev = new Map(prevLots.map((l) => [l.id, l]));
+    return nextLots.filter((l) => {
+      const p = prev.get(l.id);
+      return favorites.has(l.id) && p && fresh(p) && p.available <= 0 && fresh(l) && l.available >= 1;
+    });
+  }
 
   async function load() {
     const hadData = state.lots.length > 0;
@@ -333,7 +367,14 @@
       const body = await res.json();
       const rows = body?.GetParkingInfo?.row;
       if (!Array.isArray(rows)) throw new TypeError('rows');
+      const prev = state.lots;
       state.lots = rows.map(toLot);
+      if (hadData) {
+        const found = openings(prev, state.lots, state.favorites)
+          .map(({ id, name, available, updated }) => ({ id, name, available, updated }));
+        const ids = new Set(found.map((o) => o.id));
+        state.openings = [...state.openings.filter((o) => !ids.has(o.id)), ...found];
+      }
       state.loadedAt = new Date();
       state.status = 'ready';
       state.refreshFailed = false;
@@ -377,6 +418,20 @@
       ${action ? `<button class="btn secondary" type="button" data-act="refresh" ${state.refreshing ? 'disabled' : ''}>${state.refreshing ? '불러오는 중…' : '새로고침'}</button>` : ''}
     </div>`;
 
+  const openingBanners = () => state.openings.map((o) => `
+    <div class="banner opening" role="status">
+      ${icon('star-fill')}<p>${esc(o.name)} 빈자리 <span class="num">${won(o.available)}면 · ${esc(tsLabel(o.updated))}${isOld(o.updated) ? ' · 20분 넘음' : ''}</span></p>
+      <button class="btn secondary" type="button" data-act="dismiss" data-id="${esc(o.id)}">닫기</button>
+    </div>`).join('');
+
+  const favoriteBtn = (id) => {
+    const on = state.favorites.has(id);
+    return `
+    <button class="icon-btn" type="button" data-act="favorite" aria-pressed="${on}" aria-label="${on ? '즐겨찾기 빼기' : '즐겨찾기 추가'}">
+      ${icon(on ? 'star-fill' : 'star', 'icon-lg')}
+    </button>`;
+  };
+
   const errorInline = () => state.refreshFailed
     ? banner('danger', `새 정보를 불러오지 못했어요. ${hhmm(state.loadedAt)} 기준 목록을 보여 드려요.`, false) : '';
 
@@ -398,7 +453,7 @@
     return `
       <li><a class="row" href="#/p/${encodeURIComponent(lot.id)}">
         <div class="row-main">
-          <p class="row-name">${esc(lot.name)}</p>
+          <p class="row-name">${state.favorites.has(lot.id) ? `${icon('star-fill', 'icon fav')}<span class="sr-only">즐겨찾기</span>` : ''}${esc(lot.name)}</p>
           <p class="row-addr">${esc(lot.addr)}</p>
         </div>
         <div class="row-side">${side}</div>
@@ -455,7 +510,7 @@
     const summary = `<p class="summary" role="status"><span class="num">${won(lots.length)}곳 · ${hhmm(state.loadedAt)}에 불러옴</span></p>`;
     if (!lots.length) {
       const q = state.query.trim();
-      box.innerHTML = `${summary}
+      box.innerHTML = `${openingBanners()}${summary}
         <div class="state">
           ${icon('search', 'icon-lg')}
           <h2>찾는 주차장이 없어요</h2>
@@ -468,7 +523,7 @@
     const groups = new Map();
     for (const l of lots) { if (!groups.has(l.district)) groups.set(l.district, []); groups.get(l.district).push(l); }
     const ordered = [...groups.entries()].sort((a, b) => a[0].localeCompare(b[0], 'ko'));
-    box.innerHTML = `${summary}
+    box.innerHTML = `${openingBanners()}${summary}
       ${errorInline()}
       ${anyStale ? banner('warning', '20분 넘게 지난 숫자가 있어요. 새로고침해 보세요.', true) : ''}
       ${ordered.map(([d, ls]) => `
@@ -505,6 +560,7 @@
       <header class="appbar detail">
         <button class="icon-btn" type="button" data-act="back" aria-label="목록으로">${icon('back', 'icon-lg')}</button>
         <h1>${esc(title)}</h1>
+        ${state.status === 'ready' && lot ? favoriteBtn(lot.id) : ''}
         ${state.status === 'ready' ? refreshBtn() : ''}
       </header>`;
     if (state.status === 'loading') { view.innerHTML = `${bar('')}<p class="sr-only" role="status">불러오는 중</p>${skeletons()}`; return; }
@@ -531,6 +587,7 @@
     }
     const tel = text(r.TELNO);
     view.innerHTML = `${bar(lot.name)}
+      ${openingBanners()}
       <section class="detail-hero">
         <h2>${esc(lot.name)}</h2>
         <div class="tags">${type ? `<span class="tag">${esc(type)}</span>` : ''}${lot.busOnly ? busTag() : ''}</div>
@@ -573,9 +630,20 @@
   const route = () => { const m = /^#\/p\/(.+)$/.exec(location.hash); return m ? decodeURIComponent(m[1]) : null; };
   let lastRoute;
 
+  // 30초마다 다시 그려도 키보드 초점이 있던 버튼·칩·행으로 돌아가게 한다
+  const focusSelector = (el) => {
+    const d = el?.dataset;
+    if (!d || !view.contains(el)) return null;
+    if (d.act) return `[data-act="${d.act}"]${d.id ? `[data-id="${d.id}"]` : ''}`;
+    if (d.district) return `[data-district="${d.district}"]`;
+    if (el.matches('a.row')) return `a.row[href="${el.getAttribute('href')}"]`;
+    return null;
+  };
+
   function render() {
     const id = route();
     const changed = id !== lastRoute;
+    const focused = changed ? null : focusSelector(document.activeElement);
     if (id) {
       if (changed && lastRoute == null) state.listScroll = window.scrollY;
       renderDetail(id);
@@ -589,6 +657,7 @@
       if (keepFocus) { const n = document.getElementById('q'); n.focus(); n.setSelectionRange(n.value.length, n.value.length); }
       if (changed && lastRoute != null) window.scrollTo(0, state.listScroll);
     }
+    if (focused) view.querySelector(focused)?.focus({ preventScroll: true });
     lastRoute = id;
   }
 
@@ -612,6 +681,13 @@
     if (act === 'refresh' || act === 'retry') { if (!state.refreshing) load(); }
     else if (act === 'clear') { state.query = ''; state.district = '전체'; render(); document.getElementById('q')?.focus(); }
     else if (act === 'back') { if (history.state?.fromList) history.back(); else location.hash = ''; }
+    else if (act === 'favorite') {
+      const id = route();
+      if (!state.favorites.delete(id)) state.favorites.add(id);
+      saveFavorites();
+      render();
+    }
+    else if (act === 'dismiss') { state.openings = state.openings.filter((o) => o.id !== btn.dataset.id); render(); }
   });
   view.addEventListener('click', (e) => {
     const a = e.target.closest('a.row');
@@ -619,6 +695,14 @@
   });
   window.addEventListener('popstate', render);
   window.addEventListener('hashchange', render);
+
+  // 검색창에 입력하는 동안 다시 그리면 한글 조합이 끊긴다. 벗어난 뒤 다음 차례에 불러온다.
+  const canAutoLoad = () => document.visibilityState === 'visible' && !state.refreshing && state.status !== 'loading'
+    && document.activeElement?.id !== 'q';
+  setInterval(() => { if (canAutoLoad()) load(); }, REFRESH_MS);
+  document.addEventListener('visibilitychange', () => {
+    if (canAutoLoad() && Date.now() - state.loadedAt >= REFRESH_MS) load();
+  });
 
   render();
   load();

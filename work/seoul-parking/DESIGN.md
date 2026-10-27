@@ -60,6 +60,9 @@ components:
   icon-button:
     size: "44px"
     rounded: "{rounded.sm}"
+  favorite-button:
+    size: "44px"
+    rounded: "{rounded.sm}"
   search-field:
     size: "44px"
     height: "48px"
@@ -80,6 +83,12 @@ components:
   stale-banner:
     backgroundColor: "{colors.warning-soft}"
     textColor: "{colors.warning}"
+    typography: "{typography.label}"
+    rounded: "{rounded.md}"
+    padding: "{spacing.3}"
+  opening-banner:
+    backgroundColor: "{colors.brand-soft}"
+    textColor: "{colors.text}"
     typography: "{typography.label}"
     rounded: "{rounded.md}"
     padding: "{spacing.3}"
@@ -236,13 +245,19 @@ components:
   - weight: `font-weight.bold` (700)
   - divider: `color.border` (#D3DAE1)
   - paddingX: `space.4` (16px)
-  - list: 제목 '서울 공영주차장 빈자리' + 오른쪽 RefreshButton. detail: 왼쪽 BackButton + 주차장 이름(한 줄 말줄임) + 오른쪽 RefreshButton. 스크롤 시 상단 고정.
+  - list: 제목 '서울 공영주차장 빈자리' + 오른쪽 RefreshButton. detail: 왼쪽 BackButton + 주차장 이름(한 줄 말줄임) + 오른쪽 FavoriteButton·RefreshButton. 스크롤 시 상단 고정.
 - **IconButton** (`icon-button`): 누를 수 있음, 변형 refresh, back
   - icon: `color.brand` (#0A4A94)
   - iconSize: `size.icon-lg` (24px)
   - pressed: `color.brand-soft` (#E6EEF8)
   - focus: `color.focus` (#0A4A94)
   - 아이콘만 보이지만 접근 이름 필수(refresh: '새로고침', back: '목록으로'). busy: 새로고침 중 아이콘 회전 + 접근 이름 '불러오는 중', 중복 탭 무시.
+- **FavoriteButton** (`favorite-button`): 누를 수 있음, 변형 off, on
+  - icon: `color.brand` (#0A4A94)
+  - iconSize: `size.icon-lg` (24px)
+  - pressed: `color.brand-soft` (#E6EEF8)
+  - focus: `color.focus` (#0A4A94)
+  - 상세 AppBar의 RefreshButton 왼쪽에 두는 IconButton 꼴 토글. off: 별 테두리 아이콘 + aria-pressed=false + 접근 이름 '즐겨찾기 추가'. on: 채운 별 아이콘 + aria-pressed=true + 접근 이름 '즐겨찾기 빼기'. 색만이 아니라 아이콘 모양도 바뀐다. 이 기기 브라우저에만 저장(PRD F8).
 - **SearchField** (`search-field`): 누를 수 있음, 변형 empty, filled
   - border: `color.border-strong` (#7A8794)
   - focus: `color.focus` (#0A4A94)
@@ -268,11 +283,17 @@ components:
   - iconSize: `size.icon` (20px)
   - gap: `space.2` (8px)
   - 기준 시각이 20분을 넘은 경우만 표시. 경고 삼각 아이콘 + 글자 + 오른쪽 Button(secondary) '새로고침'. 목록에서는 표시 중인 연계 주차장 가운데 하나라도 20분을 넘으면 띠 1개만 보이고, 해당 행은 Timestamp stale로 따로 표시.
+- **OpeningBanner** (`opening-banner`): 변형 list, detail
+  - border: `color.brand` (#0A4A94)
+  - icon: `color.brand` (#0A4A94)
+  - iconSize: `size.icon` (20px)
+  - gap: `space.2` (8px)
+  - 즐겨찾기한 주차장이 직전 불러오기에서 만차였고 이번에 빈자리 1면 이상일 때만(PRD F10). 채운 별 아이콘 + '{name} 빈자리 {available}면 · {HH:MM} 기준' + 오른쪽 Button(secondary) '닫기'. 목록·상세 맨 위에 주차장마다 띠 1개, 같은 주차장이 다시 열리면 새 값으로 바꾼다. 실시간 정보 없음·20분 넘은 숫자로는 띄우지 않고, 띄운 뒤 20분이 지나면 시각 뒤에 '· 20분 넘음'을 붙인다. 화면 낭독기에 알리도록 role=status.
 - **GroupHeader** (`group-header`)
   - weight: `font-weight.semibold` (600)
   - paddingX: `space.4` (16px)
   - 구 묶음 제목 '{구} {n}곳'. 높이 40px(space.8 + space.2), 스크롤 중 상단 바 아래 고정. 순번 표식(01/02)이나 영문 대문자 라벨 쓰지 않음.
-- **ParkingRow** (`parking-row`): 누를 수 있음, 변형 realtime, full, stale, no-realtime, bus-only
+- **ParkingRow** (`parking-row`): 누를 수 있음, 변형 realtime, full, stale, no-realtime, bus-only, favorite
   - pressed: `color.brand-soft` (#E6EEF8)
   - name: `font-size.title` (18px)
   - nameColor: `color.text` (#16202A)
@@ -283,7 +304,7 @@ components:
   - paddingY: `space.3` (12px)
   - gap: `space.2` (8px)
   - focus: `color.focus` (#0A4A94)
-  - 왼쪽: 이름(2줄까지) / 구·주소(1줄 말줄임). 오른쪽: AvailabilityCount + Timestamp를 한 덩어리로 세로 정렬, 숫자 오른쪽 맞춤. 행 전체가 상세로 가는 링크. 둥근 카드·그림자 없이 구분선으로 나눔. bus-only: 숫자 대신 BusOnlyTag, 연계 여부와 관계없이 구분 표시.
+  - 왼쪽: 이름(2줄까지) / 구·주소(1줄 말줄임). 오른쪽: AvailabilityCount + Timestamp를 한 덩어리로 세로 정렬, 숫자 오른쪽 맞춤. 행 전체가 상세로 가는 링크. 둥근 카드·그림자 없이 구분선으로 나눔. bus-only: 숫자 대신 BusOnlyTag, 연계 여부와 관계없이 구분 표시. favorite: 이름 앞에 채운 별 아이콘(color.brand, size.icon) + 화면에 안 보이는 글자 '즐겨찾기'. 행은 링크 하나로 남기고 안에 버튼을 넣지 않는다(즐겨찾기 추가·빼기는 상세의 FavoriteButton).
 - **AvailabilityCount** (`availability-count`): 변형 realtime, full, no-realtime
   - count: `font-size.count` (32px)
   - countLarge: `font-size.count-lg` (48px)
@@ -412,6 +433,11 @@ components:
 | refresh | 새로고침 |
 | back | 목록으로 |
 | clearSearch | 검색어 지우기 |
+| favoriteAdd | 즐겨찾기 추가 |
+| favoriteRemove | 즐겨찾기 빼기 |
+| favoriteMark | 즐겨찾기 |
+| openingBanner | {name} 빈자리 {available}면 · {HH:MM} 기준 |
+| dismiss | 닫기 |
 | call | 전화 걸기 |
 | unknown | 정보 없음 |
 | hours24 | 24시간 |

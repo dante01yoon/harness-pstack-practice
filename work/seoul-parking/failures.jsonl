@@ -1,1 +1,10 @@
 {"at":"2026-10-26T22:39:28.389Z","phase":"prd","check":"데이터 라이선스","message":"데이터 출처에 라이선스가 없음"}
+{"at":"2026-10-26T23:56:24.820Z","phase":"ia","check":"기능 커버리지","message":"화면이 없는 기능: F8, F9, F10"}
+{"at":"2026-10-26T23:56:24.821Z","phase":"handoff","check":"DESIGN.md 최신","message":"tokens·components·copy와 다름(원본이 바뀌었거나 손으로 고침) — design-harness design-md"}
+{"at":"2026-10-26T23:58:53.454Z","phase":"ia","check":"기능 커버리지","message":"화면이 없는 기능: F8, F9, F10"}
+{"at":"2026-10-26T23:58:53.456Z","phase":"handoff","check":"DESIGN.md 최신","message":"tokens·components·copy와 다름(원본이 바뀌었거나 손으로 고침) — design-harness design-md"}
+{"at":"2026-10-27T00:00:43.075Z","phase":"handoff","check":"DESIGN.md 최신","message":"tokens·components·copy와 다름(원본이 바뀌었거나 손으로 고침) — design-harness design-md"}
+{"at":"2026-10-27T00:01:07.584Z","phase":"handoff","check":"DESIGN.md 최신","message":"tokens·components·copy와 다름(원본이 바뀌었거나 손으로 고침) — design-harness design-md"}
+{"at":"2026-10-27T00:01:20.866Z","phase":"handoff","check":"DESIGN.md 최신","message":"tokens·components·copy와 다름(원본이 바뀌었거나 손으로 고침) — design-harness design-md"}
+{"at":"2026-10-27T00:02:02.624Z","phase":"handoff","check":"DESIGN.md 최신","message":"tokens·components·copy와 다름(원본이 바뀌었거나 손으로 고침) — design-harness design-md"}
+{"at":"2026-10-27T00:02:08.706Z","phase":"handoff","check":"DESIGN.md 최신","message":"tokens·components·copy와 다름(원본이 바뀌었거나 손으로 고침) — design-harness design-md"}

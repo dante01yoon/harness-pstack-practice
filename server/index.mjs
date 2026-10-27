@@ -7,7 +7,8 @@ import { fileURLToPath } from 'node:url';
 const OPEN_API = 'http://openapi.seoul.go.kr:8088';
 const INDEX = fileURLToPath(new URL('../index.html', import.meta.url));
 
-export function createApp({ key, upstream = OPEN_API, log = console.error }) {
+// ttlMs: 성공한 Open API 응답을 다시 쓰는 시간(PRD F9). 화면이 30초마다 불러도 Open API는 그보다 자주 부르지 않는다.
+export function createApp({ key, upstream = OPEN_API, log = console.error, ttlMs = 30_000, now = Date.now }) {
   const redact = (s) => String(s).replaceAll(key, '***');
 
   async function parking() {
@@ -26,6 +27,17 @@ export function createApp({ key, upstream = OPEN_API, log = console.error }) {
     return text;
   }
 
+  // 실패는 저장하지 않는다. 동시에 온 요청은 진행 중인 한 번을 같이 기다린다.
+  let cached = null;
+  let pending = null;
+  function cachedParking() {
+    if (cached && now() - cached.at < ttlMs) return Promise.resolve(cached.text);
+    pending ??= parking()
+      .then((text) => { cached = { text, at: now() }; return text; })
+      .finally(() => { pending = null; });
+    return pending;
+  }
+
   return http.createServer(async (req, res) => {
     const path = new URL(req.url, 'http://x').pathname;
     if (req.method !== 'GET') return res.writeHead(405).end();
@@ -34,7 +46,7 @@ export function createApp({ key, upstream = OPEN_API, log = console.error }) {
     }
     if (path === '/api/parking') {
       try {
-        const text = await parking();
+        const text = await cachedParking();
         return res.writeHead(200, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' }).end(text);
       } catch (err) {
         log(redact(`[api/parking] ${err.message}`));

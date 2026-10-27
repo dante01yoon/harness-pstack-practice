@@ -30,9 +30,9 @@ description: 새로고침·불러오기 순서(index.html의 load·refresh·star
 
 `S.rows`를 읽는 그리기 함수(`renderList`, `setColumns`, `doPlaceLabels`, `renderUpdated`)는 `Redraw`·`screen`으로 뭉뚱그렸다. 이 함수들이 `S.rows`를 바꾸거나 화면을 비우게 되면 그것도 대상이다.
 
-**마지막으로 모델이 코드를 그대로 옮긴다고 확인한 커밋: `bc64f30`**
+**마지막으로 모델이 코드를 그대로 옮긴다고 확인한 커밋: `8e63ca3`**
 
-이 커밋 뒤 대상 코드가 바뀌었는지는 `git diff bc64f30 -- index.html`에서 위 조각을 보거나, `check.mjs`의 "근거 코드가 바뀌었습니다" 줄로 안다.
+이 커밋 뒤 대상 코드가 바뀌었는지는 `git diff 8e63ca3 -- index.html`에서 위 조각을 보거나, `check.mjs`의 "근거 코드가 바뀌었습니다" 줄로 안다.
 
 ## 돌리기
 

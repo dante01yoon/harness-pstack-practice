@@ -1,5 +1,8 @@
 # PR과 main 푸시마다 로컬과 같은 테스트를 돌린다(의존성 없음).
 # .env는 저장소에 없으므로 인증키 비교는 건너뛰고, 키가 든 요청 URL 검사는 그대로 돈다.
+# 디자인: tests/design.test.mjs가 승인 해시·DESIGN.md front matter·:root·색 값을 tokens.json과 대조한다.
+# design-harness 플러그인은 로컬 폴더 마켓플레이스라 CI에서 받을 수 없으므로, 플러그인이 필요한 검사
+# (lint:web 상태별 렌더링, DESIGN.md 재생성 비교·공식 린트, 단계 게이트)는 로컬 Stop 훅에서만 돈다.
 name: test
 
 on:

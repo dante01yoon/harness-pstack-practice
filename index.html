@@ -272,6 +272,8 @@
   const REFRESH_MS = 30 * 1000;     // PRD F9: 화면이 보일 때 자동 새로고침 간격
   const FAVORITES_KEY = 'seoul-parking:favorites';
   const TZ = 'Asia/Seoul';
+  // PRD F2: 구 선택지. 구만 받으면 받은 데이터로 선택지를 만들 수 없어 2026-10-26 데이터에 있던 23개 구를 둔다.
+  const DISTRICTS = ['강남구', '강동구', '강북구', '강서구', '관악구', '광진구', '구로구', '금천구', '노원구', '도봉구', '동대문구', '동작구', '마포구', '서초구', '성동구', '송파구', '양천구', '영등포구', '용산구', '은평구', '종로구', '중구', '중랑구'];
 
   const state = {
     status: 'loading',   // loading | ready | error
@@ -281,6 +283,7 @@
     refreshFailed: false,
     query: '',
     district: '전체',
+    loadedFor: null,     // state.lots가 담은 구('전체' 또는 구 이름)
     listScroll: 0,
     favorites: readFavorites(), // PKLT_CD Set, 이 기기에만 저장(PRD F8)
     openings: [],               // 띄운 빈자리 배너 { id, name, available, updated }
@@ -358,13 +361,27 @@
     });
   }
 
+  // 즐겨찾기의 구는 받아 둔 목록에서 찾는다. 처음 불러오기는 늘 '전체'라 모든 즐겨찾기의 구를 안다.
+  const dataUrl = (district) => {
+    if (district === '전체') return DATA_URL;
+    const gus = new Set([district]);
+    for (const l of state.lots) if (state.favorites.has(l.id)) gus.add(l.district);
+    return `${DATA_URL}?${[...gus].map((g) => `gu=${encodeURIComponent(g)}`).join('&')}`;
+  };
+  const covers = (district) => state.loadedFor === '전체' || state.loadedFor === district;
+
+  // 마지막에 부른 불러오기의 응답만 쓴다. 구를 빨리 바꾸면 앞서 고른 구의 응답이 늦게 와도 버린다.
+  let latestLoad = 0;
   async function load() {
+    const seq = ++latestLoad;
+    const district = state.district;
     const hadData = state.lots.length > 0;
     if (hadData) { state.refreshing = true; render(); } else { state.status = 'loading'; render(); }
     try {
-      const res = await fetch(DATA_URL, { cache: 'no-store' });
+      const res = await fetch(dataUrl(district), { cache: 'no-store' });
       if (!res.ok) throw new TypeError(String(res.status));
       const body = await res.json();
+      if (seq !== latestLoad) return;
       const rows = body?.GetParkingInfo?.row;
       if (!Array.isArray(rows)) throw new TypeError('rows');
       const prev = state.lots;
@@ -375,16 +392,25 @@
         const ids = new Set(found.map((o) => o.id));
         state.openings = [...state.openings.filter((o) => !ids.has(o.id)), ...found];
       }
+      state.loadedFor = district;
       state.loadedAt = new Date();
       state.status = 'ready';
       state.refreshFailed = false;
     } catch (_) {
+      if (seq !== latestLoad) return;
       if (hadData) state.refreshFailed = true; else state.status = 'error';
     } finally {
-      state.refreshing = false;
-      render();
+      if (seq === latestLoad) {
+        state.refreshing = false;
+        render();
+      }
     }
   }
+  const pickDistrict = (district) => {
+    if (district === state.district) return;
+    state.district = district;
+    load();
+  };
 
   // ---------- 조각 ----------
   const refreshBtn = () => `
@@ -443,7 +469,6 @@
       (state.district === '전체' || l.district === state.district) &&
       (!q || norm(l.name).includes(q) || norm(l.addr).includes(q)));
   };
-  const districts = () => [...new Set(state.lots.map((l) => l.district))].sort((a, b) => a.localeCompare(b, 'ko'));
 
   const row = (lot) => {
     let side;
@@ -467,7 +492,7 @@
     </div>`).join('');
 
   function listChrome() {
-    const chips = ['전체', ...districts()].map((d) => `
+    const chips = ['전체', ...DISTRICTS].map((d) => `
       <button class="chip" type="button" data-district="${esc(d)}" aria-pressed="${state.district === d}">
         <svg class="check" aria-hidden="true"><use href="#i-check"/></svg>${esc(d)}
       </button>`).join('');
@@ -492,11 +517,13 @@
   function renderResults() {
     const box = document.getElementById('results');
     if (!box) return;
-    if (state.status === 'loading') {
+    // 고른 구를 아직 받지 못했으면 다른 구 목록이나 '찾는 주차장이 없어요'를 보이지 않는다
+    const missing = state.status === 'ready' && !covers(state.district);
+    if (state.status === 'loading' || (missing && state.refreshing)) {
       box.innerHTML = `<p class="sr-only" role="status">불러오는 중</p>${skeletons()}`;
       return;
     }
-    if (state.status === 'error') {
+    if (state.status === 'error' || missing) {
       box.innerHTML = `
         <div class="state error" role="alert">
           ${icon('warn', 'icon-lg')}
@@ -669,17 +696,12 @@
   });
   view.addEventListener('click', (e) => {
     const chip = e.target.closest('[data-district]');
-    if (chip) {
-      state.district = chip.dataset.district;
-      view.querySelectorAll('[data-district]').forEach((c) => c.setAttribute('aria-pressed', c === chip));
-      renderResults();
-      return;
-    }
+    if (chip) { pickDistrict(chip.dataset.district); return; }
     const btn = e.target.closest('[data-act]');
     if (!btn) return;
     const act = btn.dataset.act;
     if (act === 'refresh' || act === 'retry') { if (!state.refreshing) load(); }
-    else if (act === 'clear') { state.query = ''; state.district = '전체'; render(); document.getElementById('q')?.focus(); }
+    else if (act === 'clear') { state.query = ''; pickDistrict('전체'); render(); document.getElementById('q')?.focus(); }
     else if (act === 'back') { if (history.state?.fromList) history.back(); else location.hash = ''; }
     else if (act === 'favorite') {
       const id = route();

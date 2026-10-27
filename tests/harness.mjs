@@ -17,6 +17,7 @@ export const kst = (s) => new Date(`${s.replace(' ', 'T')}+09:00`).getTime();
 export const row = (id) => rows.find((r) => r.PKLT_CD === id);
 
 // body: fetch가 돌려줄 응답(기본은 data/parking.json). null이면 fetch 실패.
+//   함수면 요청 주소(예: 'api/parking?gu=중구')를 받아 응답(Promise도 됨)을 돌려준다.
 // now: 앱이 보는 현재 시각(ms). hash: 처음 열 화면(예: '#/p/172971').
 // storage: localStorage 내용({ 키: 문자열 }). 앱이 쓴 값도 이 객체에 남는다. null이면 접근할 때 예외(사생활 보호 모드).
 export async function open({ body = response, now, hash = '', storage = {} } = {}) {
@@ -28,6 +29,7 @@ export async function open({ body = response, now, hash = '', storage = {} } = {
   view.addEventListener = (type, fn) => { (listeners[type] ??= []).push(fn); };
 
   let served = body;
+  const fetched = [];
   const RealDate = Date;
   let at = now ?? RealDate.now();
   class FixedDate extends RealDate {
@@ -59,9 +61,11 @@ export async function open({ body = response, now, hash = '', storage = {} } = {
     location: { hash },
     history: { state: null, pushState() {}, back() {} },
     scrollY: 0, scrollTo() {}, addEventListener() {},
-    fetch: async () => {
-      if (served == null) throw new TypeError('offline');
-      return { ok: true, json: async () => structuredClone(served) };
+    fetch: async (url) => {
+      fetched.push(decodeURIComponent(url));
+      const b = typeof served === 'function' ? await served(decodeURIComponent(url)) : served;
+      if (b == null) throw new TypeError('offline');
+      return { ok: true, json: async () => structuredClone(b) };
     },
   };
   ctx.window = ctx;
@@ -72,8 +76,16 @@ export async function open({ body = response, now, hash = '', storage = {} } = {
   const screen = () => view.innerHTML.replace('<div id="results"></div>', `<div id="results">${results.innerHTML}</div>`);
   return {
     screen,
-    // 다음 fetch 응답을 바꾼다(null이면 실패)
+    // 다음 fetch 응답을 바꾼다(null이면 실패, 함수면 요청 주소별 응답)
     serve: (b) => { served = b; },
+    // 지금까지 fetch한 주소(퍼센트 인코딩을 푼 것)
+    fetched: () => [...fetched],
+    // 구 칩 누르기
+    pick: (district) => {
+      const chip = { dataset: { district }, closest: (sel) => (sel === '[data-district]' ? chip : null) };
+      for (const fn of listeners.click ?? []) fn({ target: chip, preventDefault() {} });
+      return settle();
+    },
     // 태그를 뺀 화면 글자(공백 정리)
     text: () => screen().replace(/<[^>]+>/g, ' ').replace(/&#39;/g, "'").replace(/\s+/g, ' ').trim(),
     // 목록에서 주차장 한 행의 HTML

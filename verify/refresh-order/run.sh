@@ -34,7 +34,7 @@ tlc RefreshOrder
 if passed RefreshOrder; then grep -E "distinct states found|depth of the complete" "$work/RefreshOrder.out"; echo "통과"
 else echo "실패: $work/RefreshOrder.out"; grep -E "Error|violated" "$work/RefreshOrder.out"; status=1; fi
 
-echo "== 망가뜨린 변형(!state.refreshing 검사를 뺌)은 두 약속을 모두 깨야 한다"
+echo "== 망가뜨린 변형(구를 바꿔 겹친 load의 늦은 앞 응답을 버리지 않음)은 두 약속을 모두 깨야 한다"
 for m in mutant-screen mutant-notify; do
   tlc "$m"
   if violated "$m"; then echo "$m: 잡힘 ($(grep -o 'Invariant [A-Za-z]* is violated' "$work/$m.out"))"

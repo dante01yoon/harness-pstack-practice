@@ -9,7 +9,12 @@ const read = (f) => fs.readFileSync(`${root}${f}`, 'utf8');
 // [파일, 그대로 있어야 할 코드, 모델에서 기대는 곳]
 const anchors = [
   ['index.html', "if (hadData) { state.refreshing = true; render(); } else { state.status = 'loading'; render(); }", 'Start'],
-  ['index.html', "const res = await fetch(DATA_URL, { cache: 'no-store' });", 'Start → Receive'],
+  ['index.html', "const res = await fetch(dataUrl(district), { cache: 'no-store' });", 'Start → Receive'],
+  ['index.html', 'const seq = ++latestLoad;', 'Begin latest'],
+  ['index.html', 'if (seq !== latestLoad) return;', 'Current: JsonDone·FailLoad 버림'],
+  ['index.html', 'if (seq === latestLoad) {', 'Current: finally refreshing'],
+  ['index.html', 'if (chip) { pickDistrict(chip.dataset.district); return; }', 'Switch'],
+  ['index.html', "${state.status === 'ready' ? `<nav class=\"chips\" aria-label=\"구 선택\">${chips}</nav>` : ''}", 'Switch status'],
   ['index.html', 'const body = await res.json();', 'Receive → JsonDone'],
   ['index.html', 'const prev = state.lots;', 'JsonDone prev'],
   ['index.html', 'state.lots = rows.map(toLot);', 'JsonDone lots'],
@@ -29,8 +34,8 @@ const anchors = [
 
 const missing = anchors.filter(([f, code]) => !read(f).includes(code));
 const counts = { 'index.html': (read('index.html').match(/(?<!function )\bload\(\)/g) || []).length };
-// load()를 부르는 곳: 클릭(:681), 타이머(:702), visibilitychange(:704), 처음(:708). 새 곳이 생기면 CanStart를 다시 본다.
-if (counts['index.html'] !== 4) missing.push(['index.html', `load() 호출 ${counts['index.html']}곳(모델은 4곳)`, 'CanStart']);
+// load()를 부르는 곳: 새로고침·다시 시도 클릭, pickDistrict(Switch), 타이머, visibilitychange, 처음. 새 곳이 생기면 CanStart·Switch를 다시 본다.
+if (counts['index.html'] !== 5) missing.push(['index.html', `load() 호출 ${counts['index.html']}곳(모델은 5곳)`, 'CanStart·Switch']);
 
 if (missing.length) {
   console.log('모델이 기대는 코드가 바뀌었어요. RefreshOrder.tla의 해당 동작을 다시 확인하세요:');

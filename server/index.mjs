@@ -2,6 +2,7 @@
 // 띄우기: node --env-file=.env server/index.mjs  (PORT 기본 8000, HOST 기본 127.0.0.1)
 import http from 'node:http';
 import fs from 'node:fs';
+import zlib from 'node:zlib';
 import { fileURLToPath } from 'node:url';
 
 const OPEN_API = 'http://openapi.seoul.go.kr:8088';
@@ -39,15 +40,21 @@ export function createApp({ key, upstream = OPEN_API, log = console.error, ttlMs
   }
 
   return http.createServer(async (req, res) => {
-    const path = new URL(req.url, 'http://x').pathname;
+    const url = new URL(req.url, 'http://x');
+    const path = url.pathname;
     if (req.method !== 'GET') return res.writeHead(405).end();
     if (path === '/' || path === '/index.html') {
       return res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' }).end(fs.readFileSync(INDEX));
     }
     if (path === '/api/parking') {
       try {
-        const text = await cachedParking();
-        return res.writeHead(200, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' }).end(text);
+        const gus = url.searchParams.getAll('gu');
+        const text = gus.length ? onlyDistricts(await cachedParking(), gus) : await cachedParking();
+        const headers = { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store', vary: 'accept-encoding' };
+        if (/\bgzip\b/.test(req.headers['accept-encoding'] ?? '')) {
+          return res.writeHead(200, { ...headers, 'content-encoding': 'gzip' }).end(zlib.gzipSync(text));
+        }
+        return res.writeHead(200, headers).end(text);
       } catch (err) {
         log(redact(`[api/parking] ${err.message}`));
         return res.writeHead(502, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' })
@@ -56,6 +63,15 @@ export function createApp({ key, upstream = OPEN_API, log = console.error, ttlMs
     }
     res.writeHead(404).end();
   });
+}
+
+// PRD F2: 화면이 고른 구(와 즐겨찾기가 있는 구)만 보낸다. Open API는 30초 저장분 하나를 같이 쓰고, 구는 ADDR 첫 단어다.
+function onlyDistricts(text, gus) {
+  const body = JSON.parse(text);
+  const info = body.GetParkingInfo;
+  info.row = info.row.filter((r) => gus.includes((r.ADDR || '').trim().split(/\s+/)[0]));
+  info.list_total_count = info.row.length;
+  return JSON.stringify(body);
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {

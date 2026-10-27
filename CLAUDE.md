@@ -4,7 +4,7 @@
 
 ## 지금 상태
 - 화면은 `index.html` 한 파일(HTML·CSS·JS, 빌드 없음). 목록과 상세(`#/p/{PKLT_CD}`) 두 화면.
-- 데이터는 작은 서버 `server/index.mjs`(의존성 없음)가 Open API를 불러 `/api/parking`으로 넘긴다. 서버는 `/`의 `index.html`과 `/api/parking`만 내주고 다른 파일(`.env` 포함)은 404다. `data/parking.json`은 테스트용으로 저장해 둔 실제 응답이다.
+- 데이터는 작은 서버 `server/index.mjs`(의존성 없음)가 Open API를 불러 `/api/parking`으로 넘긴다. `?gu=중구&gu=강서구`처럼 구를 주면 그 구의 행만 보내고, 브라우저가 받으면 gzip으로 보낸다. 서버는 `/`의 `index.html`과 `/api/parking`만 내주고 다른 파일(`.env` 포함)은 404다. `data/parking.json`은 테스트용으로 저장해 둔 실제 응답이다.
 - 로컬 확인: `node --env-file=.env server/index.mjs` 뒤 `http://127.0.0.1:8000/`. 휴대폰에서 보려면 `HOST=0.0.0.0`을 준다. `file://`이나 `python3 -m http.server`로는 데이터가 오지 않는다.
 - 화면 검사: `design-harness lint:web index.html` (토큰 밖 색·글자 크기, 44px 미만 버튼, 금지 카피). 화면을 바꾸면 돌리고 오류 0개를 확인한다. 파일 인자를 꼭 준다(인자가 없으면 플러그인 기본값 `work/seoul-parking/web/*.html`을 찾다가 아무것도 검사하지 않는다).
 - 테스트: `node --test tests/*.test.mjs` (의존성 없음). 동작을 바꿀 때는 `/tdd` 순서를 따른다.

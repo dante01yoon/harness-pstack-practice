@@ -3,6 +3,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import http from 'node:http';
+import zlib from 'node:zlib';
 import { createApp } from '../server/index.mjs';
 import { response, html } from './harness.mjs';
 
@@ -30,8 +31,15 @@ async function start(reply, options = {}) {
     const res = await fetch(base + path);
     return { status: res.status, type: res.headers.get('content-type'), text: await res.text() };
   };
+  // fetch는 압축을 몰래 풀어 버리므로, 보낸 그대로의 바이트는 http.get으로 받는다.
+  const raw = (path, headers = {}) => new Promise((resolve, reject) => {
+    http.get(base + path, { headers }, (res) => {
+      const chunks = [];
+      res.on('data', (c) => chunks.push(c)).on('end', () => resolve({ status: res.statusCode, headers: res.headers, body: Buffer.concat(chunks) }));
+    }).on('error', reject);
+  });
   test.after(() => { app.close(); upstream.close(); });
-  return { get, seen, logs };
+  return { get, raw, seen, logs };
 }
 
 test('/api/parking은 Open API 응답을 화면이 읽는 모양 그대로 돌려준다', async () => {
@@ -124,5 +132,50 @@ test('동시에 온 요청은 Open API를 한 번만 불러 같은 응답을 받
   const all = await Promise.all([get('/api/parking'), get('/api/parking'), get('/api/parking')]);
   assert.deepEqual(all.map((r) => r.status), [200, 200, 200]);
   assert.ok(all.every((r) => r.text === all[0].text));
+  assert.equal(seen.length, 1);
+});
+
+test('gzip을 받는 브라우저에는 /api/parking을 압축해 보낸다', async () => {
+  const { raw } = await start(() => [200, response]);
+  const r = await raw('/api/parking', { 'accept-encoding': 'gzip, deflate, br' });
+  assert.equal(r.status, 200);
+  assert.equal(r.headers['content-encoding'], 'gzip');
+  assert.match(r.headers.vary, /accept-encoding/i);
+  assert.deepEqual(JSON.parse(zlib.gunzipSync(r.body)), response);
+  assert.ok(r.body.length < Buffer.byteLength(JSON.stringify(response)) / 10, `${r.body.length}바이트`);
+});
+
+test('gzip을 받지 않는 곳에는 압축하지 않고 보낸다', async () => {
+  const { raw } = await start(() => [200, response]);
+  const r = await raw('/api/parking');
+  assert.equal(r.status, 200);
+  assert.equal(r.headers['content-encoding'], undefined);
+  assert.deepEqual(JSON.parse(r.body), response);
+});
+
+const guOf = (r) => r.ADDR.trim().split(/\s+/)[0];
+const countIn = (...gus) => response.GetParkingInfo.row.filter((r) => gus.includes(guOf(r))).length;
+const gu = (...gus) => `/api/parking?${gus.map((g) => `gu=${encodeURIComponent(g)}`).join('&')}`;
+
+test('?gu=중구면 그 구 주차장만 같은 모양으로 돌려준다', async () => {
+  const { get, seen } = await start(() => [200, response]);
+  const body = JSON.parse((await get(gu('중구'))).text);
+  const info = body.GetParkingInfo;
+  assert.equal(info.row.length, 31);
+  assert.ok(info.row.every((r) => guOf(r) === '중구'));
+  assert.equal(info.list_total_count, info.row.length);
+  assert.deepEqual(info.RESULT, response.GetParkingInfo.RESULT);
+  assert.deepEqual(seen, [`/${KEY}/json/GetParkingInfo/1/1000/`]);
+});
+
+test('여러 구를 함께 달라면 그 구들을 모두 돌려준다', async () => {
+  const { get } = await start(() => [200, response]);
+  const info = JSON.parse((await get(gu('중구', '강서구'))).text).GetParkingInfo;
+  assert.equal(info.row.length, countIn('중구', '강서구'));
+});
+
+test('구가 달라도 Open API 응답 30초 저장분을 같이 쓴다', async () => {
+  const { get, seen } = await start(() => [200, response], { now: () => 1_000_000 });
+  for (const path of [gu('중구'), gu('종로구'), '/api/parking']) assert.equal((await get(path)).status, 200, path);
   assert.equal(seen.length, 1);
 });

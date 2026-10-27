@@ -242,3 +242,84 @@ test('어느 상태의 화면 글자에도 금지어가 없다', async () => {
     for (const s of [...screens, footer]) assert.ok(!s.includes(word), `금지어 "${word}"`);
   }
 });
+
+// PRD F2: 구를 고르면 서버에서 그 구(와 즐겨찾기가 있는 구)만 받는다. 아래는 서버처럼 요청한 구의 행만 돌려주는 가짜 응답이다.
+const guOf = (r) => r.ADDR.trim().split(/\s+/)[0];
+const DISTRICTS = [...new Set(rows.map(guOf))].sort((a, b) => a.localeCompare(b, 'ko'));
+const gusIn = (url) => new URL(url, 'http://x').searchParams.getAll('gu');
+const byGu = (body = response) => (url) => {
+  const gus = gusIn(url);
+  if (!gus.length) return body;
+  const out = structuredClone(body);
+  out.GetParkingInfo.row = out.GetParkingInfo.row.filter((r) => gus.includes(guOf(r)));
+  out.GetParkingInfo.list_total_count = out.GetParkingInfo.row.length;
+  return out;
+};
+const flush = async () => { for (let i = 0; i < 5; i++) await new Promise(setImmediate); };
+const chipsOf = (app) => [...app.screen().matchAll(/data-district="([^"]+)"/g)].map((m) => m[1]);
+
+test('구를 고르면 그 구 주차장만 서버에서 받아 보여 주고, 전체로 돌아가면 전체를 받는다', async () => {
+  const app = await open({ now: updated + 5 * MIN });
+  app.serve(byGu());
+  await app.pick('중구');
+  assert.deepEqual(gusIn(app.fetched().at(-1)), ['중구']);
+  assert.ok(app.rowOf(CHEONGGYE));
+  assert.equal(app.rowOf(SEJONG), null);
+  assert.match(app.text(), /중구 31곳/);
+
+  await app.pick('전체');
+  assert.equal(app.fetched().at(-1), 'api/parking');
+  assert.ok(app.rowOf(SEJONG));
+});
+
+test('구 선택지는 받은 주차장과 상관없이 데이터의 23개 구 그대로다', async () => {
+  const app = await open({ now: updated + 5 * MIN });
+  app.serve(byGu());
+  await app.pick('중구');
+  assert.deepEqual(chipsOf(app), ['전체', ...DISTRICTS]);
+  assert.equal(DISTRICTS.length, 23);
+});
+
+test('구를 골라도 즐겨찾기가 있는 구를 함께 받아 그 주차장의 빈자리 알림이 온다', async () => {
+  const app = await open({ now: updated + 5 * MIN, storage: favorites(BANGHWA) });
+  app.serve(byGu());
+  await app.pick('중구');
+  assert.deepEqual(gusIn(app.fetched().at(-1)).sort(), ['강서구', '중구'].sort());
+  assert.equal(app.rowOf(BANGHWA), null, '목록에는 고른 구만');
+  app.serve(byGu(reopened()));
+  await app.tick();
+  assert.ok(app.text().includes(OPENING), app.text().slice(0, 300));
+});
+
+test('아직 받지 않은 구로 바꾸면 받는 동안 불러오는 중을, 실패하면 다시 시도를 보여 준다', async () => {
+  const app = await open({ now: updated + 5 * MIN });
+  app.serve(byGu());
+  await app.pick('중구');
+  let release;
+  app.serve(() => new Promise((r) => { release = r; }));
+  await app.pick('종로구');
+  assert.match(app.text(), /불러오는 중/);
+  assert.doesNotMatch(app.text(), /찾는 주차장이 없어요/);
+  release(null);
+  await flush();
+  assert.match(app.text(), /주차장 정보를 불러오지 못했어요/);
+  assert.match(app.screen(), /data-act="retry"/);
+  app.serve(byGu());
+  await app.click('retry');
+  await flush();
+  assert.ok(app.rowOf(SEJONG));
+});
+
+test('구를 빨리 바꾸면 마지막에 고른 구의 응답만 쓴다', async () => {
+  const app = await open({ now: updated + 5 * MIN });
+  const waiting = {};
+  app.serve((url) => new Promise((r) => { waiting[gusIn(url)[0]] = () => r(byGu()(url)); }));
+  await app.pick('중구');
+  await app.pick('종로구');
+  waiting['종로구']();
+  await flush();
+  waiting['중구']();
+  await flush();
+  assert.ok(app.rowOf(SEJONG), app.text().slice(0, 300));
+  assert.doesNotMatch(app.text(), /불러오는 중/);
+});

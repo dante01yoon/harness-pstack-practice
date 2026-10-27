@@ -1,7 +1,7 @@
 // 디자인 원본(work/seoul-parking의 승인본)과 DESIGN.md·index.html이 어긋나지 않았는지 확인한다.
 // design-harness 플러그인 없이 도는 부분만 여기 둔다(CI용). 렌더링 검사와 DESIGN.md 재생성 비교는
 // 로컬 Stop 훅(design-harness check, scripts/lint-web.mjs)이 맡는다.
-// 실행: node --test tests/
+// 실행: node --test tests/*.test.mjs
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
@@ -117,7 +117,7 @@ test("index.html의 색 값은 모두 토큰 색이다", () => {
   assert.deepEqual(html.match(/\b(rgba?|hsla?)\(/g) ?? [], []);
 });
 
-test("스크립트 T 객체의 지도·기둥 색이 토큰과 같다", () => {
+test("스크립트 T 객체의 지도·기둥 색과 기준값이 토큰과 같다", () => {
   const script = html.match(/<script>\n([\s\S]*?)<\/script>/)[1];
   const ctx = { matchMedia: () => ({ matches: false }) };
   vm.createContext(ctx);
@@ -132,4 +132,5 @@ test("스크립트 T 객체의 지도·기둥 색이 토큰과 같다", () => {
   assert.equal(T.opacity.shadow, flat["opacity.map-shadow"].value);
   assert.equal(T.pitch, flat["map.pitch-default"].value);
   assert.equal(T.pitchReduced, flat["map.pitch-reduced"].value);
+  assert.equal(T.staleAfterMin, tokens.$extensions["harness.map"].staleAfterMinutes, "오래됨 기준(분)");
 });

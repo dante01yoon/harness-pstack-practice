@@ -41,11 +41,6 @@ if (hook) {
   if (event.stop_hook_active) process.exit(0);
 }
 
-const hash = crypto.createHash("sha256");
-for (const f of INPUTS) hash.update(fs.existsSync(path.join(root, f)) ? fs.readFileSync(path.join(root, f)) : "");
-const digest = hash.digest("hex");
-if (hook && fs.existsSync(okFile) && fs.readFileSync(okFile, "utf8").trim() === digest) process.exit(0);
-
 // 플러그인 위치: DESIGN_HARNESS_HOME → PATH의 design-harness가 알려 주는 경로 → 설치된 플러그인 목록.
 function harnessHome() {
   if (process.env.DESIGN_HARNESS_HOME) return process.env.DESIGN_HARNESS_HOME;
@@ -60,6 +55,14 @@ function harnessHome() {
   }
 }
 const home = harnessHome();
+
+// 플러그인 검사 규칙(lint:web·lib)이 바뀌어도 다시 검사한다.
+const RULES = home ? ["scripts/lint-web.mjs", "scripts/lib.mjs"].map((f) => path.join(home, f)) : [];
+const hash = crypto.createHash("sha256");
+for (const f of [...INPUTS.map((f) => path.join(root, f)), ...RULES]) hash.update(fs.existsSync(f) ? fs.readFileSync(f) : "");
+const digest = hash.digest("hex");
+if (hook && fs.existsSync(okFile) && fs.readFileSync(okFile, "utf8").trim() === digest) process.exit(0);
+
 if (!home) skip("design-harness를 찾지 못했습니다 (플러그인을 켜거나 DESIGN_HARNESS_HOME 지정)");
 let chromium;
 try {

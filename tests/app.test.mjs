@@ -1,5 +1,5 @@
 // index.html 스크립트의 계산 도우미를 브라우저 없이 확인한다.
-// 실행: node --test tests/
+// 실행: node --test tests/*.test.mjs
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";

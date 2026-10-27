@@ -1,5 +1,5 @@
 // data/parkings.json 스냅샷과 인증키 노출을 확인한다.
-// 실행: node --test tests/
+// 실행: node --test tests/*.test.mjs
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync, existsSync } from "node:fs";

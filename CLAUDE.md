@@ -25,10 +25,13 @@ design-harness 플러그인(`.claude/settings.json`의 `enabledPlugins`)이 디�
 
 | 검사 | 무엇을 | 언제 |
 |---|---|---|
-| `node --test tests/*.test.mjs` (`design.test.mjs` 포함) | 승인 해시(approvals.json) 그대로인지, DESIGN.md front matter·`:root`·`T` 색·index.html 색 값이 tokens.json과 같은지 | 파일 고칠 때마다(PostToolUse 훅), CI |
+| `node --test tests/*.test.mjs` (`design.test.mjs` 포함) | 승인 해시(approvals.json) 그대로인지, DESIGN.md front matter·`:root`·`T` 색·오래됨 기준·index.html 색 값이 tokens.json과 같은지 | 파일 고칠 때마다(PostToolUse 훅), CI |
 | `node scripts/lint-web.mjs` | 불러오는 중·실패·WebGL 없음·지도·목록·검색·검색 결과 없음·상세(실시간 없음·위치 없음) 화면을 실제로 그려 토큰 밖 색·글자 크기·44px 미만 버튼·금지 문구 | 답을 끝낼 때(Stop 훅, 입력이 지난 통과 뒤 바뀐 경우만), 직접 실행 |
 | `design-harness check` | 단계 게이트: PRD~핸드오프, Figma 노드 린트, DESIGN.md가 원본으로 새로 만든 것과 같은지·공식 린트, 사람 승인 | 답을 끝낼 때(플러그인 Stop 훅) |
 
+- 명령은 `design-harness <명령>`으로 부른다. 플러그인 쪽 문서의 `npm run check` 같은 이름은 플러그인 저장소용이고, 이 저장소엔 package.json이 없다. 플러그인 CLI는 Node 20+가 필요하다(앱 테스트는 18+).
+- `lint:web`은 두 가지다: 플러그인 `design-harness lint:web`(검사 규칙)과 이 저장소 `scripts/lint-web.mjs`(상태별 화면을 만들어 넘기는 드라이버). 드라이버는 파일을 인자로 넘기므로 실패가 `failures.jsonl`에 남지 않는다.
+- 검사를 통과시키려고 `scripts/lint-web.mjs`·`tests/design.test.mjs`를 약하게 고치지 않는다(플러그인 규칙 "nodes.json·검사 스크립트를 고치지 않는다"와 같은 뜻). 앱이나 원본을 고친다.
 - `design-harness lint:web index.html`을 그냥 돌리면 첫 화면(file://이면 불러오기 실패)만 본다. 화면 검사는 `scripts/lint-web.mjs`로 한다.
 - DESIGN.md는 손으로 고치지 않는다. 원본(tokens·components·copy)을 바꾸고 승인받은 뒤 `design-harness design-md`로 다시 만든다.
 - CI에는 플러그인이 없다(로컬 폴더 마켓플레이스). CI는 `node --test`만 돌고, 렌더링 검사와 DESIGN.md 재생성 비교는 로컬 Stop 훅이 맡는다.

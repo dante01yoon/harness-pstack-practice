@@ -14,7 +14,10 @@
       "Bash(cat .env*)",
       "Bash(design-harness approve *)",
       "Bash(npm run approve *)",
-      "Bash(node *scripts/approve.mjs *)"
+      "Bash(node *scripts/approve.mjs *)",
+      "Bash(node *bin/design-harness approve *)",
+      "Edit(**/approvals.json)",
+      "Write(**/approvals.json)"
     ]
   },
   "enabledPlugins": {

@@ -32,7 +32,7 @@ test('하위 폴더 파일도 해시에 포함한다', (t) => {
     if (!['research', 'figma'].includes(id)) approve(dir, id, { by: 'PM' });
   }
   assert.deepEqual(Object.keys(readApprovals(dir).approvals.handoff.files), [
-    'handoff.md',
+    'HANDOFF.md',
     'specs/S01.md',
     'tokens/tokens.css',
   ]);

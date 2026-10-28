@@ -30,18 +30,20 @@ work/<프로젝트>/
 │   └── open-questions.md
 ├── 02-research/
 │   ├── research.md
-│   ├── references/         # 참고 화면 캡처, 링크 목록
+│   ├── references/         # 참고 화면 캡처(links.md → *.png, captures.json), 링크 목록
 │   └── insights.md
 ├── 03-ia/
 │   ├── sitemap.md
 │   ├── screens.md          # 화면 목록 (ID, 목적, 진입 경로, 관련 요구사항)
 │   └── flows.md            # 주요 사용자 흐름
 ├── 04-wireframe/
-│   ├── <화면ID>.md         # 화면별 구성 요소와 배치 설명
-│   └── <화면ID>.svg        # 저충실도 와이어프레임
+│   ├── <화면ID>.md         # 화면별 구성 요소와 배치 설명 (## 레이아웃, ## 상태: <이름>)
+│   └── <화면ID>.svg        # 저충실도 와이어프레임 (md 에서 생성)
 ├── 05-design-system/
 │   ├── tokens.json         # 색, 타이포, 간격, 반경, 그림자
-│   ├── components.md       # 컴포넌트 목록과 상태(variant)
+│   ├── components.json     # 컴포넌트 목록과 상태(variant)
+│   ├── copy.json           # 용어, 금지 문구, 메시지
+│   ├── DESIGN.md           # 위 세 JSON 에서 생성한 정리본
 │   └── principles.md
 ├── 06-figma/
 │   ├── figma.md            # 파일 URL, 페이지 구성
@@ -50,7 +52,7 @@ work/<프로젝트>/
 │   ├── report.md           # 검증 결과 요약
 │   └── issues.md           # 발견 문제, 심각도, 되돌릴 단계
 └── 08-handoff/
-    ├── handoff.md          # 개발자용 안내서
+    ├── HANDOFF.md          # 개발자용 안내서 (생성)
     ├── specs/<화면ID>.md   # 화면별 상세 스펙
     └── tokens/             # 플랫폼별 토큰 내보내기 (css, json 등)
 ```
@@ -65,10 +67,12 @@ work/<프로젝트>/
 | 2 | 리서치 | `02-research/research.md`, `references/`, `insights.md` | 경쟁/참고 사례 최소 3개 분석, 각 인사이트가 PRD 요구사항 ID와 연결됨. 출처 없는 주장 없음 | 불필요 (요약만 보고) |
 | 3 | 화면 구조 | `03-ia/sitemap.md`, `screens.md`, `flows.md` | PRD의 모든 요구사항 ID가 하나 이상의 화면에 매핑됨. 모든 화면에 진입 경로가 있음(고립 화면 없음). 주요 흐름이 끝까지 이어짐 | **필요** — 화면 목록과 흐름 확정 |
 | 4 | 와이어프레임 | `04-wireframe/<화면ID>.md`, `<화면ID>.svg` | `screens.md`의 모든 화면에 와이어프레임 존재. 빈 상태·오류·로딩 상태가 필요한 화면은 해당 상태 포함 | **필요** — 레이아웃 방향 확정 |
-| 5 | 디자인 시스템 | `05-design-system/tokens.json`, `components.md`, `principles.md` | 와이어프레임에 쓰인 모든 요소가 컴포넌트 목록에 있음. 텍스트/배경 색 조합이 WCAG AA 대비 기준 충족. 토큰 JSON 스키마 검사 통과 | **필요** — 시각 방향(색, 타이포) 확정 |
+| 5 | 디자인 시스템 | `05-design-system/tokens.json`, `components.json`, `copy.json`, `DESIGN.md`, `principles.md` | 와이어프레임에 쓰인 모든 요소가 컴포넌트 목록에 있음. 텍스트/배경 색 조합이 WCAG AA 대비 기준 충족. 세 JSON 스키마 검사 통과, `DESIGN.md`가 JSON 내용과 일치 | **필요** — 시각 방향(색, 타이포) 확정 |
 | 6 | 피그마 | `06-figma/figma.md`, `node-map.json` | 토큰이 Figma 변수/스타일로 등록됨. 모든 화면ID와 컴포넌트가 `node-map.json`에 노드 ID로 연결됨 | 불필요 (검증 단계에서 함께 확인) |
 | 7 | 검증 | `07-verify/report.md`, `issues.md` | `issues.md`에 "차단" 심각도 문제가 0건. 나머지 문제는 수정 또는 "수용"으로 표시됨 | **필요** — 결과 확인과 남은 문제 수용 여부 결정 |
-| 8 | 핸드오프 | `08-handoff/handoff.md`, `specs/`, `tokens/` | 모든 화면에 스펙 존재, 토큰 내보내기 완료, 스펙의 Figma 링크가 유효함 | **필요** — 최종 인수 |
+| 8 | 핸드오프 | `08-handoff/HANDOFF.md`, `specs/`, `tokens/` | 모든 화면에 스펙 존재, 토큰 내보내기 완료, 스펙의 Figma 링크가 유효함 | **필요** — 최종 인수 |
+
+화면 HTML 이 있으면 `lint:web`으로 토큰 밖 색·글자 크기, 44px 미만 버튼, `copy.json` 금지 문구를 검사한다(검증 단계의 자동 항목 일부). 사람 검토 점수는 단계 진행을 막지 않는 기록으로 `work/<프로젝트>/reviews.json`에 쌓는다.
 
 ### 승인 원칙
 

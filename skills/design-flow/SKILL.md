@@ -63,7 +63,7 @@ description: 디자인 하네스 전체 흐름을 이끈다. PRD → 리서치 �
 
 ### 검증 (7단계)
 
-1. 화면 HTML 이 있으면 `design-harness lint:web` 을 돌린다.
+1. `design-harness lint:figma` 로 내보낸 노드를 검사한다(노드가 Figma 와 어긋났으면 다시 내보낸 뒤). 화면 HTML 이 있으면 `design-harness lint:web` 도 돌린다.
 2. 자동 항목(HARNESS-DESIGN.md 5장: 요구사항 추적, 토큰 사용, 대비, 터치 영역, 상태 누락)을 node-map·tokens·Figma 로 확인한다.
 3. `critic` 에이전트에 피그마 단계와 검증 단계를 비평시킨다(와이어프레임 대비 변경, 문구).
 4. 모두 모아 `07-verify/report.md`, `07-verify/issues.md`(문제마다 심각도 차단/주요/경미, 되돌릴 단계, 상태: 미해결/수정/수용 제안) 를 쓴다. "수용"은 사람이 정한다. AI 는 "수용 제안"까지만 적는다.

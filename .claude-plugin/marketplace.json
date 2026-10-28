@@ -1,0 +1,17 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "design-harness",
+  "description": "디자인 하네스 플러그인 배포용 마켓플레이스",
+  "owner": {
+    "name": "dante01yoon"
+  },
+  "plugins": [
+    {
+      "name": "design-harness",
+      "description": "디자인 작업을 단계로 나누고, 단계마다 산출물·통과 조건·사람 승인을 강제하는 하네스",
+      "version": "0.1.0",
+      "category": "design",
+      "source": "./"
+    }
+  ]
+}

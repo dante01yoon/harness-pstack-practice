@@ -46,8 +46,10 @@ work/<프로젝트>/
 │   ├── DESIGN.md           # 위 세 JSON 에서 생성한 정리본
 │   └── principles.md
 ├── 06-figma/
+│   ├── figma.json          # 쓰기 대상 Figma 파일 (fileUrl 또는 fileKey) — 이 파일에만 쓸 수 있음
 │   ├── figma.md            # 파일 URL, 페이지 구성
-│   └── node-map.json       # 화면ID/컴포넌트 ↔ Figma 노드 ID
+│   ├── node-map.json       # 화면ID/컴포넌트 ↔ Figma 노드 ID
+│   └── nodes/*.json        # 내보낸 노드 (REST API 노드 JSON) — lint:figma 검사 대상
 ├── 07-verify/
 │   ├── report.md           # 검증 결과 요약
 │   └── issues.md           # 발견 문제, 심각도, 되돌릴 단계
@@ -68,11 +70,11 @@ work/<프로젝트>/
 | 3 | 화면 구조 | `03-ia/sitemap.md`, `screens.md`, `flows.md` | PRD의 모든 요구사항 ID가 하나 이상의 화면에 매핑됨. 모든 화면에 진입 경로가 있음(고립 화면 없음). 주요 흐름이 끝까지 이어짐 | **필요** — 화면 목록과 흐름 확정 |
 | 4 | 와이어프레임 | `04-wireframe/<화면ID>.md`, `<화면ID>.svg` | `screens.md`의 모든 화면에 와이어프레임 존재. 빈 상태·오류·로딩 상태가 필요한 화면은 해당 상태 포함 | **필요** — 레이아웃 방향 확정 |
 | 5 | 디자인 시스템 | `05-design-system/tokens.json`, `components.json`, `copy.json`, `DESIGN.md`, `principles.md` | 와이어프레임에 쓰인 모든 요소가 컴포넌트 목록에 있음. 텍스트/배경 색 조합이 WCAG AA 대비 기준 충족. 세 JSON 스키마 검사 통과, `DESIGN.md`가 JSON 내용과 일치 | **필요** — 시각 방향(색, 타이포) 확정 |
-| 6 | 피그마 | `06-figma/figma.md`, `node-map.json` | 토큰이 Figma 변수/스타일로 등록됨. 모든 화면ID와 컴포넌트가 `node-map.json`에 노드 ID로 연결됨 | 불필요 (검증 단계에서 함께 확인) |
+| 6 | 피그마 | `06-figma/figma.json`, `figma.md`, `node-map.json`, `nodes/` | 토큰이 Figma 변수/스타일로 등록됨. 모든 화면ID와 컴포넌트가 `node-map.json`에 노드 ID로 연결됨 | 불필요 (검증 단계에서 함께 확인) |
 | 7 | 검증 | `07-verify/report.md`, `issues.md` | `issues.md`에 "차단" 심각도 문제가 0건. 나머지 문제는 수정 또는 "수용"으로 표시됨 | **필요** — 결과 확인과 남은 문제 수용 여부 결정 |
 | 8 | 핸드오프 | `08-handoff/HANDOFF.md`, `specs/`, `tokens/` | 모든 화면에 스펙 존재, 토큰 내보내기 완료, 스펙의 Figma 링크가 유효함 | **필요** — 최종 인수 |
 
-화면 HTML 이 있으면 `lint:web`으로 토큰 밖 색·글자 크기, 44px 미만 버튼, `copy.json` 금지 문구를 검사한다(검증 단계의 자동 항목 일부). 사람 검토 점수는 단계 진행을 막지 않는 기록으로 `work/<프로젝트>/reviews.json`에 쌓는다.
+내보낸 Figma 노드는 `lint:figma`로 토큰 밖 색·글자 크기·글꼴·간격, 44px 미만 인터랙티브 요소, 금지 문구, variant 누락을 검사한다. 화면 HTML 이 있으면 `lint:web`으로 토큰 밖 색·글자 크기, 44px 미만 버튼, `copy.json` 금지 문구를 검사한다(검증 단계의 자동 항목 일부). 사람 검토 점수는 단계 진행을 막지 않는 기록으로 `work/<프로젝트>/reviews.json`에 쌓는다.
 
 ### 승인 원칙
 
@@ -135,6 +137,9 @@ design-harness/                 # 이 저장소 = 플러그인
 - 승인이 필요한 단계는 `state.json`에 유효한 승인이 없으면 이동하지 않는다.
 - `PreToolUse` 훅으로 아직 열리지 않은 단계 폴더(`work/<프로젝트>/0N-*/`)에 쓰는 것을 막는다. 앞 단계를 건너뛰고 산출물을 만드는 것을 방지한다.
 - `state.json`의 승인 필드는 `/design-approve`를 거쳐서만 바뀌도록, 직접 편집도 훅으로 막는다.
+- Figma MCP 쓰기 도구는 `PreToolUse` 훅이 호출 직전에 검사한다. 도구 입력의 파일 키가 `06-figma/figma.json`의 파일이고 피그마 단계가 열렸을 때(디자인 시스템까지 승인)만 통과한다. 파일 키를 알 수 없는 쓰기도 막는다.
+- Figma 쓰기 뒤에는 `PostToolUse` 훅이 바뀐 노드를 `06-figma/nodes/`에 다시 내보내고 `lint:figma`를 돌리라고 알린다.
+- 답을 끝낼 때 `Stop` 훅이 `check`를 돌려 프로젝트별 현재 단계와 빠진 것을 사람에게 보여 준다. 답을 막지는 않는다.
 
 ### state.json 형태 (안)
 

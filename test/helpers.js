@@ -20,6 +20,8 @@ export const COPY = {
   banned: ['클릭하세요', { phrase: '오류가 발생했습니다', reason: '원인과 할 일을 적는다' }],
   messages: { 'login.failed': '이메일 또는 비밀번호가 맞지 않아요' },
 };
+export const FIGMA_KEY = 'AbCdEf1234567890XyZ';
+export const FIGMA_URL = `https://www.figma.com/design/${FIGMA_KEY}/Demo`;
 const json = (v) => JSON.stringify(v, null, 2);
 
 // 임시 루트에 work/<name>/ 프로젝트를 만든다.
@@ -58,7 +60,7 @@ export const FILL = {
     w('05-design-system/principles.md');
     w('05-design-system/DESIGN.md', renderDesignMd({ tokens: TOKENS, components: COMPONENTS, copy: COPY }));
   },
-  figma: (w) => { w('06-figma/figma.md'); w('06-figma/node-map.json', '{}'); },
+  figma: (w) => { w('06-figma/figma.json', json({ fileUrl: FIGMA_URL })); w('06-figma/figma.md'); w('06-figma/node-map.json', '{}'); },
   verify: (w) => { w('07-verify/report.md'); w('07-verify/issues.md'); },
   handoff: (w) => { w('08-handoff/HANDOFF.md'); w('08-handoff/specs/S01.md'); w('08-handoff/tokens/tokens.css'); },
 };

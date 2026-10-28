@@ -1,0 +1,5 @@
+{
+  "name": "design-harness",
+  "version": "0.1.0",
+  "description": "디자인 작업을 단계로 나누고, 단계마다 산출물·통과 조건·사람 승인을 강제하는 하네스"
+}

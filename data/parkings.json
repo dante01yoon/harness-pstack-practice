@@ -1,0 +1,3911 @@
+{
+ "source": "서울 열린데이터광장 GetParkingInfo(OA-21709) + GetParkInfo(OA-13122) LAT·LOT, PKLT_CD로 결합",
+ "license": "공공누리 제1유형(출처표시)",
+ "fetchedAt": "2026-10-28T00:02+09:00",
+ "rows": [
+  {
+   "code": "171721",
+   "name": "세종로 공영주차장(시)",
+   "gu": "종로구",
+   "addr": "종로구 세종로 80-1",
+   "tel": "02-2290-6566",
+   "live": true,
+   "total": 1260,
+   "parked": 193,
+   "vacant": 1067,
+   "updatedAt": "2026-10-28 00:01:23",
+   "paid": true,
+   "basicFee": 430,
+   "basicMin": 5,
+   "addFee": 430,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0000",
+    "2400"
+   ],
+   "sat": [
+    "0000",
+    "2400"
+   ],
+   "holiday": [
+    "0000",
+    "2400"
+   ],
+   "lat": 37.57340269,
+   "lng": 126.97588429
+  },
+  {
+   "code": "171730",
+   "name": "종묘주차장 공영주차장(시)",
+   "gu": "종로구",
+   "addr": "종로구 훈정동 2-0",
+   "tel": "02-2290-6166",
+   "live": true,
+   "total": 1312,
+   "parked": 321,
+   "vacant": 991,
+   "updatedAt": "2026-10-28 00:01:23",
+   "paid": true,
+   "basicFee": 400,
+   "basicMin": 5,
+   "addFee": 400,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0000",
+    "2400"
+   ],
+   "sat": [
+    "0000",
+    "2400"
+   ],
+   "holiday": [
+    "0000",
+    "2400"
+   ],
+   "lat": 37.57150398,
+   "lng": 126.99496888
+  },
+  {
+   "code": "171900",
+   "name": "훈련원공원 공영주차장(시)",
+   "gu": "중구",
+   "addr": "중구 을지로5가 40-3",
+   "tel": "02-3405-4597",
+   "live": true,
+   "total": 873,
+   "parked": 313,
+   "vacant": 560,
+   "updatedAt": "2026-10-28 00:01:23",
+   "paid": true,
+   "basicFee": 550,
+   "basicMin": 5,
+   "addFee": 550,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0000",
+    "2400"
+   ],
+   "sat": [
+    "0000",
+    "2400"
+   ],
+   "holiday": [
+    "0000",
+    "2400"
+   ],
+   "lat": null,
+   "lng": null
+  },
+  {
+   "code": "172051",
+   "name": "한강진역 공영주차장(시)",
+   "gu": "용산구",
+   "addr": "용산구 한남동 728-27",
+   "tel": "02-795-6406",
+   "live": true,
+   "total": 174,
+   "parked": 21,
+   "vacant": 153,
+   "updatedAt": "2026-10-28 00:01:23",
+   "paid": true,
+   "basicFee": 400,
+   "basicMin": 5,
+   "addFee": 400,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0000",
+    "2400"
+   ],
+   "sat": [
+    "0000",
+    "2400"
+   ],
+   "holiday": [
+    "0000",
+    "2400"
+   ],
+   "lat": null,
+   "lng": null
+  },
+  {
+   "code": "172065",
+   "name": "용산주차빌딩 공영주차장(시)",
+   "gu": "용산구",
+   "addr": "용산구 한강로2가 12-9",
+   "tel": "02-2290-6014",
+   "live": true,
+   "total": 559,
+   "parked": 109,
+   "vacant": 450,
+   "updatedAt": "2026-10-28 00:01:23",
+   "paid": true,
+   "basicFee": 270,
+   "basicMin": 5,
+   "addFee": 270,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0000",
+    "2400"
+   ],
+   "sat": [
+    "0000",
+    "2400"
+   ],
+   "holiday": [
+    "0000",
+    "2400"
+   ],
+   "lat": 37.53436379,
+   "lng": 126.96541818
+  },
+  {
+   "code": "172935",
+   "name": "웃우물 공영주차장(시)",
+   "gu": "양천구",
+   "addr": "양천구 신정동 943-25",
+   "tel": "02-2290-6311",
+   "live": true,
+   "total": 79,
+   "parked": 47,
+   "vacant": 32,
+   "updatedAt": "2026-10-28 00:01:23",
+   "paid": true,
+   "basicFee": 200,
+   "basicMin": 5,
+   "addFee": 200,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0000",
+    "2400"
+   ],
+   "sat": [
+    "0000",
+    "2400"
+   ],
+   "holiday": [
+    "0000",
+    "2400"
+   ],
+   "lat": 37.52379759,
+   "lng": 126.85141746
+  },
+  {
+   "code": "172937",
+   "name": "목동체비지 공영주차장(시)",
+   "gu": "양천구",
+   "addr": "양천구 목동 908-26",
+   "tel": "",
+   "live": true,
+   "total": 55,
+   "parked": 14,
+   "vacant": 41,
+   "updatedAt": "2026-10-28 00:01:23",
+   "paid": true,
+   "basicFee": 130,
+   "basicMin": 5,
+   "addFee": 130,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0800",
+    "2100"
+   ],
+   "sat": [
+    "0800",
+    "2100"
+   ],
+   "holiday": [
+    "0800",
+    "2100"
+   ],
+   "lat": 37.53679354,
+   "lng": 126.8806468
+  },
+  {
+   "code": "172970",
+   "name": "방화역(서) 공영주차장(시)",
+   "gu": "강서구",
+   "addr": "강서구 방화동 829-1",
+   "tel": "",
+   "live": true,
+   "total": 69,
+   "parked": 15,
+   "vacant": 54,
+   "updatedAt": "2026-10-28 00:01:23",
+   "paid": true,
+   "basicFee": 290,
+   "basicMin": 5,
+   "addFee": 290,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0800",
+    "2100"
+   ],
+   "sat": [
+    "0800",
+    "2100"
+   ],
+   "holiday": [
+    "0800",
+    "2100"
+   ],
+   "lat": 37.57757395,
+   "lng": 126.81217459
+  },
+  {
+   "code": "172971",
+   "name": "방화역(동) 공영주차장(시)",
+   "gu": "강서구",
+   "addr": "강서구 방화동 830-4",
+   "tel": "",
+   "live": true,
+   "total": 67,
+   "parked": 67,
+   "vacant": 0,
+   "updatedAt": "2026-10-28 00:01:23",
+   "paid": true,
+   "basicFee": 290,
+   "basicMin": 5,
+   "addFee": 290,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0800",
+    "2100"
+   ],
+   "sat": [
+    "0800",
+    "2100"
+   ],
+   "holiday": [
+    "0800",
+    "2100"
+   ],
+   "lat": 37.57730116,
+   "lng": 126.81331479
+  },
+  {
+   "code": "172979",
+   "name": "개화산역 공영주차장(시)",
+   "gu": "강서구",
+   "addr": "강서구 방화동 845-0",
+   "tel": "02-2290-6064",
+   "live": true,
+   "total": 320,
+   "parked": 108,
+   "vacant": 212,
+   "updatedAt": "2026-10-28 00:01:23",
+   "paid": true,
+   "basicFee": 290,
+   "basicMin": 5,
+   "addFee": 290,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0000",
+    "2400"
+   ],
+   "sat": [
+    "0000",
+    "2400"
+   ],
+   "holiday": [
+    "0000",
+    "2400"
+   ],
+   "lat": 37.57224302,
+   "lng": 126.80518976
+  },
+  {
+   "code": "173005",
+   "name": "가양3동 공영주차장(시)",
+   "gu": "강서구",
+   "addr": "강서구 가양동 1488-12",
+   "tel": "",
+   "live": true,
+   "total": 56,
+   "parked": 56,
+   "vacant": 0,
+   "updatedAt": "2026-10-28 00:01:23",
+   "paid": true,
+   "basicFee": 200,
+   "basicMin": 5,
+   "addFee": 200,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "1900"
+   ],
+   "sat": [
+    "0900",
+    "1500"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.56033753,
+   "lng": 126.85977547
+  },
+  {
+   "code": "173047",
+   "name": "가양역 공영주차장(시)",
+   "gu": "강서구",
+   "addr": "강서구 가양동 1480-10",
+   "tel": "",
+   "live": true,
+   "total": 79,
+   "parked": 49,
+   "vacant": 30,
+   "updatedAt": "2026-10-28 00:01:23",
+   "paid": true,
+   "basicFee": 320,
+   "basicMin": 5,
+   "addFee": 320,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0800",
+    "2100"
+   ],
+   "sat": [
+    "0800",
+    "2100"
+   ],
+   "holiday": [
+    "0800",
+    "2100"
+   ],
+   "lat": 37.56332959,
+   "lng": 126.85308175
+  },
+  {
+   "code": "173424",
+   "name": "일원역 공영주차장(시)",
+   "gu": "강남구",
+   "addr": "강남구 일원동 716-2",
+   "tel": "",
+   "live": true,
+   "total": 67,
+   "parked": 3,
+   "vacant": 64,
+   "updatedAt": "2026-10-28 00:01:23",
+   "paid": true,
+   "basicFee": 290,
+   "basicMin": 5,
+   "addFee": 290,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "1900"
+   ],
+   "sat": [
+    "0900",
+    "1500"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.48468629,
+   "lng": 127.08408987
+  },
+  {
+   "code": "173452",
+   "name": "사당노외 공영주차장(시)",
+   "gu": "서초구",
+   "addr": "서초구 방배동 507-1",
+   "tel": "02-3405-4078",
+   "live": true,
+   "total": 183,
+   "parked": 79,
+   "vacant": 104,
+   "updatedAt": "2026-10-28 00:01:23",
+   "paid": true,
+   "basicFee": 400,
+   "basicMin": 5,
+   "addFee": 400,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0000",
+    "2400"
+   ],
+   "sat": [
+    "0000",
+    "2400"
+   ],
+   "holiday": [
+    "0000",
+    "2400"
+   ],
+   "lat": 37.47543791,
+   "lng": 126.98377372
+  },
+  {
+   "code": "173553",
+   "name": "수서역 공영주차장(시)",
+   "gu": "강남구",
+   "addr": "강남구 수서동 735-0",
+   "tel": "02-3405-4076",
+   "live": true,
+   "total": 561,
+   "parked": 215,
+   "vacant": 346,
+   "updatedAt": "2026-10-28 00:01:23",
+   "paid": true,
+   "basicFee": 320,
+   "basicMin": 5,
+   "addFee": 320,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0000",
+    "2400"
+   ],
+   "sat": [
+    "0000",
+    "2400"
+   ],
+   "holiday": [
+    "0000",
+    "2400"
+   ],
+   "lat": 37.48801285,
+   "lng": 127.09994995
+  },
+  {
+   "code": "173646",
+   "name": "신천유수지 공영주차장(시)",
+   "gu": "송파구",
+   "addr": "송파구 신천동 14-0",
+   "tel": "02-414-6417",
+   "live": true,
+   "total": 192,
+   "parked": 68,
+   "vacant": 124,
+   "updatedAt": "2026-10-28 00:01:23",
+   "paid": true,
+   "basicFee": 440,
+   "basicMin": 5,
+   "addFee": 440,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0000",
+    "2400"
+   ],
+   "sat": [
+    "0000",
+    "2400"
+   ],
+   "holiday": [
+    "0000",
+    "2400"
+   ],
+   "lat": 37.52231457,
+   "lng": 127.10290327
+  },
+  {
+   "code": "173752",
+   "name": "복정역 공영주차장(시)",
+   "gu": "송파구",
+   "addr": "송파구 장지동 600-2",
+   "tel": "02-3405-4075",
+   "live": true,
+   "total": 362,
+   "parked": 57,
+   "vacant": 305,
+   "updatedAt": "2026-10-28 00:01:23",
+   "paid": true,
+   "basicFee": 280,
+   "basicMin": 5,
+   "addFee": 280,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0000",
+    "2400"
+   ],
+   "sat": [
+    "0000",
+    "2400"
+   ],
+   "holiday": [
+    "0000",
+    "2400"
+   ],
+   "lat": 37.47005293,
+   "lng": 127.1277329
+  },
+  {
+   "code": "173828",
+   "name": "남산한옥마을 공영주차장(시)",
+   "gu": "중구",
+   "addr": "중구 필동2가 83-1",
+   "tel": "",
+   "live": true,
+   "total": 16,
+   "parked": 1,
+   "vacant": 15,
+   "updatedAt": "2026-10-28 00:01:32",
+   "paid": true,
+   "basicFee": 500,
+   "basicMin": 5,
+   "addFee": 500,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "2000"
+   ],
+   "sat": [
+    "0900",
+    "2000"
+   ],
+   "holiday": [
+    "0900",
+    "2000"
+   ],
+   "lat": 37.56005799,
+   "lng": 126.99316078
+  },
+  {
+   "code": "173831",
+   "name": "도봉산 공영주차장(시)",
+   "gu": "도봉구",
+   "addr": "도봉구 도봉동 282-26",
+   "tel": "",
+   "live": true,
+   "total": 142,
+   "parked": 46,
+   "vacant": 96,
+   "updatedAt": "2026-10-28 00:01:23",
+   "paid": true,
+   "basicFee": 170,
+   "basicMin": 5,
+   "addFee": 170,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0800",
+    "2200"
+   ],
+   "sat": [
+    "0800",
+    "2200"
+   ],
+   "holiday": [
+    "0800",
+    "2200"
+   ],
+   "lat": 37.6876442,
+   "lng": 127.04066026
+  },
+  {
+   "code": "173840",
+   "name": "볕우물 공영주차장(시)",
+   "gu": "강동구",
+   "addr": "강동구 암사동 473-3",
+   "tel": "02-2290-6410",
+   "live": true,
+   "total": 96,
+   "parked": 86,
+   "vacant": 10,
+   "updatedAt": "2026-10-28 00:01:23",
+   "paid": true,
+   "basicFee": 120,
+   "basicMin": 5,
+   "addFee": 120,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0000",
+    "0000"
+   ],
+   "sat": [
+    "0000",
+    "0000"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.55237413,
+   "lng": 127.13512275
+  },
+  {
+   "code": "173867",
+   "name": "천호역 공영주차장(시)",
+   "gu": "강동구",
+   "addr": "강동구 천호동 455-0",
+   "tel": "02-2290-6201",
+   "live": true,
+   "total": 1431,
+   "parked": 570,
+   "vacant": 861,
+   "updatedAt": "2026-10-28 00:01:23",
+   "paid": true,
+   "basicFee": 360,
+   "basicMin": 5,
+   "addFee": 360,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0000",
+    "2400"
+   ],
+   "sat": [
+    "0000",
+    "2400"
+   ],
+   "holiday": [
+    "0000",
+    "2400"
+   ],
+   "lat": 37.53849749,
+   "lng": 127.12512853
+  },
+  {
+   "code": "1037932",
+   "name": "구로디지털단지역 공영주차장(시)",
+   "gu": "구로구",
+   "addr": "구로구 구로동 810-3",
+   "tel": "02-2290-6034",
+   "live": true,
+   "total": 91,
+   "parked": 30,
+   "vacant": 61,
+   "updatedAt": "2026-10-28 00:01:23",
+   "paid": true,
+   "basicFee": 320,
+   "basicMin": 5,
+   "addFee": 320,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0000",
+    "2400"
+   ],
+   "sat": [
+    "0000",
+    "2400"
+   ],
+   "holiday": [
+    "0000",
+    "2400"
+   ],
+   "lat": 37.48543179,
+   "lng": 126.90124331
+  },
+  {
+   "code": "1051043",
+   "name": "구파발역 공영주차장(시)",
+   "gu": "은평구",
+   "addr": "은평구 진관동 70-1",
+   "tel": "02-2290-6088",
+   "live": true,
+   "total": 399,
+   "parked": 65,
+   "vacant": 334,
+   "updatedAt": "2026-10-28 00:01:23",
+   "paid": true,
+   "basicFee": 240,
+   "basicMin": 5,
+   "addFee": 240,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0000",
+    "2400"
+   ],
+   "sat": [
+    "0000",
+    "2400"
+   ],
+   "holiday": [
+    "0000",
+    "2400"
+   ],
+   "lat": 37.638209,
+   "lng": 126.918987
+  },
+  {
+   "code": "1163833",
+   "name": "봉천복개3 공영주차장(시)",
+   "gu": "관악구",
+   "addr": "관악구 신림동 1467-3",
+   "tel": "",
+   "live": true,
+   "total": 59,
+   "parked": 39,
+   "vacant": 20,
+   "updatedAt": "2026-10-28 00:01:26",
+   "paid": true,
+   "basicFee": 220,
+   "basicMin": 5,
+   "addFee": 220,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "1900"
+   ],
+   "sat": [
+    "0900",
+    "1500"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.48687558,
+   "lng": 126.93314145
+  },
+  {
+   "code": "1167546",
+   "name": "독산동 금천교 공영주차장(시)",
+   "gu": "금천구",
+   "addr": "금천구 독산동 1081-4",
+   "tel": "",
+   "live": true,
+   "total": 21,
+   "parked": 10,
+   "vacant": 11,
+   "updatedAt": "2026-10-28 00:01:34",
+   "paid": true,
+   "basicFee": 400,
+   "basicMin": 5,
+   "addFee": 400,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "1900"
+   ],
+   "sat": [
+    "0900",
+    "1500"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.46654071,
+   "lng": 126.89003194
+  },
+  {
+   "code": "1208601",
+   "name": "청계2(북2) 공영주차장(시)",
+   "gu": "종로구",
+   "addr": "종로구 관수동 91-4",
+   "tel": "",
+   "live": true,
+   "total": 9,
+   "parked": 4,
+   "vacant": 5,
+   "updatedAt": "2026-10-28 00:01:32",
+   "paid": true,
+   "basicFee": 750,
+   "basicMin": 5,
+   "addFee": 750,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "1900"
+   ],
+   "sat": [
+    "0900",
+    "1500"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.56877035,
+   "lng": 126.99578643
+  },
+  {
+   "code": "1210657",
+   "name": "청계3(북1) 공영주차장(시)",
+   "gu": "종로구",
+   "addr": "종로구 예지동 140-1",
+   "tel": "",
+   "live": true,
+   "total": 19,
+   "parked": 2,
+   "vacant": 17,
+   "updatedAt": "2026-10-28 00:01:30",
+   "paid": true,
+   "basicFee": 750,
+   "basicMin": 5,
+   "addFee": 750,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "1900"
+   ],
+   "sat": [
+    "0900",
+    "1500"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.56928478,
+   "lng": 126.99911222
+  },
+  {
+   "code": "1234305",
+   "name": "가마산고가밑 공영주차장(시)",
+   "gu": "구로구",
+   "addr": "구로구 구로동 414-13",
+   "tel": "",
+   "live": true,
+   "total": 18,
+   "parked": 9,
+   "vacant": 9,
+   "updatedAt": "2026-10-28 00:01:24",
+   "paid": true,
+   "basicFee": 120,
+   "basicMin": 5,
+   "addFee": 120,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "1900"
+   ],
+   "sat": [
+    "0900",
+    "1500"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.49279709,
+   "lng": 126.88255837
+  },
+  {
+   "code": "1235522",
+   "name": "청계3(남) 공영주차장(시)",
+   "gu": "중구",
+   "addr": "중구 주교동 51-3",
+   "tel": "",
+   "live": false,
+   "total": 20,
+   "parked": 0,
+   "vacant": 20,
+   "updatedAt": null,
+   "paid": true,
+   "basicFee": 750,
+   "basicMin": 5,
+   "addFee": 750,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "1900"
+   ],
+   "sat": [
+    "0900",
+    "1500"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.56884923,
+   "lng": 126.99869978
+  },
+  {
+   "code": "1235665",
+   "name": "청계6(청평화) 공영주차장(시)",
+   "gu": "중구",
+   "addr": "중구 신당동 217-91 0",
+   "tel": "02-2252-8036",
+   "live": true,
+   "total": 5,
+   "parked": 3,
+   "vacant": 2,
+   "updatedAt": "2026-10-28 00:01:36",
+   "paid": true,
+   "basicFee": 450,
+   "basicMin": 5,
+   "addFee": 450,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0000",
+    "2400"
+   ],
+   "sat": [
+    "0000",
+    "2400"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.56959934,
+   "lng": 127.01508269
+  },
+  {
+   "code": "1236612",
+   "name": "남대문 화물 공영주차장(시)",
+   "gu": "중구",
+   "addr": "중구 남대문로4가 24-1",
+   "tel": "",
+   "live": false,
+   "total": 9,
+   "parked": 0,
+   "vacant": 9,
+   "updatedAt": null,
+   "paid": true,
+   "basicFee": 400,
+   "basicMin": 5,
+   "addFee": 400,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "1900"
+   ],
+   "sat": [
+    "0900",
+    "1900"
+   ],
+   "holiday": [
+    "0900",
+    "1900"
+   ],
+   "lat": 37.56092361,
+   "lng": 126.97794273
+  },
+  {
+   "code": "1247636",
+   "name": "신설동 공영주차장(시)",
+   "gu": "동대문구",
+   "addr": "동대문구 신설동 114-29",
+   "tel": "02-2232-6096",
+   "live": true,
+   "total": 79,
+   "parked": 37,
+   "vacant": 42,
+   "updatedAt": "2026-10-28 00:01:23",
+   "paid": true,
+   "basicFee": 360,
+   "basicMin": 5,
+   "addFee": 360,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "1900"
+   ],
+   "sat": [
+    "0900",
+    "1900"
+   ],
+   "holiday": [
+    "0900",
+    "1900"
+   ],
+   "lat": 37.57252061,
+   "lng": 127.02425684
+  },
+  {
+   "code": "1277144",
+   "name": "영등포구청역 공영주차장(시)",
+   "gu": "영등포구",
+   "addr": "영등포구 당산동3가 370-3",
+   "tel": "02-2290-6089",
+   "live": true,
+   "total": 137,
+   "parked": 58,
+   "vacant": 79,
+   "updatedAt": "2026-10-28 00:01:23",
+   "paid": true,
+   "basicFee": 400,
+   "basicMin": 5,
+   "addFee": 400,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0500",
+    "0100"
+   ],
+   "sat": [
+    "0500",
+    "0100"
+   ],
+   "holiday": [
+    "0500",
+    "0100"
+   ],
+   "lat": 37.52432737,
+   "lng": 126.89548892
+  },
+  {
+   "code": "1277145",
+   "name": "잠실역 공영주차장(시)",
+   "gu": "송파구",
+   "addr": "송파구 신천동 27-0",
+   "tel": "02-2290-6402",
+   "live": true,
+   "total": 357,
+   "parked": 53,
+   "vacant": 304,
+   "updatedAt": "2026-10-28 00:01:23",
+   "paid": true,
+   "basicFee": 440,
+   "basicMin": 5,
+   "addFee": 440,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0500",
+    "0100"
+   ],
+   "sat": [
+    "0500",
+    "0100"
+   ],
+   "holiday": [
+    "0500",
+    "0100"
+   ],
+   "lat": 37.51427683,
+   "lng": 127.10341414
+  },
+  {
+   "code": "1277146",
+   "name": "장안2동 공영주차장(시)",
+   "gu": "동대문구",
+   "addr": "동대문구 장안동 286-9",
+   "tel": "02-2290-6417",
+   "live": true,
+   "total": 80,
+   "parked": 51,
+   "vacant": 29,
+   "updatedAt": "2026-10-28 00:01:23",
+   "paid": true,
+   "basicFee": 130,
+   "basicMin": 5,
+   "addFee": 130,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0000",
+    "2400"
+   ],
+   "sat": [
+    "0000",
+    "2400"
+   ],
+   "holiday": [
+    "0000",
+    "2400"
+   ],
+   "lat": 37.5782752,
+   "lng": 127.07061896
+  },
+  {
+   "code": "1277160",
+   "name": "당산노외 공영주차장(시)",
+   "gu": "영등포구",
+   "addr": "영등포구 당산동3가 2-1",
+   "tel": "02-1533-2315",
+   "live": true,
+   "total": 236,
+   "parked": 38,
+   "vacant": 198,
+   "updatedAt": "2026-10-28 00:01:23",
+   "paid": true,
+   "basicFee": 400,
+   "basicMin": 5,
+   "addFee": 400,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0800",
+    "2100"
+   ],
+   "sat": [
+    "0800",
+    "2100"
+   ],
+   "holiday": [
+    "0800",
+    "2100"
+   ],
+   "lat": 37.52625065,
+   "lng": 126.89945376
+  },
+  {
+   "code": "1277163",
+   "name": "명일파출소 공영주차장(시)",
+   "gu": "강동구",
+   "addr": "강동구 명일동 47-9",
+   "tel": "",
+   "live": true,
+   "total": 12,
+   "parked": 5,
+   "vacant": 7,
+   "updatedAt": "2026-10-28 00:01:28",
+   "paid": true,
+   "basicFee": 220,
+   "basicMin": 5,
+   "addFee": 220,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "2000"
+   ],
+   "sat": [
+    "0900",
+    "1500"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.55361065,
+   "lng": 127.15591212
+  },
+  {
+   "code": "1366527",
+   "name": "동작대교 공영주차장(시)",
+   "gu": "용산구",
+   "addr": "용산구 용산동6가 69-11",
+   "tel": "",
+   "live": true,
+   "total": 88,
+   "parked": 50,
+   "vacant": 38,
+   "updatedAt": "2026-10-28 00:01:23",
+   "paid": true,
+   "basicFee": 120,
+   "basicMin": 5,
+   "addFee": 120,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0800",
+    "2200"
+   ],
+   "sat": [
+    "0800",
+    "2200"
+   ],
+   "holiday": [
+    "0800",
+    "2200"
+   ],
+   "lat": 37.518577,
+   "lng": 126.983287
+  },
+  {
+   "code": "1366576",
+   "name": "개화역 공영주차장(시)",
+   "gu": "강서구",
+   "addr": "강서구 개화동 664-0",
+   "tel": "02-2290-6312",
+   "live": true,
+   "total": 480,
+   "parked": 117,
+   "vacant": 363,
+   "updatedAt": "2026-10-28 00:01:23",
+   "paid": true,
+   "basicFee": 290,
+   "basicMin": 5,
+   "addFee": 290,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0000",
+    "2400"
+   ],
+   "sat": [
+    "0000",
+    "2400"
+   ],
+   "holiday": [
+    "0000",
+    "2400"
+   ],
+   "lat": 37.57798421,
+   "lng": 126.79821222
+  },
+  {
+   "code": "1366590",
+   "name": "신대방역 공영주차장(시)",
+   "gu": "관악구",
+   "addr": "관악구 신림동 498-0",
+   "tel": "02-2290-6144",
+   "live": true,
+   "total": 60,
+   "parked": 33,
+   "vacant": 27,
+   "updatedAt": "2026-10-28 00:01:23",
+   "paid": true,
+   "basicFee": 360,
+   "basicMin": 5,
+   "addFee": 360,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0000",
+    "2400"
+   ],
+   "sat": [
+    "0000",
+    "2400"
+   ],
+   "holiday": [
+    "0000",
+    "2400"
+   ],
+   "lat": 37.48830327,
+   "lng": 126.91452278
+  },
+  {
+   "code": "1366593",
+   "name": "구로디지털단지역(상) 공영주차장(시)",
+   "gu": "관악구",
+   "addr": "관악구 신림동 1677-5",
+   "tel": "",
+   "live": true,
+   "total": 31,
+   "parked": 8,
+   "vacant": 23,
+   "updatedAt": "2026-10-28 00:01:23",
+   "paid": true,
+   "basicFee": 360,
+   "basicMin": 5,
+   "addFee": 360,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0800",
+    "2100"
+   ],
+   "sat": [
+    "0800",
+    "2100"
+   ],
+   "holiday": [
+    "0800",
+    "2100"
+   ],
+   "lat": 37.48481135,
+   "lng": 126.90323392
+  },
+  {
+   "code": "1366600",
+   "name": "학여울역 공영주차장(시)",
+   "gu": "강남구",
+   "addr": "강남구 대치동 514-1",
+   "tel": "02-3405-4074",
+   "live": true,
+   "total": 180,
+   "parked": 97,
+   "vacant": 83,
+   "updatedAt": "2026-10-28 00:01:23",
+   "paid": true,
+   "basicFee": 370,
+   "basicMin": 5,
+   "addFee": 370,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0500",
+    "0100"
+   ],
+   "sat": [
+    "0500",
+    "0100"
+   ],
+   "holiday": [
+    "0500",
+    "0100"
+   ],
+   "lat": null,
+   "lng": null
+  },
+  {
+   "code": "1366602",
+   "name": "일원터널 공영주차장(시)",
+   "gu": "강남구",
+   "addr": "강남구 일원동 722-1",
+   "tel": "02-2290-6449",
+   "live": false,
+   "total": 11,
+   "parked": 0,
+   "vacant": 11,
+   "updatedAt": null,
+   "paid": true,
+   "basicFee": 130,
+   "basicMin": 5,
+   "addFee": 130,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0000",
+    "2400"
+   ],
+   "sat": [
+    "0000",
+    "2400"
+   ],
+   "holiday": [
+    "0000",
+    "2400"
+   ],
+   "lat": 37.48285728,
+   "lng": 127.07937197
+  },
+  {
+   "code": "1366624",
+   "name": "창동역(서) 공영주차장(시)",
+   "gu": "도봉구",
+   "addr": "도봉구 창동 330-0",
+   "tel": "",
+   "live": true,
+   "total": 106,
+   "parked": 13,
+   "vacant": 93,
+   "updatedAt": "2026-10-28 00:01:23",
+   "paid": true,
+   "basicFee": 320,
+   "basicMin": 5,
+   "addFee": 320,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0000",
+    "2400"
+   ],
+   "sat": [
+    "0000",
+    "2400"
+   ],
+   "holiday": [
+    "0000",
+    "2400"
+   ],
+   "lat": 37.65237042,
+   "lng": 127.04567683
+  },
+  {
+   "code": "1366903",
+   "name": "석계역 공영주차장(시)",
+   "gu": "노원구",
+   "addr": "노원구 월계동 50-9",
+   "tel": "",
+   "live": true,
+   "total": 70,
+   "parked": 14,
+   "vacant": 56,
+   "updatedAt": "2026-10-28 00:01:23",
+   "paid": true,
+   "basicFee": 280,
+   "basicMin": 5,
+   "addFee": 280,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0000",
+    "2400"
+   ],
+   "sat": [
+    "0000",
+    "2400"
+   ],
+   "holiday": [
+    "0000",
+    "2400"
+   ],
+   "lat": 37.615292,
+   "lng": 127.062997
+  },
+  {
+   "code": "1367120",
+   "name": "동구로 공영주차장(시)",
+   "gu": "구로구",
+   "addr": "구로구 구로동 94-1",
+   "tel": "02-3405-4086",
+   "live": true,
+   "total": 70,
+   "parked": 38,
+   "vacant": 32,
+   "updatedAt": "2026-10-28 00:01:23",
+   "paid": true,
+   "basicFee": 320,
+   "basicMin": 5,
+   "addFee": 320,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0000",
+    "2400"
+   ],
+   "sat": [
+    "0000",
+    "2400"
+   ],
+   "holiday": [
+    "0000",
+    "2400"
+   ],
+   "lat": 37.49510602,
+   "lng": 126.89186155
+  },
+  {
+   "code": "1367564",
+   "name": "해군본부앞 공영주차장(시)",
+   "gu": "영등포구",
+   "addr": "영등포구 신길동 812-0",
+   "tel": "",
+   "live": true,
+   "total": 20,
+   "parked": 5,
+   "vacant": 15,
+   "updatedAt": "2026-10-28 00:01:26",
+   "paid": true,
+   "basicFee": 200,
+   "basicMin": 5,
+   "addFee": 200,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "1900"
+   ],
+   "sat": [
+    "0900",
+    "1500"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": null,
+   "lng": null
+  },
+  {
+   "code": "1367773",
+   "name": "가산동 금천교 공영주차장(시)",
+   "gu": "금천구",
+   "addr": "금천구 가산동 691-3",
+   "tel": "",
+   "live": true,
+   "total": 37,
+   "parked": 12,
+   "vacant": 25,
+   "updatedAt": "2026-10-28 00:01:24",
+   "paid": true,
+   "basicFee": 200,
+   "basicMin": 5,
+   "addFee": 200,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "1900"
+   ],
+   "sat": [
+    "0900",
+    "1500"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.46587894,
+   "lng": 126.8870334
+  },
+  {
+   "code": "1367792",
+   "name": "당산고가밑 공영주차장(시)",
+   "gu": "영등포구",
+   "addr": "영등포구 당산동5가 9-15",
+   "tel": "",
+   "live": true,
+   "total": 23,
+   "parked": 0,
+   "vacant": 23,
+   "updatedAt": "2026-10-28 00:01:31",
+   "paid": true,
+   "basicFee": 450,
+   "basicMin": 5,
+   "addFee": 450,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "1900"
+   ],
+   "sat": [
+    "0900",
+    "1500"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.53246127,
+   "lng": 126.90074391
+  },
+  {
+   "code": "1367804",
+   "name": "을지로 공영주차장(시)",
+   "gu": "중구",
+   "addr": "중구 을지로3가 282-8",
+   "tel": "02-2274-2009",
+   "live": true,
+   "total": 81,
+   "parked": 49,
+   "vacant": 32,
+   "updatedAt": "2026-10-28 00:01:25",
+   "paid": true,
+   "basicFee": 810,
+   "basicMin": 5,
+   "addFee": 810,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "1900"
+   ],
+   "sat": [
+    "0900",
+    "1500"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.56665329,
+   "lng": 126.99958179
+  },
+  {
+   "code": "1368955",
+   "name": "남산공원 소월로 관광버스전용 주차장(시)",
+   "gu": "중구",
+   "addr": "중구 남대문로5가 450-0",
+   "tel": "02-2290-6449",
+   "live": true,
+   "total": 12,
+   "parked": 6,
+   "vacant": 6,
+   "updatedAt": "2026-10-28 00:01:33",
+   "paid": false,
+   "basicFee": 0,
+   "basicMin": 0,
+   "addFee": 0,
+   "addMin": 0,
+   "dayMax": 0,
+   "weekday": [
+    "0000",
+    "0000"
+   ],
+   "sat": [
+    "0000",
+    "0000"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.5543711,
+   "lng": 126.97837718
+  },
+  {
+   "code": "1369476",
+   "name": "탑골공원 관광버스전용 주차장(시)",
+   "gu": "종로구",
+   "addr": "종로구 종로2가 38-4",
+   "tel": "02)2290-6449",
+   "live": true,
+   "total": 2,
+   "parked": 2,
+   "vacant": 0,
+   "updatedAt": "2026-10-28 00:01:30",
+   "paid": false,
+   "basicFee": 0,
+   "basicMin": 0,
+   "addFee": 0,
+   "addMin": 0,
+   "dayMax": 0,
+   "weekday": [
+    "0000",
+    "0000"
+   ],
+   "sat": [
+    "0000",
+    "0000"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.57134087,
+   "lng": 126.98776281
+  },
+  {
+   "code": "1372454",
+   "name": "대림노외 공영주차장(시)",
+   "gu": "구로구",
+   "addr": "구로구 구로동 120-3",
+   "tel": "",
+   "live": true,
+   "total": 93,
+   "parked": 37,
+   "vacant": 56,
+   "updatedAt": "2026-10-28 00:01:26",
+   "paid": true,
+   "basicFee": 320,
+   "basicMin": 5,
+   "addFee": 320,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "1900"
+   ],
+   "sat": [
+    "0900",
+    "1900"
+   ],
+   "holiday": [
+    "0900",
+    "1900"
+   ],
+   "lat": 37.4928472,
+   "lng": 126.89433148
+  },
+  {
+   "code": "1372873",
+   "name": "도봉산역 공영주차장(시)",
+   "gu": "도봉구",
+   "addr": "도봉구 도봉동 288-19",
+   "tel": "02)2290-6047 ",
+   "live": true,
+   "total": 358,
+   "parked": 53,
+   "vacant": 305,
+   "updatedAt": "2026-10-28 00:01:23",
+   "paid": true,
+   "basicFee": 280,
+   "basicMin": 5,
+   "addFee": 280,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0000",
+    "2400"
+   ],
+   "sat": [
+    "0000",
+    "2400"
+   ],
+   "holiday": [
+    "0000",
+    "2400"
+   ],
+   "lat": 37.68972069,
+   "lng": 127.04483862
+  },
+  {
+   "code": "1384198",
+   "name": "동대문 공영주차장(시)",
+   "gu": "중구",
+   "addr": "중구 신당동 251-7",
+   "tel": "02)2254-4901 ",
+   "live": true,
+   "total": 1090,
+   "parked": 983,
+   "vacant": 107,
+   "updatedAt": "2026-10-28 00:01:23",
+   "paid": true,
+   "basicFee": 360,
+   "basicMin": 5,
+   "addFee": 360,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0000",
+    "2400"
+   ],
+   "sat": [
+    "0000",
+    "2400"
+   ],
+   "holiday": [
+    "0000",
+    "2400"
+   ],
+   "lat": 37.56710187,
+   "lng": 127.01214106
+  },
+  {
+   "code": "1386536",
+   "name": "서울글로벌센터 공영주차장(시)",
+   "gu": "종로구",
+   "addr": "종로구 서린동 63-0",
+   "tel": "02-720-9862",
+   "live": true,
+   "total": 44,
+   "parked": 7,
+   "vacant": 37,
+   "updatedAt": "2026-10-28 00:01:23",
+   "paid": true,
+   "basicFee": 700,
+   "basicMin": 5,
+   "addFee": 700,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "1800"
+   ],
+   "sat": [
+    "0000",
+    "0000"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.56983402,
+   "lng": 126.98150586
+  },
+  {
+   "code": "1404936",
+   "name": "천왕역 공영주차장(시)",
+   "gu": "구로구",
+   "addr": "구로구 천왕동 280-11",
+   "tel": "02-2290-6343",
+   "live": true,
+   "total": 327,
+   "parked": 59,
+   "vacant": 268,
+   "updatedAt": "2026-10-28 00:01:23",
+   "paid": true,
+   "basicFee": 280,
+   "basicMin": 5,
+   "addFee": 280,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0000",
+    "2400"
+   ],
+   "sat": [
+    "0000",
+    "2400"
+   ],
+   "holiday": [
+    "0000",
+    "2400"
+   ],
+   "lat": 37.48728845,
+   "lng": 126.83918316
+  },
+  {
+   "code": "1425816",
+   "name": "동국제강 공영주차장(시)",
+   "gu": "중구",
+   "addr": "중구 삼각동 111-1",
+   "tel": "",
+   "live": true,
+   "total": 13,
+   "parked": 3,
+   "vacant": 10,
+   "updatedAt": "2026-10-28 00:01:27",
+   "paid": true,
+   "basicFee": 700,
+   "basicMin": 5,
+   "addFee": 700,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "1900"
+   ],
+   "sat": [
+    "0900",
+    "1900"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.56733736,
+   "lng": 126.98343453
+  },
+  {
+   "code": "1430035",
+   "name": "남대문 초입 관광버스전용 주차장(시)",
+   "gu": "중구",
+   "addr": "중구 남창동 282-10",
+   "tel": "02)2290-6449",
+   "live": true,
+   "total": 3,
+   "parked": 2,
+   "vacant": 1,
+   "updatedAt": "2026-10-28 00:01:36",
+   "paid": false,
+   "basicFee": 0,
+   "basicMin": 0,
+   "addFee": 0,
+   "addMin": 0,
+   "dayMax": 0,
+   "weekday": [
+    "0000",
+    "0000"
+   ],
+   "sat": [
+    "0000",
+    "0000"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.55953,
+   "lng": 126.975731
+  },
+  {
+   "code": "1430042",
+   "name": "남대문 시장 관광버스전용 주차장(시)",
+   "gu": "중구",
+   "addr": "중구 남창동 51-4",
+   "tel": "02)2290-6449",
+   "live": true,
+   "total": 2,
+   "parked": 1,
+   "vacant": 1,
+   "updatedAt": "2026-10-28 00:01:35",
+   "paid": false,
+   "basicFee": 0,
+   "basicMin": 0,
+   "addFee": 0,
+   "addMin": 0,
+   "dayMax": 0,
+   "weekday": [
+    "0000",
+    "0000"
+   ],
+   "sat": [
+    "0000",
+    "0000"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.55952,
+   "lng": 126.975908
+  },
+  {
+   "code": "1437917",
+   "name": "영남 공영주차장(시)",
+   "gu": "영등포구",
+   "addr": "영등포구 영등포동4가 123-0",
+   "tel": "02-1688-1054",
+   "live": true,
+   "total": 570,
+   "parked": 163,
+   "vacant": 407,
+   "updatedAt": "2026-10-28 00:01:23",
+   "paid": true,
+   "basicFee": 160,
+   "basicMin": 5,
+   "addFee": 160,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0000",
+    "2400"
+   ],
+   "sat": [
+    "0000",
+    "2400"
+   ],
+   "holiday": [
+    "0000",
+    "2400"
+   ],
+   "lat": 37.51947074,
+   "lng": 126.90260898
+  },
+  {
+   "code": "1451364",
+   "name": "청계7가 공영주차장(시)",
+   "gu": "종로구",
+   "addr": "종로구 창신동 436-87",
+   "tel": "",
+   "live": true,
+   "total": 39,
+   "parked": 7,
+   "vacant": 32,
+   "updatedAt": "2026-10-28 00:01:29",
+   "paid": true,
+   "basicFee": 450,
+   "basicMin": 5,
+   "addFee": 450,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "1900"
+   ],
+   "sat": [
+    "0900",
+    "1500"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.57074267,
+   "lng": 127.01790953
+  },
+  {
+   "code": "1451370",
+   "name": "동순라길(종묘) 관광버스전용 주차장(시)",
+   "gu": "종로구",
+   "addr": "종로구 인의동 107-1",
+   "tel": "02-2290-6449",
+   "live": true,
+   "total": 5,
+   "parked": 3,
+   "vacant": 2,
+   "updatedAt": "2026-10-28 00:01:36",
+   "paid": false,
+   "basicFee": 0,
+   "basicMin": 0,
+   "addFee": 0,
+   "addMin": 0,
+   "dayMax": 0,
+   "weekday": [
+    "0000",
+    "0000"
+   ],
+   "sat": [
+    "0000",
+    "0000"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.57248168,
+   "lng": 126.99663811
+  },
+  {
+   "code": "1451938",
+   "name": "청계1(북) 공영주차장(시)",
+   "gu": "종로구",
+   "addr": "종로구 관철동 13-14",
+   "tel": "",
+   "live": true,
+   "total": 12,
+   "parked": 4,
+   "vacant": 8,
+   "updatedAt": "2026-10-28 00:01:24",
+   "paid": true,
+   "basicFee": 750,
+   "basicMin": 5,
+   "addFee": 750,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "1900"
+   ],
+   "sat": [
+    "0900",
+    "1500"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.56829312,
+   "lng": 126.9885006
+  },
+  {
+   "code": "1452019",
+   "name": "청계5(북1) 공영주차장(시)",
+   "gu": "종로구",
+   "addr": "종로구 종로5가 458-2",
+   "tel": "",
+   "live": true,
+   "total": 25,
+   "parked": 6,
+   "vacant": 19,
+   "updatedAt": "2026-10-28 00:01:31",
+   "paid": true,
+   "basicFee": 750,
+   "basicMin": 5,
+   "addFee": 750,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "1900"
+   ],
+   "sat": [
+    "0900",
+    "1500"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.5698281,
+   "lng": 127.0048382
+  },
+  {
+   "code": "1452024",
+   "name": "청계5(동호로_북) 공영주차장(시)",
+   "gu": "종로구",
+   "addr": "종로구 종로5가 458-2",
+   "tel": "",
+   "live": true,
+   "total": 6,
+   "parked": 1,
+   "vacant": 5,
+   "updatedAt": "2026-10-28 00:01:30",
+   "paid": true,
+   "basicFee": 750,
+   "basicMin": 5,
+   "addFee": 750,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "0100"
+   ],
+   "sat": [
+    "0900",
+    "1500"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.57003679,
+   "lng": 127.0021438
+  },
+  {
+   "code": "1452025",
+   "name": "청계3(창경궁로_북1) 공영주차장(시)",
+   "gu": "종로구",
+   "addr": "종로구 예지동 140-1",
+   "tel": "",
+   "live": true,
+   "total": 6,
+   "parked": 4,
+   "vacant": 2,
+   "updatedAt": "2026-10-28 00:01:36",
+   "paid": true,
+   "basicFee": 750,
+   "basicMin": 5,
+   "addFee": 750,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "1900"
+   ],
+   "sat": [
+    "0900",
+    "1500"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.57039324,
+   "lng": 126.99743845
+  },
+  {
+   "code": "1452219",
+   "name": "청계2(돈화문로) 공영주차장(시)",
+   "gu": "종로구",
+   "addr": "종로구 관수동 91-4",
+   "tel": "",
+   "live": false,
+   "total": 10,
+   "parked": 0,
+   "vacant": 10,
+   "updatedAt": null,
+   "paid": true,
+   "basicFee": 750,
+   "basicMin": 5,
+   "addFee": 750,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "1900"
+   ],
+   "sat": [
+    "0900",
+    "1500"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.56942229,
+   "lng": 126.9923412
+  },
+  {
+   "code": "1452337",
+   "name": "관철동 공영주차장(시)",
+   "gu": "종로구",
+   "addr": "종로구 관철동 13-14",
+   "tel": "02-738-0909",
+   "live": true,
+   "total": 7,
+   "parked": 0,
+   "vacant": 7,
+   "updatedAt": "2026-10-28 00:01:29",
+   "paid": true,
+   "basicFee": 430,
+   "basicMin": 5,
+   "addFee": 430,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "2200"
+   ],
+   "sat": [
+    "0900",
+    "1400"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.56847403,
+   "lng": 126.98608025
+  },
+  {
+   "code": "1452441",
+   "name": "청계6(북) 공영주차장(시)",
+   "gu": "종로구",
+   "addr": "종로구 종로6가 289-49",
+   "tel": "",
+   "live": true,
+   "total": 28,
+   "parked": 4,
+   "vacant": 24,
+   "updatedAt": "2026-10-28 00:01:27",
+   "paid": true,
+   "basicFee": 450,
+   "basicMin": 5,
+   "addFee": 450,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "0100"
+   ],
+   "sat": [
+    "0900",
+    "1500"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.56997848,
+   "lng": 127.0119249
+  },
+  {
+   "code": "1452721",
+   "name": "청계2(북1) 공영주차장(시)",
+   "gu": "종로구",
+   "addr": "종로구 관수동 91-4",
+   "tel": "",
+   "live": true,
+   "total": 12,
+   "parked": 5,
+   "vacant": 7,
+   "updatedAt": "2026-10-28 00:01:33",
+   "paid": true,
+   "basicFee": 750,
+   "basicMin": 5,
+   "addFee": 750,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "1900"
+   ],
+   "sat": [
+    "0900",
+    "1500"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.568589,
+   "lng": 126.993088
+  },
+  {
+   "code": "1453742",
+   "name": "당고개위 공영주차장(시)",
+   "gu": "노원구",
+   "addr": "노원구 상계동 111-568",
+   "tel": "02-1688-1054",
+   "live": true,
+   "total": 22,
+   "parked": 2,
+   "vacant": 20,
+   "updatedAt": "2026-10-28 00:01:24",
+   "paid": true,
+   "basicFee": 400,
+   "basicMin": 5,
+   "addFee": 400,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "2200"
+   ],
+   "sat": [
+    "0900",
+    "2200"
+   ],
+   "holiday": [
+    "0900",
+    "2200"
+   ],
+   "lat": 37.67042965,
+   "lng": 127.0805287
+  },
+  {
+   "code": "1475224",
+   "name": "성내역(잠실나루역) 공영주차장(시)",
+   "gu": "송파구",
+   "addr": "송파구 신천동 11-1",
+   "tel": "",
+   "live": true,
+   "total": 28,
+   "parked": 15,
+   "vacant": 13,
+   "updatedAt": "2026-10-28 00:01:28",
+   "paid": true,
+   "basicFee": 270,
+   "basicMin": 5,
+   "addFee": 270,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "1800"
+   ],
+   "sat": [
+    "0900",
+    "1500"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.51773241,
+   "lng": 127.10501915
+  },
+  {
+   "code": "1477337",
+   "name": "동작대교(위) 공영주차장(시)",
+   "gu": "동작구",
+   "addr": "동작구 동작동 316-3",
+   "tel": "",
+   "live": true,
+   "total": 47,
+   "parked": 9,
+   "vacant": 38,
+   "updatedAt": "2026-10-28 00:01:28",
+   "paid": true,
+   "basicFee": 450,
+   "basicMin": 5,
+   "addFee": 450,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "1300",
+    "2200"
+   ],
+   "sat": [
+    "1300",
+    "2200"
+   ],
+   "holiday": [
+    "1300",
+    "2200"
+   ],
+   "lat": 37.50537832,
+   "lng": 126.98065952
+  },
+  {
+   "code": "1496216",
+   "name": "압구정고가1 공영주차장(시)",
+   "gu": "강남구",
+   "addr": "강남구 신사동 668-0",
+   "tel": "",
+   "live": true,
+   "total": 19,
+   "parked": 1,
+   "vacant": 18,
+   "updatedAt": "2026-10-28 00:01:33",
+   "paid": true,
+   "basicFee": 810,
+   "basicMin": 5,
+   "addFee": 810,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0800",
+    "2100"
+   ],
+   "sat": [
+    "0900",
+    "2100"
+   ],
+   "holiday": [
+    "0900",
+    "2100"
+   ],
+   "lat": 37.52611506,
+   "lng": 127.0283773
+  },
+  {
+   "code": "1496233",
+   "name": "동호대교(남) 공영주차장(시)",
+   "gu": "강남구",
+   "addr": "강남구 압구정동 435-0",
+   "tel": "",
+   "live": true,
+   "total": 18,
+   "parked": 15,
+   "vacant": 3,
+   "updatedAt": "2026-10-28 00:01:28",
+   "paid": true,
+   "basicFee": 290,
+   "basicMin": 5,
+   "addFee": 290,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "1900"
+   ],
+   "sat": [
+    "0900",
+    "1900"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.53098845,
+   "lng": 127.02464007
+  },
+  {
+   "code": "1496449",
+   "name": "압구정고가2 공영주차장(시)",
+   "gu": "강남구",
+   "addr": "강남구 신사동 668-0",
+   "tel": "",
+   "live": true,
+   "total": 19,
+   "parked": 1,
+   "vacant": 18,
+   "updatedAt": "2026-10-28 00:01:30",
+   "paid": true,
+   "basicFee": 810,
+   "basicMin": 5,
+   "addFee": 810,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "2000"
+   ],
+   "sat": [
+    "0900",
+    "2100"
+   ],
+   "holiday": [
+    "0900",
+    "2100"
+   ],
+   "lat": 37.5256485,
+   "lng": 127.028437
+  },
+  {
+   "code": "1499707",
+   "name": "대림역2 공영주차장(시)",
+   "gu": "구로구",
+   "addr": "구로구 구로동 73-9",
+   "tel": "",
+   "live": true,
+   "total": 31,
+   "parked": 13,
+   "vacant": 18,
+   "updatedAt": "2026-10-28 00:01:32",
+   "paid": true,
+   "basicFee": 400,
+   "basicMin": 5,
+   "addFee": 400,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "1900"
+   ],
+   "sat": [
+    "0900",
+    "1500"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.49568958,
+   "lng": 126.89374306
+  },
+  {
+   "code": "1509186",
+   "name": "DDP동측(양쪽) 관광버스전용 주차장(시)",
+   "gu": "중구",
+   "addr": "중구 을지로7가 2-36",
+   "tel": "02-2290-6449",
+   "live": true,
+   "total": 16,
+   "parked": 9,
+   "vacant": 7,
+   "updatedAt": "2026-10-28 00:01:24",
+   "paid": false,
+   "basicFee": 0,
+   "basicMin": 0,
+   "addFee": 0,
+   "addMin": 0,
+   "dayMax": 0,
+   "weekday": [
+    "0000",
+    "0000"
+   ],
+   "sat": [
+    "0000",
+    "0000"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.56590564,
+   "lng": 127.0101255
+  },
+  {
+   "code": "1509662",
+   "name": "청계5(동호로_남) 공영주차장(시)",
+   "gu": "중구",
+   "addr": "중구 방산동 4-47 0",
+   "tel": "",
+   "live": true,
+   "total": 11,
+   "parked": 2,
+   "vacant": 9,
+   "updatedAt": "2026-10-28 00:01:35",
+   "paid": true,
+   "basicFee": 750,
+   "basicMin": 5,
+   "addFee": 750,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "1900"
+   ],
+   "sat": [
+    "0900",
+    "1500"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.56901569,
+   "lng": 127.00223014
+  },
+  {
+   "code": "1509853",
+   "name": "청계3(창경궁로_남) 공영주차장(시)",
+   "gu": "중구",
+   "addr": "중구 주교동 123-1 0",
+   "tel": "",
+   "live": true,
+   "total": 12,
+   "parked": 8,
+   "vacant": 4,
+   "updatedAt": "2026-10-28 00:01:33",
+   "paid": true,
+   "basicFee": 750,
+   "basicMin": 5,
+   "addFee": 750,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "1900"
+   ],
+   "sat": [
+    "0900",
+    "1500"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.56761207,
+   "lng": 126.99800834
+  },
+  {
+   "code": "1510016",
+   "name": "청계5(남) 공영주차장(시)",
+   "gu": "중구",
+   "addr": "중구 을지로6가 17-442 0",
+   "tel": "",
+   "live": false,
+   "total": 5,
+   "parked": 0,
+   "vacant": 5,
+   "updatedAt": null,
+   "paid": true,
+   "basicFee": 750,
+   "basicMin": 5,
+   "addFee": 750,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "1900"
+   ],
+   "sat": [
+    "0900",
+    "1500"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.56950592,
+   "lng": 127.00737181
+  },
+  {
+   "code": "1510063",
+   "name": "청계5가 공영주차장(시)",
+   "gu": "중구",
+   "addr": "중구 을지로6가 17-442 0",
+   "tel": "02-2265-3531",
+   "live": false,
+   "total": 20,
+   "parked": 0,
+   "vacant": 20,
+   "updatedAt": null,
+   "paid": true,
+   "basicFee": 750,
+   "basicMin": 5,
+   "addFee": 750,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "1900"
+   ],
+   "sat": [
+    "0900",
+    "1500"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.56955093,
+   "lng": 127.00827352
+  },
+  {
+   "code": "1510350",
+   "name": "청계6(신평화시장앞) 공영주차장(시)",
+   "gu": "중구",
+   "addr": "중구 신당동 217-91 0",
+   "tel": "",
+   "live": true,
+   "total": 7,
+   "parked": 3,
+   "vacant": 4,
+   "updatedAt": "2026-10-28 00:01:34",
+   "paid": true,
+   "basicFee": 450,
+   "basicMin": 5,
+   "addFee": 450,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "1900"
+   ],
+   "sat": [
+    "0900",
+    "1500"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.56957257,
+   "lng": 127.01156048
+  },
+  {
+   "code": "1510496",
+   "name": "청계6(동평화) 공영주차장(시)",
+   "gu": "중구",
+   "addr": "중구 신당동 217-91 0",
+   "tel": "",
+   "live": true,
+   "total": 6,
+   "parked": 2,
+   "vacant": 4,
+   "updatedAt": "2026-10-28 00:01:32",
+   "paid": true,
+   "basicFee": 450,
+   "basicMin": 5,
+   "addFee": 450,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "0100"
+   ],
+   "sat": [
+    "0900",
+    "1500"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.56958228,
+   "lng": 127.01329339
+  },
+  {
+   "code": "1510632",
+   "name": "청계5(방산동) 공영주차장(시)",
+   "gu": "중구",
+   "addr": "중구 방산동 52-1",
+   "tel": "",
+   "live": false,
+   "total": 36,
+   "parked": 0,
+   "vacant": 36,
+   "updatedAt": null,
+   "paid": true,
+   "basicFee": 750,
+   "basicMin": 5,
+   "addFee": 750,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "0100"
+   ],
+   "sat": [
+    "0900",
+    "1500"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.56947909,
+   "lng": 127.00326953
+  },
+  {
+   "code": "1511592",
+   "name": "소파길노상 공영주차장(시)",
+   "gu": "중구",
+   "addr": "중구 회현동1가 1-19",
+   "tel": "",
+   "live": false,
+   "total": 21,
+   "parked": 0,
+   "vacant": 21,
+   "updatedAt": null,
+   "paid": true,
+   "basicFee": 340,
+   "basicMin": 5,
+   "addFee": 340,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "2100"
+   ],
+   "sat": [
+    "0900",
+    "2100"
+   ],
+   "holiday": [
+    "0900",
+    "2100"
+   ],
+   "lat": 37.55605018,
+   "lng": 126.98389272
+  },
+  {
+   "code": "1511816",
+   "name": "마른내길 공영주차장(시)",
+   "gu": "중구",
+   "addr": "중구 인현동1가 87-10",
+   "tel": "02-2274-2009",
+   "live": true,
+   "total": 33,
+   "parked": 10,
+   "vacant": 23,
+   "updatedAt": "2026-10-28 00:01:29",
+   "paid": true,
+   "basicFee": 680,
+   "basicMin": 5,
+   "addFee": 680,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "1900"
+   ],
+   "sat": [
+    "0900",
+    "1500"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.56432709,
+   "lng": 126.99346476
+  },
+  {
+   "code": "1511971",
+   "name": "남산파출소 공영주차장(시)",
+   "gu": "중구",
+   "addr": "중구 회현동1가 1-16",
+   "tel": "",
+   "live": false,
+   "total": 13,
+   "parked": 0,
+   "vacant": 13,
+   "updatedAt": null,
+   "paid": true,
+   "basicFee": 340,
+   "basicMin": 5,
+   "addFee": 340,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "1900"
+   ],
+   "sat": [
+    "0900",
+    "1500"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.55493529,
+   "lng": 126.98179131
+  },
+  {
+   "code": "1512095",
+   "name": "남산공원 소파로 관광버스전용 주차장(시)",
+   "gu": "중구",
+   "addr": "중구 남창동 205-107",
+   "tel": "02-2290-6449",
+   "live": true,
+   "total": 21,
+   "parked": 10,
+   "vacant": 11,
+   "updatedAt": "2026-10-28 00:01:33",
+   "paid": false,
+   "basicFee": 0,
+   "basicMin": 0,
+   "addFee": 0,
+   "addMin": 0,
+   "dayMax": 0,
+   "weekday": [
+    "0000",
+    "0000"
+   ],
+   "sat": [
+    "0000",
+    "0000"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.55612453,
+   "lng": 126.97868226
+  },
+  {
+   "code": "1512125",
+   "name": "청계8가 공영주차장(시)",
+   "gu": "중구",
+   "addr": "중구 흥인동 162-1 0",
+   "tel": "",
+   "live": true,
+   "total": 9,
+   "parked": 8,
+   "vacant": 1,
+   "updatedAt": "2026-10-28 00:01:34",
+   "paid": true,
+   "basicFee": 500,
+   "basicMin": 5,
+   "addFee": 500,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "1900"
+   ],
+   "sat": [
+    "0900",
+    "1500"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.57002852,
+   "lng": 127.01735719
+  },
+  {
+   "code": "1512129",
+   "name": "청계3(동호로) 공영주차장(시)",
+   "gu": "중구",
+   "addr": "중구 방산동 4-47 0",
+   "tel": "",
+   "live": true,
+   "total": 12,
+   "parked": 3,
+   "vacant": 9,
+   "updatedAt": "2026-10-28 00:01:32",
+   "paid": true,
+   "basicFee": 750,
+   "basicMin": 5,
+   "addFee": 750,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "1900"
+   ],
+   "sat": [
+    "0900",
+    "1500"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.56921838,
+   "lng": 127.00195247
+  },
+  {
+   "code": "1512161",
+   "name": "소파로케이블카앞 관광버스전용 주차장(시)",
+   "gu": "중구",
+   "addr": "중구 회현동1가 1-15",
+   "tel": "02-2290-6449",
+   "live": true,
+   "total": 2,
+   "parked": 0,
+   "vacant": 2,
+   "updatedAt": "2026-10-28 00:01:35",
+   "paid": false,
+   "basicFee": 0,
+   "basicMin": 0,
+   "addFee": 0,
+   "addMin": 0,
+   "dayMax": 0,
+   "weekday": [
+    "0000",
+    "0000"
+   ],
+   "sat": [
+    "0000",
+    "0000"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.55519966,
+   "lng": 126.98374278
+  },
+  {
+   "code": "1540689",
+   "name": "청계8(남) 공영주차장(시)",
+   "gu": "성동구",
+   "addr": "성동구 상왕십리동 12-47",
+   "tel": "02-2274-2009",
+   "live": true,
+   "total": 68,
+   "parked": 35,
+   "vacant": 33,
+   "updatedAt": "2026-10-28 00:01:25",
+   "paid": true,
+   "basicFee": 450,
+   "basicMin": 5,
+   "addFee": 450,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "1900"
+   ],
+   "sat": [
+    "0900",
+    "1500"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.57056946,
+   "lng": 127.02632516
+  },
+  {
+   "code": "1545252",
+   "name": "문래1동 공영주차장(시)",
+   "gu": "영등포구",
+   "addr": "영등포구 문래동3가 54-12",
+   "tel": "",
+   "live": true,
+   "total": 11,
+   "parked": 1,
+   "vacant": 10,
+   "updatedAt": "2026-10-28 00:01:34",
+   "paid": true,
+   "basicFee": 130,
+   "basicMin": 5,
+   "addFee": 130,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "1900"
+   ],
+   "sat": [
+    "0900",
+    "1500"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.51352729,
+   "lng": 126.89696791
+  },
+  {
+   "code": "1549662",
+   "name": "장충단로(한남광장) 관광버스전용 주차장(시)",
+   "gu": "용산구",
+   "addr": "용산구 한남동 9-19",
+   "tel": "02-2290-6449",
+   "live": true,
+   "total": 5,
+   "parked": 3,
+   "vacant": 2,
+   "updatedAt": "2026-10-28 00:01:36",
+   "paid": false,
+   "basicFee": 0,
+   "basicMin": 0,
+   "addFee": 0,
+   "addMin": 0,
+   "dayMax": 0,
+   "weekday": [
+    "0000",
+    "0000"
+   ],
+   "sat": [
+    "0000",
+    "0000"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.547311,
+   "lng": 127.00258284
+  },
+  {
+   "code": "1562029",
+   "name": "대림역 공영주차장(시)",
+   "gu": "영등포구",
+   "addr": "영등포구 대림동 808-24",
+   "tel": "",
+   "live": true,
+   "total": 18,
+   "parked": 2,
+   "vacant": 16,
+   "updatedAt": "2026-10-28 00:01:31",
+   "paid": true,
+   "basicFee": 400,
+   "basicMin": 5,
+   "addFee": 400,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "1900"
+   ],
+   "sat": [
+    "0900",
+    "1500"
+   ],
+   "holiday": [
+    "0000",
+    "2400"
+   ],
+   "lat": 37.49305501,
+   "lng": 126.89540496
+  },
+  {
+   "code": "1563914",
+   "name": "여의서로 공영주차장(시)",
+   "gu": "영등포구",
+   "addr": "영등포구 여의도동 8-1",
+   "tel": "",
+   "live": true,
+   "total": 84,
+   "parked": 38,
+   "vacant": 46,
+   "updatedAt": "2026-10-28 00:01:31",
+   "paid": true,
+   "basicFee": 280,
+   "basicMin": 5,
+   "addFee": 280,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "1900"
+   ],
+   "sat": [
+    "0900",
+    "1500"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.5324092,
+   "lng": 126.91142514
+  },
+  {
+   "code": "1575315",
+   "name": "남부여성발전센터 공영주차장(시)",
+   "gu": "금천구",
+   "addr": "금천구 시흥동 139-2",
+   "tel": "02-1588-1054",
+   "live": true,
+   "total": 128,
+   "parked": 116,
+   "vacant": 12,
+   "updatedAt": "2026-10-28 00:01:23",
+   "paid": true,
+   "basicFee": 120,
+   "basicMin": 5,
+   "addFee": 120,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0000",
+    "2400"
+   ],
+   "sat": [
+    "0000",
+    "2400"
+   ],
+   "holiday": [
+    "0000",
+    "2400"
+   ],
+   "lat": 37.462917,
+   "lng": 126.905718
+  },
+  {
+   "code": "1575751",
+   "name": "신방화역 공영주차장(시)",
+   "gu": "강서구",
+   "addr": "강서구 마곡동 739-0",
+   "tel": "02-3405-4581",
+   "live": true,
+   "total": 198,
+   "parked": 105,
+   "vacant": 93,
+   "updatedAt": "2026-10-28 00:01:23",
+   "paid": true,
+   "basicFee": 290,
+   "basicMin": 5,
+   "addFee": 290,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0000",
+    "2400"
+   ],
+   "sat": [
+    "0000",
+    "2400"
+   ],
+   "holiday": [
+    "0000",
+    "2400"
+   ],
+   "lat": 37.56706812,
+   "lng": 126.81757628
+  },
+  {
+   "code": "1576126",
+   "name": "진흥로 공영주차장(시)",
+   "gu": "은평구",
+   "addr": "은평구 역촌동 41-8",
+   "tel": "",
+   "live": true,
+   "total": 14,
+   "parked": 8,
+   "vacant": 6,
+   "updatedAt": "2026-10-28 00:01:25",
+   "paid": true,
+   "basicFee": 200,
+   "basicMin": 5,
+   "addFee": 200,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "1800"
+   ],
+   "sat": [
+    "0000",
+    "0000"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.6013233,
+   "lng": 126.9201833
+  },
+  {
+   "code": "1576208",
+   "name": "온수역(남) 공영주차장(시)",
+   "gu": "구로구",
+   "addr": "구로구 온수동 51-26",
+   "tel": "",
+   "live": true,
+   "total": 41,
+   "parked": 9,
+   "vacant": 32,
+   "updatedAt": "2026-10-28 00:01:27",
+   "paid": true,
+   "basicFee": 290,
+   "basicMin": 5,
+   "addFee": 290,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "1900"
+   ],
+   "sat": [
+    "0900",
+    "1500"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.49201963,
+   "lng": 126.82396506
+  },
+  {
+   "code": "1576313",
+   "name": "옥수역 공영주차장(시)",
+   "gu": "성동구",
+   "addr": "성동구 옥수동 401-1",
+   "tel": "",
+   "live": true,
+   "total": 31,
+   "parked": 1,
+   "vacant": 30,
+   "updatedAt": "2026-10-28 00:01:27",
+   "paid": true,
+   "basicFee": 290,
+   "basicMin": 5,
+   "addFee": 290,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "1900"
+   ],
+   "sat": [
+    "0900",
+    "1500"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.54210648,
+   "lng": 127.01692063
+  },
+  {
+   "code": "1576347",
+   "name": "돈화문로 공영주차장(시)",
+   "gu": "중구",
+   "addr": "중구 을지로3가 296-24",
+   "tel": "02-2274-2009",
+   "live": true,
+   "total": 47,
+   "parked": 21,
+   "vacant": 26,
+   "updatedAt": "2026-10-28 00:01:23",
+   "paid": true,
+   "basicFee": 810,
+   "basicMin": 5,
+   "addFee": 810,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "1900"
+   ],
+   "sat": [
+    "0900",
+    "1500"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.565517,
+   "lng": 126.992639
+  },
+  {
+   "code": "1576514",
+   "name": "도봉로 15길 공영주차장(시)",
+   "gu": "강북구",
+   "addr": "강북구 미아동 458-7",
+   "tel": "",
+   "live": true,
+   "total": 16,
+   "parked": 10,
+   "vacant": 6,
+   "updatedAt": "2026-10-28 00:01:29",
+   "paid": true,
+   "basicFee": 200,
+   "basicMin": 5,
+   "addFee": 200,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "1800"
+   ],
+   "sat": [
+    "0000",
+    "0000"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.61681901,
+   "lng": 127.0278957
+  },
+  {
+   "code": "1576530",
+   "name": "원효대교 남단 공영주차장(시)",
+   "gu": "영등포구",
+   "addr": "영등포구 여의도동 5-0",
+   "tel": "",
+   "live": true,
+   "total": 13,
+   "parked": 5,
+   "vacant": 8,
+   "updatedAt": "2026-10-28 00:01:29",
+   "paid": true,
+   "basicFee": 280,
+   "basicMin": 5,
+   "addFee": 280,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0000",
+    "2400"
+   ],
+   "sat": [
+    "0000",
+    "2400"
+   ],
+   "holiday": [
+    "0000",
+    "2400"
+   ],
+   "lat": 37.52232342,
+   "lng": 126.93673055
+  },
+  {
+   "code": "1576703",
+   "name": "가양라이품 공영주차장(시)",
+   "gu": "강서구",
+   "addr": "강서구 가양동 1457-1",
+   "tel": "02-2290-6144",
+   "live": true,
+   "total": 38,
+   "parked": 3,
+   "vacant": 35,
+   "updatedAt": "2026-10-28 00:01:23",
+   "paid": true,
+   "basicFee": 200,
+   "basicMin": 5,
+   "addFee": 200,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0000",
+    "2400"
+   ],
+   "sat": [
+    "0000",
+    "2400"
+   ],
+   "holiday": [
+    "0000",
+    "2400"
+   ],
+   "lat": 37.57155732,
+   "lng": 126.84165292
+  },
+  {
+   "code": "1577094",
+   "name": "마른내로 공영주차장(시)",
+   "gu": "중구",
+   "addr": "중구 오장동 69-3",
+   "tel": "02-2273-0006",
+   "live": true,
+   "total": 12,
+   "parked": 9,
+   "vacant": 3,
+   "updatedAt": "2026-10-28 00:01:35",
+   "paid": true,
+   "basicFee": 620,
+   "basicMin": 5,
+   "addFee": 620,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "1800"
+   ],
+   "sat": [
+    "0000",
+    "0000"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.56451787,
+   "lng": 126.99959894
+  },
+  {
+   "code": "1583447",
+   "name": "청계8(북) 공영주차장(시)",
+   "gu": "동대문구",
+   "addr": "동대문구 신설동 109-2",
+   "tel": "02-2274-2009",
+   "live": true,
+   "total": 38,
+   "parked": 20,
+   "vacant": 18,
+   "updatedAt": "2026-10-28 00:01:25",
+   "paid": true,
+   "basicFee": 450,
+   "basicMin": 5,
+   "addFee": 450,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "1900"
+   ],
+   "sat": [
+    "0900",
+    "1500"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.57186621,
+   "lng": 127.02393388
+  },
+  {
+   "code": "1583862",
+   "name": "보라매상업 공영주차장(시)",
+   "gu": "동작구",
+   "addr": "동작구 신대방동 431-3",
+   "tel": "",
+   "live": true,
+   "total": 61,
+   "parked": 46,
+   "vacant": 15,
+   "updatedAt": "2026-10-28 00:01:23",
+   "paid": true,
+   "basicFee": 220,
+   "basicMin": 5,
+   "addFee": 220,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "2100"
+   ],
+   "sat": [
+    "0900",
+    "2100"
+   ],
+   "holiday": [
+    "0900",
+    "2100"
+   ],
+   "lat": 37.49039184,
+   "lng": 126.92340595
+  },
+  {
+   "code": "1585237",
+   "name": "영동6교밑 공영주차장(시)",
+   "gu": "강남구",
+   "addr": "강남구 대치동 512-1",
+   "tel": "",
+   "live": true,
+   "total": 39,
+   "parked": 20,
+   "vacant": 19,
+   "updatedAt": "2026-10-28 00:01:31",
+   "paid": true,
+   "basicFee": 370,
+   "basicMin": 5,
+   "addFee": 370,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "1900"
+   ],
+   "sat": [
+    "0900",
+    "1700"
+   ],
+   "holiday": [
+    "0900",
+    "1700"
+   ],
+   "lat": 37.49436232,
+   "lng": 127.07106712
+  },
+  {
+   "code": "1586294",
+   "name": "배오개길 공영주차장(시)",
+   "gu": "중구",
+   "addr": "중구 예관동 22-1",
+   "tel": "02-2274-2009",
+   "live": true,
+   "total": 10,
+   "parked": 8,
+   "vacant": 2,
+   "updatedAt": "2026-10-28 00:01:27",
+   "paid": true,
+   "basicFee": 680,
+   "basicMin": 5,
+   "addFee": 680,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "1900"
+   ],
+   "sat": [
+    "0900",
+    "1500"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.56560723,
+   "lng": 126.99829487
+  },
+  {
+   "code": "1588341",
+   "name": "신월4동 공영주차장(시)",
+   "gu": "양천구",
+   "addr": "양천구 신월동 411-1",
+   "tel": "02-2290-6311",
+   "live": true,
+   "total": 46,
+   "parked": 22,
+   "vacant": 24,
+   "updatedAt": "2026-10-28 00:01:23",
+   "paid": true,
+   "basicFee": 120,
+   "basicMin": 5,
+   "addFee": 120,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0000",
+    "2400"
+   ],
+   "sat": [
+    "0000",
+    "2400"
+   ],
+   "holiday": [
+    "0000",
+    "2400"
+   ],
+   "lat": 37.525643,
+   "lng": 126.837692
+  },
+  {
+   "code": "1913385",
+   "name": "남산예장 관광버스전용 주차장(시)",
+   "gu": "중구",
+   "addr": "중구 예장동 4-1",
+   "tel": "02-2290-7227",
+   "live": true,
+   "total": 39,
+   "parked": 3,
+   "vacant": 36,
+   "updatedAt": "2026-10-28 00:01:23",
+   "paid": true,
+   "basicFee": 6000,
+   "basicMin": 120,
+   "addFee": 500,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0600",
+    "2400"
+   ],
+   "sat": [
+    "0600",
+    "2400"
+   ],
+   "holiday": [
+    "0600",
+    "2400"
+   ],
+   "lat": 37.559821,
+   "lng": 126.989076
+  },
+  {
+   "code": "1913393",
+   "name": "장안1동 공영주차장(시)",
+   "gu": "동대문구",
+   "addr": "동대문구 장안동 392-3",
+   "tel": "02-3405-4598",
+   "live": true,
+   "total": 71,
+   "parked": 50,
+   "vacant": 21,
+   "updatedAt": "2026-10-28 00:01:23",
+   "paid": true,
+   "basicFee": 130,
+   "basicMin": 5,
+   "addFee": 130,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0000",
+    "2400"
+   ],
+   "sat": [
+    "0000",
+    "2400"
+   ],
+   "holiday": [
+    "0000",
+    "2400"
+   ],
+   "lat": 37.56941,
+   "lng": 127.066994
+  },
+  {
+   "code": "1913415",
+   "name": "면목유수지 공영주차장(시)",
+   "gu": "중랑구",
+   "addr": "중랑구 면목동 168-2",
+   "tel": "",
+   "live": false,
+   "total": 567,
+   "parked": 0,
+   "vacant": 567,
+   "updatedAt": null,
+   "paid": true,
+   "basicFee": 100,
+   "basicMin": 5,
+   "addFee": 100,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0000",
+    "2400"
+   ],
+   "sat": [
+    "0000",
+    "2400"
+   ],
+   "holiday": [
+    "0000",
+    "2400"
+   ],
+   "lat": 37.579494,
+   "lng": 127.081451
+  },
+  {
+   "code": "1913606",
+   "name": "훈련원공원 앞 관광버스 전용 주차장(시)",
+   "gu": "중구",
+   "addr": "중구 을지로5가 40-2 ",
+   "tel": "",
+   "live": false,
+   "total": 2,
+   "parked": 0,
+   "vacant": 2,
+   "updatedAt": null,
+   "paid": false,
+   "basicFee": 0,
+   "basicMin": 0,
+   "addFee": 0,
+   "addMin": 0,
+   "dayMax": 0,
+   "weekday": [
+    "0000",
+    "0000"
+   ],
+   "sat": [
+    "0000",
+    "0000"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": null,
+   "lng": null
+  },
+  {
+   "code": "1915194",
+   "name": "여의도공원 공영주차장(시)",
+   "gu": "영등포구",
+   "addr": "영등포구 여의도동 2-11",
+   "tel": "",
+   "live": false,
+   "total": 48,
+   "parked": 0,
+   "vacant": 48,
+   "updatedAt": null,
+   "paid": true,
+   "basicFee": 370,
+   "basicMin": 5,
+   "addFee": 370,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "1900"
+   ],
+   "sat": [
+    "0900",
+    "1500"
+   ],
+   "holiday": [
+    "0000",
+    "0000"
+   ],
+   "lat": 37.523121,
+   "lng": 126.916515
+  },
+  {
+   "code": "2877728",
+   "name": "양재역 공영주차장(시)",
+   "gu": "서초구",
+   "addr": "서초구 양재동 23-0",
+   "tel": "02-3405-4231",
+   "live": true,
+   "total": 885,
+   "parked": 164,
+   "vacant": 721,
+   "updatedAt": "2026-10-28 00:01:23",
+   "paid": true,
+   "basicFee": 400,
+   "basicMin": 5,
+   "addFee": 400,
+   "addMin": 5,
+   "dayMax": 28800,
+   "weekday": [
+    "0000",
+    "2400"
+   ],
+   "sat": [
+    "0000",
+    "2400"
+   ],
+   "holiday": [
+    "0000",
+    "2400"
+   ],
+   "lat": 37.483518,
+   "lng": 127.034357
+  },
+  {
+   "code": "2983079",
+   "name": "난지중앙로노상공영주차장(시)",
+   "gu": "마포구",
+   "addr": "마포구 상암동 481-94 ",
+   "tel": "",
+   "live": false,
+   "total": 34,
+   "parked": 0,
+   "vacant": 34,
+   "updatedAt": null,
+   "paid": true,
+   "basicFee": 150,
+   "basicMin": 5,
+   "addFee": 150,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0900",
+    "2200"
+   ],
+   "sat": [
+    "0900",
+    "2200"
+   ],
+   "holiday": [
+    "0900",
+    "2200"
+   ],
+   "lat": 37.5695213,
+   "lng": 126.8807678
+  },
+  {
+   "code": "3187200",
+   "name": "반포천 공영주차장(파미에)(시)",
+   "gu": "서초구",
+   "addr": "서초구 반포동 118-3",
+   "tel": "02-6282-0550",
+   "live": true,
+   "total": 1186,
+   "parked": 216,
+   "vacant": 970,
+   "updatedAt": "2026-10-28 00:01:23",
+   "paid": true,
+   "basicFee": 550,
+   "basicMin": 5,
+   "addFee": 550,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0000",
+    "2400"
+   ],
+   "sat": [
+    "0000",
+    "2400"
+   ],
+   "holiday": [
+    "0000",
+    "2400"
+   ],
+   "lat": 37.504517,
+   "lng": 127.007933
+  },
+  {
+   "code": "3246959",
+   "name": "중곡1동 공영주차장(시)",
+   "gu": "광진구",
+   "addr": "광진구 중곡동 230-12",
+   "tel": "02-3405-4530",
+   "live": true,
+   "total": 130,
+   "parked": 89,
+   "vacant": 41,
+   "updatedAt": "2026-10-28 00:01:23",
+   "paid": true,
+   "basicFee": 200,
+   "basicMin": 5,
+   "addFee": 200,
+   "addMin": 5,
+   "dayMax": 0,
+   "weekday": [
+    "0000",
+    "2400"
+   ],
+   "sat": [
+    "0000",
+    "2400"
+   ],
+   "holiday": [
+    "0000",
+    "2400"
+   ],
+   "lat": 37.5645259,
+   "lng": 127.0807859
+  }
+ ]
+}

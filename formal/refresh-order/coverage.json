@@ -1,0 +1,12 @@
+{
+  "설명": "RefreshOrder.tla가 근거로 삼는 index.html 조각의 sha256 앞 16자. 모델이 코드를 그대로 옮기는지 확인한 뒤에만 node formal/refresh-order/check.mjs --print-coverage 결과로 바꾼다.",
+  "snippets": {
+    "load()": "83aaebf057db7bf9",
+    "showError()": "e66ef903246f099c",
+    "refresh()": "6750edba4000833c",
+    "start()": "7bf0e969030942a8",
+    "refresh 버튼 연결": "e8bfdae48371e935",
+    ".loading-veil": "20bf7a080e5212e1",
+    "시작 호출": "9b41e7f53af880e6"
+  }
+}

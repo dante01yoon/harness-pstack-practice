@@ -105,7 +105,7 @@ test("figma guard lets the read-only export through but not a disguised write", 
 test("new files only go to the plan named in figma.json", () => {
   const p = tempProject({ fileKey: null, planKey: "team::<팀>" }, { system: { by: "t", at: "x" } });
   assert.equal(decide(ev("create_new_file", { planKey: "team::<팀>" }), p).ok, true);
-  assert.equal(decide(ev("create_new_file", { planKey: "team::<팀>" }), p).ok, false);
+  assert.equal(decide(ev("create_new_file", { planKey: "team::다른팀" }), p).ok, false);
 });
 
 

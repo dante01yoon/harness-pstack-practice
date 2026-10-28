@@ -1,40 +1,44 @@
 # seoul-parking
 
-출발 전에 서울시 공영(시영)주차장 빈자리를 휴대폰 웹에서 확인하는 앱. 기준 문서는 `work/seoul-parking/PRD.md`.
+휴대폰 웹에서 서울시 공영주차장 빈자리를 3D 지도로 보여 주는 앱. 기준 문서는 `work/seoul-parking/PRD.md`.
 
-## 지금 상태
-- 화면은 `index.html` 한 파일(HTML·CSS·JS, 빌드 없음). 목록과 상세(`#/p/{PKLT_CD}`) 두 화면.
-- 데이터는 작은 서버 `server/index.mjs`(의존성 없음)가 Open API를 불러 `/api/parking`으로 넘긴다. `?gu=중구&gu=강서구`처럼 구를 주면 그 구의 행만 보내고, 브라우저가 받으면 gzip으로 보낸다. 서버는 `/`의 `index.html`과 `/api/parking`만 내주고 다른 파일(`.env` 포함)은 404다. `data/parking.json`은 테스트용으로 저장해 둔 실제 응답이다.
-- 로컬 확인: `node --env-file=.env server/index.mjs` 뒤 `http://127.0.0.1:8000/`. 휴대폰에서 보려면 `HOST=0.0.0.0`을 준다. `file://`이나 `python3 -m http.server`로는 데이터가 오지 않는다.
-- 화면 검사: `design-harness lint:web index.html` (토큰 밖 색·글자 크기, 44px 미만 버튼, 금지 카피). 화면을 바꾸면 돌리고 오류 0개를 확인한다. 파일 인자를 꼭 준다(인자가 없으면 플러그인 기본값 `work/seoul-parking/web/*.html`을 찾다가 아무것도 검사하지 않는다).
-- 테스트: `node --test tests/*.test.mjs` (의존성 없음). 동작을 바꿀 때는 `/tdd` 순서를 따른다.
-- 디자인 원본 대조: `design-harness check`(단계 게이트, DESIGN.md가 tokens·components·copy.json으로 다시 만든 것과 글자 단위로 같은지 + 공식 린트). `tests/design.test.mjs`는 같은 대조를 값 수준(DESIGN.md front matter·컴포넌트·금지어, `index.html` `:root`)으로 해서 CI에서도 돈다.
+## 늘 지킬 것
+- 숫자는 서울 열린데이터광장 실제 응답에서만 가져온다. 빈자리·요금·시각을 지어내거나 추정하지 않는다.
+- 인증키(`.env`의 `SEOUL_OPENAPI_KEY`)는 커밋하지 않고, 브라우저 코드·정적 파일에 넣지 않는다. API는 서버(또는 서버리스 함수)를 거쳐 부른다.
+- 빈자리 숫자 옆에는 항상 기준 시각을 둔다. 20분 넘으면 "오래됨", 실시간 연계가 없으면 숫자 대신 "실시간 정보 없음".
+- 운전 중 사용을 권하거나 전제하는 문구를 쓰지 않는다.
+- 범위 밖(PRD "범위 밖")인 기능은 만들지 않는다. 필요해 보이면 먼저 묻는다.
+- 휴대폰 웹(390×844)이 기준이다. 데스크톱은 같은 화면을 가운데 폭 고정으로 보인다.
+- 디자인 판단이 PRD·승인된 산출물(`work/seoul-parking/`)과 코드가 다르면 산출물이 맞다. 코드를 산출물에 맞춘다.
 
-검사가 도는 곳:
+## pstack과 나눈 일
+pstack 플러그인(`enabledPlugins`)이 일반 작업 방식(TDD 순서, 원칙, 플레이북)을 맡고, 이 파일과 `.claude/`는 이 앱만의 사실만 둔다. 둘이 다르면 이쪽이 앞선다.
+- 위의 "먼저 묻는다"와 사람 승인(`approvals.json`)은 pstack의 "사람을 기다리지 않는다"·자율 진행보다 앞선다.
+- pstack 플레이북의 다른 디자인 시안 만들기(prototype·arena)는 승인된 산출물을 바꾸지 않는 범위에서만 쓴다.
 
-| 언제 | 무엇 |
-|---|---|
-| 파일 편집 직후 (`.claude/hooks/after-edit.sh`) | 인증키 값, 승인 산출물 수정 알림, 화면·데이터·테스트·디자인 원본이면 `node --test`, 화면·`tokens`·`copy`·`ia.json`이면 `lint:web` |
-| 답을 끝낼 때 (Stop) | `.claude/hooks/before-stop.sh`: 커밋 안 된 변경이 있는 영역만 `node --test`·`lint:web`. 플러그인 Stop 훅: `design-harness check`. FAIL에서만 막고 WAIT(승인 대기·승인 뒤 산출물이 바뀜)은 막지 않으니, 승인 상태는 `design-harness check` 출력에서 직접 본다 |
-| PR·main 푸시 (`.github/workflows/check.yml`) | `node --test`(design.test 포함), 설정·훅 문법. `lint:web`·`check`는 로컬 플러그인이라 없으니 PR 전에 직접 돌린다 |
+## 구조
+- `index.html` — 앱 전체(HTML·CSS·JS 한 파일, 빌드 없음)
+- `server.mjs` — 앱과 `/api/parkings`(실시간 데이터)를 내보내는 서버. 인증키는 여기서만 읽는다
+- `data/parkings.json` — 화면 검사·테스트용 실제 응답 스냅샷(`/api/parkings`와 같은 모양)
+- `work/seoul-parking/` — 디자인 하네스 산출물(PRD·토큰·카피·IA·핸드오프), `out/` — 내보낸 와이어프레임
+- `scripts/lint-web.mjs` — 앱을 상태별로 띄워 design-harness `lint:web`에 넘기는 드라이버
 
-## 무엇을 기준으로 삼나
-- 기능과 범위: `PRD.md`. 범위 밖(지도·현재 위치·예약·결제·로그인·즐겨찾기·빈자리 예측)은 요청이 없으면 만들지 않는다.
-- 색·간격·글자: `work/seoul-parking/tokens.json`. 문구: `work/seoul-parking/copy.json`. 둘 다 사람이 승인한 값이다.
-- 문서끼리 어긋나면 고치기 전에 사용자에게 묻는다. 어느 한쪽을 임의로 맞추지 않는다.
+확인은 저장소 루트에서 서버로 연다(데이터가 `/api`에서 오므로 정적 서버로는 안 된다): `node server.mjs` → http://localhost:8000
+테스트(의존성 없음, Node 18+): `node --test tests/*.test.mjs`
 
-## 항상 지킬 것
-- 인증키(`.env`의 `SEOUL_OPENAPI_KEY`)는 커밋하지 않고, 브라우저로 가는 코드·응답·로그·URL에 넣지 않는다. Open API는 서버에서만 부른다.
-- 빈자리 숫자에는 언제나 기준 시각(`NOW_PRK_VHCL_UPDT_TM`, KST)을 함께 보여 준다. 기준 시각이 20분을 넘으면 오래됨으로 표시한다.
-- 실시간 미연계(`PRK_STTS_YN=0`)는 "실시간 정보 없음"이다. 0자리·"-"·빈칸으로 보이게 하지 않는다. 계산값 0은 "만차"로 따로 구분한다.
-- 값이 비었거나 뜻이 불분명하면 "정보 없음". 추측해서 채우지 않는다.
-- 화면·예시·테스트에 넣는 숫자는 실제 API 응답 값만 쓴다. 주차 대수나 요금을 지어내지 않는다.
-- 화면 하단 출처 표시(공공누리 제1유형 조건)를 지우지 않는다.
-- 검사를 통과시키려고 테스트(`tests/`)·훅·하네스 검사를 약하게 고치지 않는다. 화면을 고치거나, 원본이 틀렸으면 사용자에게 묻는다.
-- 문구는 해요체, 짧고 담담하게. 도착 시점의 빈자리를 약속하는 말("확실", "보장", "자리 있어요" 등)을 쓰지 않는다. 금지어 전체는 `copy.json`의 `banned`.
+## 디자인 하네스 검사
+design-harness 플러그인(`.claude/settings.json`의 `enabledPlugins`)이 디자인 원본(`work/seoul-parking/`)을 관리하고, 앱 쪽 검사는 아래처럼 나눠 돈다.
 
-## pstack과 같이 쓸 때
-- 일반 작업 방식(TDD 순서, 검증, 보고)은 pstack 스킬을 따르고, 이 파일과 `.claude/rules/`는 이 앱의 사실만 둔다.
-- pstack의 "사람을 기다리지 말고 진행" 원칙보다 이 앱의 확인 지점이 먼저다. 문서끼리 어긋날 때, 승인된 산출물(`work/seoul-parking/*.json`·`PRD.md`)을 바꿀 때는 사람에게 묻고, 승인(`design-harness approve`)은 사람이 직접 한다.
+| 검사 | 무엇을 | 언제 |
+|---|---|---|
+| `node --test tests/*.test.mjs` (`design.test.mjs` 포함) | 승인 해시(approvals.json) 그대로인지, DESIGN.md front matter·`:root`·`T` 색·오래됨 기준·index.html 색 값이 tokens.json과 같은지 | 파일 고칠 때마다(PostToolUse 훅), CI |
+| `node scripts/lint-web.mjs` | 불러오는 중·실패·WebGL 없음·지도·목록·검색·검색 결과 없음·상세(실시간 없음·위치 없음) 화면을 실제로 그려 토큰 밖 색·글자 크기·44px 미만 버튼·금지 문구 | 답을 끝낼 때(Stop 훅, 입력이 지난 통과 뒤 바뀐 경우만), 직접 실행 |
+| `design-harness check` | 단계 게이트: PRD~핸드오프, Figma 노드 린트, DESIGN.md가 원본으로 새로 만든 것과 같은지·공식 린트, 사람 승인 | 답을 끝낼 때(플러그인 Stop 훅) |
 
-파일별 세부 규칙은 `.claude/rules/`에 있고, 해당 파일을 만질 때 함께 읽힌다.
+- 명령은 `design-harness <명령>`으로 부른다. 플러그인 쪽 문서의 `npm run check` 같은 이름은 플러그인 저장소용이고, 이 저장소엔 package.json이 없다. 플러그인 CLI는 Node 20+가 필요하다(앱 테스트는 18+).
+- `lint:web`은 두 가지다: 플러그인 `design-harness lint:web`(검사 규칙)과 이 저장소 `scripts/lint-web.mjs`(상태별 화면을 만들어 넘기는 드라이버). 드라이버는 파일을 인자로 넘기므로 실패가 `failures.jsonl`에 남지 않는다.
+- 검사를 통과시키려고 `scripts/lint-web.mjs`·`tests/design.test.mjs`를 약하게 고치지 않는다(플러그인 규칙 "nodes.json·검사 스크립트를 고치지 않는다"와 같은 뜻). 앱이나 원본을 고친다.
+- `design-harness lint:web index.html`을 그냥 돌리면 첫 화면(file://이면 불러오기 실패)만 본다. 화면 검사는 `scripts/lint-web.mjs`로 한다.
+- DESIGN.md는 손으로 고치지 않는다. 원본(tokens·components·copy)을 바꾸고 승인받은 뒤 `design-harness design-md`로 다시 만든다.
+- CI에는 플러그인이 없다(로컬 폴더 마켓플레이스). CI는 `node --test`만 돌고, 렌더링 검사와 DESIGN.md 재생성 비교는 로컬 Stop 훅이 맡는다.
+- Stop 훅은 같은 답에서 한 번만 막는다(`stop_hook_active`). 플러그인·브라우저·외부 리소스가 없으면 건너뛰고 그 사실만 알린다.

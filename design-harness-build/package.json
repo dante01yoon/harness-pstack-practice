@@ -1,0 +1,17 @@
+{
+  "name": "design-harness",
+  "version": "0.1.0",
+  "description": "디자인 작업 단계 게이트와 승인 기록 하네스",
+  "type": "module",
+  "bin": {
+    "design-harness": "bin/design-harness.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
+  "license": "UNLICENSED",
+  "private": true
+}

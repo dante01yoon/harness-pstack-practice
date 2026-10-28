@@ -1,26 +1,37 @@
 {
+  "map": [
+    { "region": "3D 지도 + 빈자리 기둥", "priority": 1, "height": 400, "content": "세종로 공영주차장(시) 기둥 위 라벨 1067. 건물은 연한 무채색, 기둥은 채도 있는 색(빈자리 비율 구간). 전체 화면 지도, 아래 영역들은 지도 위에 떠 있음. 겹치면 줌이 낮을 땐 큰 값 라벨만, 확대하면 모두 표시. 기둥 탭=상세 시트." },
+    { "region": "떠 있는 검색창", "priority": 2, "height": 56, "content": "플레이스홀더 '주차장 이름·구 검색 (예: 세종로, 종로구)'. 탭하면 검색 화면." },
+    { "region": "지도/목록 알약 토글", "priority": 3, "height": 48, "content": "[지도 | 목록] 현재 '지도'가 채워짐. WebGL 없으면 지도 비활성." },
+    { "region": "현위치·새로고침 버튼", "priority": 4, "height": 56, "content": "우측 하단 엄지 영역 원형 버튼 2개. 새로고침 옆에 '기준 2026-10-28 00:01:23'. 받는 중엔 새로고침이 돌고, 권한 거부 시 현위치 버튼 비활성." },
+    { "region": "하단 범례", "priority": 5, "height": 56, "content": "기둥 높이=빈자리 수, 색=빈자리 비율 구간, 흐린 기둥=오래됨(20분 초과), 회색=실시간 정보 없음. 비율 구간 경계값은 —." },
+    { "region": "저작권 칩", "priority": 6, "height": 40, "content": "서울 열린데이터광장 · © OpenFreeMap © OpenMapTiles © OpenStreetMap contributors" },
+    { "region": "상태·움직임 주석", "priority": 7, "height": 188, "content": "loading: 지도 위 스켈레톤+'불러오는 중'. error: 상단 배너 '불러오지 못했습니다' + [다시 시도]. permission-denied: '위치를 쓸 수 없어 시청 근처로 시작합니다' 토스트. empty: '이 화면 안에 주차장이 없습니다' + [목록 보기]. stale: 기둥 흐림 + 라벨 옆 '오래됨'. no-realtime: 회색 기둥·숫자 대신 '실시간 정보 없음'. 움직임: 첫 진입 시 서울 전체에서 사용자 위치(없으면 시청 근처)로 카메라 비행, 기둥이 바닥에서 솟음, 새로고침 후 높이가 부드럽게 전환, 알약 토글 시 지도와 목록 높이 전환. prefers-reduced-motion에서는 비행·솟음·전환을 끄고 즉시 표시." }
+  ],
   "list": [
-    { "region": "헤더·새로고침", "priority": 6, "height": 48, "content": "서울 공영주차장 빈자리 · 새로고침(44px)" },
-    { "region": "이름·주소 검색", "priority": 2, "height": 56, "content": "주차장 이름·주소 검색 (예: 세종로)" },
-    { "region": "구 필터 칩(가로 스크롤)", "priority": 3, "height": 56, "content": "전체 · 종로구 · 중구 · 영등포구 … 23개 구" },
-    { "region": "결과 건수·기준", "priority": 5, "height": 44, "content": "총 122곳 · 목록 불러온 시각 표시" },
-    { "region": "오래됨 경고(20분 초과 시)", "priority": 4, "height": 64, "content": "기준 시각이 20분 넘게 지났어요. 새로고침 [버튼]" },
-    { "region": "구 묶음 제목", "priority": 9, "height": 40, "content": "종로구 16곳 (구별 묶음)" },
-    { "region": "행: 실시간 연계", "priority": 1, "height": 96, "content": "PKLT_NM / 종로구 ADDR / 빈 {TPKCT-NOW}/{TPKCT}면 · 기준 HH:MM" },
-    { "region": "행: 실시간 미연계", "priority": 7, "height": 96, "content": "PKLT_NM / ADDR / 실시간 정보 없음 (0 아님)" },
-    { "region": "행: 버스전용", "priority": 8, "height": 96, "content": "PKLT_NM / ADDR / [버스전용] 승용차 해당 없음" },
-    { "region": "상태 영역(대체 표시)", "priority": 10, "height": 120, "content": "불러오는 중 · 실패: 다시 시도 · 결과 없음" },
-    { "region": "하단 출처", "priority": 11, "height": 72, "content": "출처: 서울 열린데이터광장, 서울시 시영주차장 실시간 주차대수 정보 (공공누리 1유형)" }
+    { "region": "상단 바 + 지도/목록 알약 토글", "priority": 3, "height": 56, "content": "[지도 | 목록] 현재 '목록'이 채워짐. no-webgl이면 '이 기기에서는 3D 지도를 쓸 수 없어 목록으로 시작합니다'." },
+    { "region": "정렬 전환 + 기준 시각", "priority": 2, "height": 56, "content": "[거리순 | 빈자리순] 위치 거부 시 거리순 비활성. 오른쪽 '기준 2026-10-28 00:01:23' + 새로고침." },
+    { "region": "주차장 항목: 세종로 공영주차장(시)", "priority": 1, "height": 96, "content": "세종로 공영주차장(시) 종로구 · 빈자리 1067 / 총 1260면 · 기준 2026-10-28 00:01:23 · 기본 430원/5분 · 거리 —." },
+    { "region": "주차장 항목: 종묘주차장 공영주차장(시)", "priority": 4, "height": 96, "content": "종묘주차장 공영주차장(시) · 빈자리 991 / 총 1312면 · 기준 시각 — · 400원/5분 · 거리 —." },
+    { "region": "항목 변형: 오래됨 / 실시간 없음 / 위치 없음", "priority": 5, "height": 140, "content": "오래됨: 숫자 옆 '오래됨' 표시+흐리게. 실시간 없음: 숫자 대신 '실시간 정보 없음'. 위치 정보 없음: 좌표 미결합 5곳, '위치 정보 없음' 표시, 거리 정보 없음, 정렬 맨 뒤." },
+    { "region": "하단 저작권 칩", "priority": 6, "height": 40, "content": "서울 열린데이터광장 · © OpenFreeMap © OpenMapTiles © OpenStreetMap contributors" },
+    { "region": "상태·움직임 주석", "priority": 7, "height": 360, "content": "loading: 항목 스켈레톤 줄. error: '불러오지 못했습니다' + [다시 시도]. empty: '이 화면 안에 주차장이 없습니다' + 지도 이동 안내. 목록은 지도와 같은 데이터·같은 기준 시각. 움직임: 지도↔목록 전환 시 높이 전환, 새로고침 시 숫자 부드럽게 바뀜. prefers-reduced-motion에서는 끄고 즉시 전환." }
+  ],
+  "search": [
+    { "region": "검색 입력 + 닫기", "priority": 1, "height": 64, "content": "입력 '세종로' · 자동 포커스 · 이름과 자치구만 검색 안내 '주소·장소는 검색하지 않습니다'." },
+    { "region": "결과: 주차장 이름", "priority": 2, "height": 96, "content": "세종로 공영주차장(시) 종로구 · 빈자리 1067 / 총 1260면 · 기준 2026-10-28 00:01:23. 탭하면 지도가 그 주차장으로 이동." },
+    { "region": "결과: 자치구", "priority": 3, "height": 72, "content": "종로구 · 주차장 —곳. 탭하면 지도가 구 전체로 이동." },
+    { "region": "결과 변형: 실시간 없음 / 위치 정보 없음", "priority": 4, "height": 120, "content": "실시간 없음: 숫자 대신 '실시간 정보 없음'. 위치 정보 없음: 탭하면 지도 대신 상세만 열림, 지도 이동 없음." },
+    { "region": "결과 없음 상태", "priority": 5, "height": 160, "content": "'‘—’에 맞는 주차장이나 구가 없습니다' + 이름 또는 구 이름으로 다시 검색 안내. 지도 이동 없음." },
+    { "region": "움직임 주석", "priority": 6, "height": 332, "content": "결과 탭 시 검색 화면이 닫히고 카메라가 해당 주차장 또는 구 전체로 날아감, 도착 후 기둥 강조. prefers-reduced-motion에서는 비행 대신 즉시 이동." }
   ],
   "detail": [
-    { "region": "상단 바", "priority": 9, "height": 48, "content": "← 목록 · PKLT_NM · 새로고침" },
-    { "region": "빈자리·기준 시각", "priority": 1, "height": 112, "content": "빈 {TPKCT-NOW}/{TPKCT}면 · 기준 HH:MM (미연계: 실시간 정보 없음)" },
-    { "region": "오래됨 경고", "priority": 2, "height": 56, "content": "20분 넘게 지난 숫자예요. 새로고침" },
-    { "region": "전화·주소", "priority": 3, "height": 80, "content": "ADDR / TELNO 탭하면 전화 걸기(44px)" },
-    { "region": "운영시간", "priority": 4, "height": 104, "content": "평일·주말·공휴일 / 0000~0000은 정보 없음" },
-    { "region": "요금", "priority": 5, "height": 128, "content": "기본 BSC_PRK_CRG/BSC_PRK_HR · 추가 · 월 정기권" },
-    { "region": "유형·구분", "priority": 6, "height": 104, "content": "노상/노외 · 시간제/버스전용 · 유료/무료" },
-    { "region": "토·공휴일·야간", "priority": 7, "height": 72, "content": "토요일·공휴일 유무료 · 야간 개방" },
-    { "region": "하단 출처", "priority": 8, "height": 72, "content": "출처: 서울 열린데이터광장, 서울시 시영주차장 실시간 주차대수 정보 (공공누리 1유형)" }
+    { "region": "빈자리 / 총 주차면", "priority": 1, "height": 120, "content": "1067 / 총 1260면 (현재 193대). 가장 크게. 기준 2026-10-28 00:01:23. 20분 초과 시 '오래됨', 실시간 없으면 숫자 대신 '실시간 정보 없음'." },
+    { "region": "시트 핸들 + 이름·주소", "priority": 2, "height": 96, "content": "세종로 공영주차장(시) · 종로구 세종로 80-1 · 공영(유료). 핸들 드래그로 높이 전환, 아래로 밀면 닫힘." },
+    { "region": "요금", "priority": 3, "height": 96, "content": "기본 430원/5분 · 추가 요금 — · 일 최대 요금 — (0이면 표시 안 함)." },
+    { "region": "운영시간", "priority": 4, "height": 96, "content": "평일 24시간 (0000–2400) · 토요일 — · 공휴일 —." },
+    { "region": "전화 + 길찾기", "priority": 5, "height": 88, "content": "[02-2290-6566 전화] [외부 지도 앱으로 길찾기]. 위치 정보 없음이면 길찾기 숨김." },
+    { "region": "저작권 칩", "priority": 7, "height": 40, "content": "서울 열린데이터광장 · © OpenFreeMap © OpenMapTiles © OpenStreetMap contributors" },
+    { "region": "상태·움직임 주석", "priority": 6, "height": 308, "content": "시트는 아래에서 올라오고 뒤 지도는 해당 기둥으로 살짝 이동. stale: 기준 시각 옆 '오래됨'. no-realtime: 숫자 영역을 '실시간 정보 없음'으로 대체, 요금·운영시간은 그대로. prefers-reduced-motion에서는 올라오는 움직임을 끄고 즉시 표시." }
   ]
 }

@@ -1,32 +1,33 @@
 ---
 name: tdd
-description: seoul-parking에서 테스트부터 쓰고 고치는 순서(실패 확인 → 최소 수정 → 통과 → 정리). 기능 추가·버그 수정·"테스트부터", /tdd 요청에 쓴다.
-argument-hint: "[바꿀 동작 한 줄]"
+description: 테스트를 먼저 쓰고(실패 확인) → 최소 수정으로 통과 → 정리하는 순서로 고친다. "TDD로", "테스트 먼저", 버그 수정·동작 변경 요청이나 /tdd에 쓴다.
 ---
 
-# /tdd — 테스트 먼저
+# /tdd — 테스트 먼저, 그다음 고친다
 
-바꿀 동작: $ARGUMENTS
+요청: $ARGUMENTS
 
-빨강 → 초록 → 정리 순서와 보고 방식은 pstack `tdd` 스킬(`/pstack:tdd`)을 따른다. 이 파일에는 이 앱의 사실만 둔다. 다만 pstack은 테스트 경로가 불분명하면 건너뛰라고 하는데, 여기서는 아래 하네스로 늘 테스트할 수 있으니 `index.html` 동작을 바꿀 때는 버그든 기능이든 건너뛰지 않는다.
+순서(실패하는 테스트 → 기대한 이유로 실패하는지 확인 → 최소 수정 → 다시 실행)와 가드레일(테스트를 구현에 맞춰 약하게 고치지 않는다)은 pstack `tdd` 스킬(`/pstack:tdd`)을 따른다. 이 파일은 그 순서를 이 저장소에서 돌릴 때 필요한 사실만 둔다.
 
-## 시작 전
-- 바꿀 동작이 `work/seoul-parking/PRD.md` 범위 안인지 본다. 범위 밖(지도·현재 위치·예약·결제·로그인·즐겨찾기·빈자리 예측)이면 멈추고 묻는다.
-- 문구가 필요하면 `work/seoul-parking/copy.json`의 `examples`부터 찾는다. PRD·tokens·copy가 서로 어긋나면 고치기 전에 사용자에게 묻는다.
-- 지금 상태가 초록인지 먼저 확인한다: `node --test tests/*.test.mjs`
+- pstack은 테스트 경로가 비싸면 건너뛰라고 하지만, 여기서는 `node --test tests/*.test.mjs`가 의존성 없이 바로 돌므로 건너뛰지 않는다.
+- 파일을 고칠 때마다 PostToolUse 훅(`.claude/hooks/run-tests.mjs`)이 전체 테스트를 돌리고, 실패하면 결과를 돌려준다. 실패 전·통과 후 증거로 훅 결과를 쓴다.
 
-## 테스트 쓰는 곳과 도구
-- `node:test`만 쓴다(설치할 것 없음, 빌드 도구·프레임워크 금지).
-- 화면은 `tests/screen.test.mjs`, 저장소·데이터는 `tests/repo.test.mjs`. 테스트 이름은 한국어로, 지켜야 할 동작을 문장으로 쓴다.
-- 화면은 `tests/harness.mjs`의 `open()`으로 띄운다. `index.html`을 고치지 않고 그 `<script>`를 그대로 돌린다.
-  - `open({ now, hash, body })`: `now`는 앱이 보는 현재 시각(ms), `hash`는 처음 화면(`#/p/{PKLT_CD}`), `body`는 fetch 응답(`null`이면 실패).
-  - `app.rowOf(id)` 목록 한 행 HTML, `app.screen()` 전체 HTML, `app.text()` 태그 뺀 글자, `app.serve(b)` 다음 응답 교체, `app.click(act)` `data-act` 버튼 누르기.
-  - 기준 시각은 `kst(row(id).NOW_PRK_VHCL_UPDT_TM)`로 얻고, 오래됨은 `now`를 옮겨서 만든다.
-- **숫자는 `data/parking.json`의 실제 값만 쓴다.** 만차·미연계·버스전용은 실제 행이 있다(예: 172971 만차, 1235522 미연계, 171721 실시간).
-- 실제 응답에 없는 상태가 필요하면 `structuredClone(response)`로 복사해 코드 안에서 바꾼다. `data/parking.json`은 고치지 않는다.
+## 근거와 범위
+- 기대 결과는 `CLAUDE.md`, `.claude/rules/*`, `work/seoul-parking/`(PRD·`copy.json`·`tokens.json`)에서 근거를 찾는다. 근거가 없거나 산출물과 요청이 어긋나면 테스트를 쓰기 전에 묻는다.
+- 범위 밖(PRD "범위 밖") 기능이면 멈추고 묻는다.
+- 빈자리·요금·시각 같은 숫자는 `data/parkings.json` 실제 값이나 규칙에서 나온 값만 쓴다. 지어내지 않는다.
+
+## 테스트를 둘 곳
+- `tests/app.test.mjs` — `index.html` 스크립트의 도우미(`isStale`, `band`, `columnPx`, `hours`, `addr`, `oldest`, `esc`, `kst` 등)와 화면 문구·출처. 새 도우미를 시험하려면 `load()`의 `globalThis.__ = {...}` 목록에 이름을 더한다. 도우미는 `// ---- 지오메트리 ----` 줄 위에 있어야 DOM 없이 실행된다.
+- `tests/data.test.mjs` — `data/parkings.json` 스냅샷 형태·필드 대응·두 사본 일치·인증키 노출.
+- `tests/design.test.mjs` — 승인 해시와 토큰 대조(DESIGN.md·`:root`·`T`). 동작 테스트를 여기에 넣지 않는다. 여기서 실패하면 테스트가 아니라 `index.html`을 `tokens.json`에 맞춘다(원본을 바꿔야 하면 승인 문제이므로 묻는다).
+- 테스트 하나는 동작 하나. 이름은 한국어로 "무엇이 어떠하다" 꼴(기존 테스트와 같게).
 
 ## 고칠 때
-- `.claude/rules/web-ui.md`를 따른다.
-- 파일을 고치면 편집 훅이 테스트와 `lint:web`을 돌리고, 답을 끝낼 때 Stop 훅이 다시 돌린다. 훅이 실패를 돌려주면 그걸 먼저 고친다.
-- 화면을 바꿨으면 `web-ui.md`의 "끝내기 전"대로 360px에서 직접 본다.
-- 보고에는 마지막 `node --test`와 `design-harness lint:web index.html` 결과를 함께 적는다.
+- 제품 코드는 `.claude/rules/index-html.md`의 토큰·문구·`esc()`·reduced-motion 규칙을 지킨다. 상수는 `T` 한 곳에 둔다.
+- 기존 테스트가 틀렸다고 판단되면 고치지 말고 근거와 함께 사용자에게 묻는다.
+
+## 마무리
+- `node --test tests/*.test.mjs`를 한 번 직접 돌려 최종 결과를 확인한다.
+- 화면에 보이는 변화가 있으면 `python3 -m http.server`로 열어 390×844에서 확인할 수 있다고 안내한다(테스트로는 레이아웃을 보지 않는다).
+- 커밋하면 테스트와 수정을 한 커밋에 담는다. pstack bug-fix 플레이북의 "실패 테스트를 먼저 커밋"보다 이 규칙이 앞선다.

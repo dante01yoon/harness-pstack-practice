@@ -1,48 +1,77 @@
 ---
 version: "alpha"
 name: "seoul-parking"
-description: "서울 공영주차장 빈자리 확인(휴대폰 웹, 360px부터). 방향: 도로 주차 표지판의 청색 판과 흰 글자를 빌린 '안내판' 언어 — 둥근 카드와 그림자 대신 구분선으로 나눈 단일 열 행, 빈자리 숫자는 크게, 기준 시각은 숫자 바로 옆. 상태는 색 + 글자 + 아이콘을 함께 쓰고 색만으로 구분하지 않는다. primitive(값) -> semantic(의도) 두 층이며 화면·코드는 semantic만 쓴다."
+description: "seoul-parking 토큰. primitive(값) -> semantic(의도). 화면·코드는 semantic만 쓴다. 원칙: 지도와 화면 틀(검색창·버튼·시트)은 무채색, 채도 있는 색은 빈자리 기둥(데이터)에만 쓴다. 기둥 색은 빈자리 비율 구간이고 항상 숫자 라벨을 같이 보인다."
 colors:
   primary: "{colors.brand}"
-  brand: "#0A4A94"
-  brand-soft: "#E6EEF8"
-  on-brand: "#FFFFFF"
-  text: "#16202A"
-  text-muted: "#475563"
+  brand: "#15191E"
+  action: "#15191E"
+  on-action: "#FFFFFF"
+  text: "#15191E"
+  text-muted: "#4B525B"
+  text-disabled: "#5A616A"
   surface: "#FFFFFF"
-  surface-sunken: "#F2F4F6"
-  border: "#D3DAE1"
-  border-strong: "#7A8794"
-  warning: "#6E4300"
-  warning-soft: "#FFF1D6"
-  danger: "#B0261C"
-  danger-soft: "#FCEBEA"
-  focus: "#0A4A94"
+  surface-sunken: "#F3F4F6"
+  skeleton: "#E4E7EA"
+  border: "#DADDE1"
+  border-float: "#B9BEC5"
+  focus: "#15191E"
+  inverse: "#15191E"
+  on-inverse: "#FFFFFF"
+  danger: "#B42318"
+  danger-soft: "#FDECEA"
+  badge-stale-bg: "#FFFFFF"
+  badge-stale-text: "#15191E"
+  badge-stale-border: "#15191E"
+  badge-muted-bg: "#ECEEF1"
+  badge-muted-text: "#3A4048"
+  map-ground: "#EEF0F2"
+  map-building: "#DADDE1"
+  map-building-front: "#E4E7EA"
+  map-building-side: "#ECEEF1"
+  map-shadow: "#15191E"
+  map-road: "#FFFFFF"
+  map-water: "#ECEEF1"
+  map-label: "#5A616A"
+  column-plenty: "#0B7A5E"
+  column-some: "#A86F00"
+  column-few: "#C2410C"
+  column-full: "#B0124A"
+  column-no-realtime: "#6A717A"
+  column-face-plenty-top: "#2D8D75"
+  column-face-plenty-side: "#085D47"
+  column-face-some-top: "#B17D1A"
+  column-face-some-side: "#805400"
+  column-face-few-top: "#CB5C2E"
+  column-face-few-side: "#933109"
+  column-face-full-top: "#BB3363"
+  column-face-full-side: "#860E38"
+  column-face-no-realtime-top: "#80868E"
+  column-face-no-realtime-side: "#4B525B"
+  leader: "#4B525B"
 typography:
   caption:
-    fontFamily: "IBM Plex Sans KR"
-    fontSize: "13px"
+    fontFamily: "Noto Sans KR"
+    fontSize: "12px"
   label:
-    fontFamily: "IBM Plex Sans KR"
-    fontSize: "15px"
+    fontFamily: "Noto Sans KR"
+    fontSize: "14px"
   body:
-    fontFamily: "IBM Plex Sans KR"
+    fontFamily: "Noto Sans KR"
     fontSize: "16px"
   title:
-    fontFamily: "IBM Plex Sans KR"
-    fontSize: "18px"
-  heading:
-    fontFamily: "IBM Plex Sans KR"
-    fontSize: "22px"
-  count:
-    fontFamily: "IBM Plex Sans KR"
-    fontSize: "32px"
-  count-lg:
-    fontFamily: "IBM Plex Sans KR"
-    fontSize: "48px"
+    fontFamily: "Noto Sans KR"
+    fontSize: "20px"
+  headline:
+    fontFamily: "Noto Sans KR"
+    fontSize: "28px"
+  display:
+    fontFamily: "Noto Sans KR"
+    fontSize: "44px"
 rounded:
-  sm: "4px"
-  md: "8px"
+  tag: "4px"
+  sheet: "20px"
+  pill: "999px"
 spacing:
   "1": "4px"
   "2": "8px"
@@ -52,98 +81,117 @@ spacing:
   "6": "24px"
   "8": "32px"
 components:
-  app-bar:
+  floating-search-bar:
     backgroundColor: "{colors.surface}"
+    textColor: "{colors.text-muted}"
+    rounded: "{rounded.pill}"
+    size: "44px"
     height: "48px"
-    typography: "{typography.title}"
+    typography: "{typography.body}"
+  view-toggle:
+    backgroundColor: "{colors.action}"
+    textColor: "{colors.on-action}"
+    rounded: "{rounded.pill}"
+    size: "44px"
+    typography: "{typography.label}"
+  map-fab:
+    backgroundColor: "{colors.surface}"
+    rounded: "{rounded.pill}"
+    size: "44px"
+  updated-at:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.text-muted}"
+    typography: "{typography.label}"
+    rounded: "{rounded.pill}"
+  vacancy-column:
+    size: "44px"
+  column-label:
+    backgroundColor: "{colors.surface}"
     textColor: "{colors.text}"
+    rounded: "{rounded.tag}"
+    size: "44px"
+    typography: "{typography.title}"
+  map-legend:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.text-muted}"
+    typography: "{typography.label}"
+    rounded: "{rounded.tag}"
+    padding: "{spacing.3}"
+  attribution-chip:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.text-muted}"
+    typography: "{typography.caption}"
+    rounded: "{rounded.pill}"
+  bottom-sheet:
+    backgroundColor: "{colors.surface}"
+    rounded: "{rounded.sheet}"
+    padding: "{spacing.4}"
+  sheet-handle:
+    size: "44px"
+    height: "44px"
+    rounded: "{rounded.pill}"
+  detail-vacancy:
+    textColor: "{colors.text}"
+    typography: "{typography.display}"
+  info-row:
+    textColor: "{colors.text}"
+    typography: "{typography.body}"
+  button:
+    backgroundColor: "{colors.action}"
+    textColor: "{colors.on-action}"
+    rounded: "{rounded.pill}"
+    size: "44px"
+    height: "48px"
+    typography: "{typography.body}"
+  list-item:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.text}"
+    size: "44px"
+    height: "96px"
+  sort-toggle:
+    backgroundColor: "{colors.action}"
+    textColor: "{colors.on-action}"
+    rounded: "{rounded.pill}"
+    size: "44px"
+    typography: "{typography.label}"
+  status-badge:
+    backgroundColor: "{colors.badge-muted-bg}"
+    textColor: "{colors.badge-muted-text}"
+    rounded: "{rounded.tag}"
+    typography: "{typography.label}"
+  error-banner:
+    backgroundColor: "{colors.danger-soft}"
+    textColor: "{colors.text}"
+    rounded: "{rounded.tag}"
+    padding: "{spacing.3}"
+    typography: "{typography.body}"
+  toast:
+    backgroundColor: "{colors.inverse}"
+    textColor: "{colors.on-inverse}"
+    rounded: "{rounded.tag}"
+    padding: "{spacing.3}"
+    typography: "{typography.body}"
+  state-message:
+    textColor: "{colors.text}"
+    typography: "{typography.body}"
+  skeleton:
+    backgroundColor: "{colors.skeleton}"
+    rounded: "{rounded.tag}"
+  search-field:
+    backgroundColor: "{colors.surface-sunken}"
+    textColor: "{colors.text}"
+    rounded: "{rounded.pill}"
+    size: "44px"
+    height: "48px"
+    typography: "{typography.body}"
   icon-button:
     size: "44px"
-    rounded: "{rounded.sm}"
-  favorite-button:
-    size: "44px"
-    rounded: "{rounded.sm}"
-  search-field:
-    size: "44px"
-    height: "48px"
+    rounded: "{rounded.pill}"
+  search-result-row:
     backgroundColor: "{colors.surface}"
-    rounded: "{rounded.md}"
+    textColor: "{colors.text}"
+    size: "44px"
     typography: "{typography.body}"
-    textColor: "{colors.text}"
-  district-chip:
-    size: "44px"
-    backgroundColor: "{colors.surface}"
-    typography: "{typography.label}"
-    textColor: "{colors.text}"
-    rounded: "{rounded.sm}"
-  result-summary:
-    typography: "{typography.label}"
-    textColor: "{colors.text-muted}"
-    height: "44px"
-  stale-banner:
-    backgroundColor: "{colors.warning-soft}"
-    textColor: "{colors.warning}"
-    typography: "{typography.label}"
-    rounded: "{rounded.md}"
-    padding: "{spacing.3}"
-  opening-banner:
-    backgroundColor: "{colors.brand-soft}"
-    textColor: "{colors.text}"
-    typography: "{typography.label}"
-    rounded: "{rounded.md}"
-    padding: "{spacing.3}"
-  group-header:
-    backgroundColor: "{colors.surface-sunken}"
-    typography: "{typography.label}"
-    textColor: "{colors.text}"
-  parking-row:
-    size: "96px"
-    backgroundColor: "{colors.surface}"
-  availability-count:
-    textColor: "{colors.text}"
-  timestamp:
-    typography: "{typography.label}"
-    textColor: "{colors.text-muted}"
-  no-realtime-tag:
-    backgroundColor: "{colors.surface-sunken}"
-    typography: "{typography.label}"
-    textColor: "{colors.text}"
-    rounded: "{rounded.sm}"
-  bus-only-tag:
-    backgroundColor: "{colors.surface}"
-    typography: "{typography.label}"
-    textColor: "{colors.text}"
-    rounded: "{rounded.sm}"
-  button:
-    size: "44px"
-    backgroundColor: "{colors.brand}"
-    textColor: "{colors.on-brand}"
-    rounded: "{rounded.sm}"
-  state-message:
-    backgroundColor: "{colors.surface-sunken}"
-    textColor: "{colors.text}"
-    rounded: "{rounded.md}"
-    padding: "{spacing.5}"
-  skeleton-row:
-    backgroundColor: "{colors.surface-sunken}"
-    size: "96px"
-    rounded: "{rounded.sm}"
-  detail-hero:
-    backgroundColor: "{colors.surface}"
-    textColor: "{colors.text}"
-    padding: "{spacing.4}"
-  detail-section:
-    backgroundColor: "{colors.surface}"
-    textColor: "{colors.text}"
-  phone-link:
-    size: "44px"
-    textColor: "{colors.brand}"
-    typography: "{typography.body}"
-  source-note:
-    backgroundColor: "{colors.surface-sunken}"
-    typography: "{typography.caption}"
-    textColor: "{colors.text-muted}"
-    padding: "{spacing.4}"
 ---
 
 # seoul-parking 디자인 시스템
@@ -152,65 +200,138 @@ components:
 
 ## Overview
 
-서울 공영주차장 빈자리 확인(휴대폰 웹, 360px부터). 방향: 도로 주차 표지판의 청색 판과 흰 글자를 빌린 '안내판' 언어 — 둥근 카드와 그림자 대신 구분선으로 나눈 단일 열 행, 빈자리 숫자는 크게, 기준 시각은 숫자 바로 옆. 상태는 색 + 글자 + 아이콘을 함께 쓰고 색만으로 구분하지 않는다. primitive(값) -> semantic(의도) 두 층이며 화면·코드는 semantic만 쓴다.
+seoul-parking 토큰. primitive(값) -> semantic(의도). 화면·코드는 semantic만 쓴다. 원칙: 지도와 화면 틀(검색창·버튼·시트)은 무채색, 채도 있는 색은 빈자리 기둥(데이터)에만 쓴다. 기둥 색은 빈자리 비율 구간이고 항상 숫자 라벨을 같이 보인다.
 
-문구 톤: 해요체로 짧고 담담하게. 데이터가 말하는 만큼만 말하고(숫자에는 늘 기준 시각을 붙인다), 사용자를 탓하지 않으며 다음 행동을 한 가지 알려 준다.
+문구 톤: 합니다체, 짧고 사실만. 숫자와 기준 시각을 먼저 말하고, 사용자를 탓하지 않고 다음 행동 하나를 알려 준다.
 
 ## Colors
 
 코드와 화면은 아래 semantic 색만 쓴다. primitive 값은 출처로만 적는다.
 
-- **brand** (#0A4A94) ← `primitive.color.sign-blue-800`
-- **brand-soft** (#E6EEF8) ← `primitive.color.sign-blue-50`
-- **on-brand** (#FFFFFF) ← `primitive.color.paper-0`
-- **text** (#16202A) ← `primitive.color.ink-900`
-- **text-muted** (#475563) ← `primitive.color.ink-600`
-- **surface** (#FFFFFF) ← `primitive.color.paper-0`
-- **surface-sunken** (#F2F4F6) ← `primitive.color.paper-50`
-- **border** (#D3DAE1) ← `primitive.color.ink-200`
-- **border-strong** (#7A8794) ← `primitive.color.ink-400`
-- **warning** (#6E4300) ← `primitive.color.amber-800`
-- **warning-soft** (#FFF1D6) ← `primitive.color.amber-50`
-- **danger** (#B0261C) ← `primitive.color.red-800`
-- **danger-soft** (#FCEBEA) ← `primitive.color.red-50`
-- **focus** (#0A4A94) ← `primitive.color.sign-blue-800`
+- **brand** (#15191E) ← `primitive.color.ink-900`
+- **action** (#15191E) ← `primitive.color.ink-900`
+- **on-action** (#FFFFFF) ← `primitive.color.white`
+- **text** (#15191E) ← `primitive.color.ink-900`
+- **text-muted** (#4B525B) ← `primitive.color.ink-600`
+- **text-disabled** (#5A616A) ← `primitive.color.ink-550`
+- **surface** (#FFFFFF) ← `primitive.color.white`
+- **surface-sunken** (#F3F4F6) ← `primitive.color.ink-50`
+- **skeleton** (#E4E7EA) ← `primitive.color.ink-150`
+- **border** (#DADDE1) ← `primitive.color.ink-200`
+- **border-float** (#B9BEC5) ← `primitive.color.ink-300`
+- **focus** (#15191E) ← `primitive.color.ink-900`
+- **inverse** (#15191E) ← `primitive.color.ink-900`
+- **on-inverse** (#FFFFFF) ← `primitive.color.white`
+- **danger** (#B42318) ← `primitive.color.red-700`
+- **danger-soft** (#FDECEA) ← `primitive.color.red-50`
+- **badge.stale-bg** (#FFFFFF) ← `primitive.color.white`
+- **badge.stale-text** (#15191E) ← `primitive.color.ink-900`
+- **badge.stale-border** (#15191E) ← `primitive.color.ink-900`
+- **badge.muted-bg** (#ECEEF1) ← `primitive.color.ink-100`
+- **badge.muted-text** (#3A4048) ← `primitive.color.ink-700`
+- **map.ground** (#EEF0F2) ← `primitive.color.ink-75`
+- **map.building** (#DADDE1) ← `primitive.color.ink-200`
+- **map.building-front** (#E4E7EA) ← `primitive.color.ink-150`
+- **map.building-side** (#ECEEF1) ← `primitive.color.ink-100`
+- **map.shadow** (#15191E) ← `primitive.color.ink-900`
+- **map.road** (#FFFFFF) ← `primitive.color.white`
+- **map.water** (#ECEEF1) ← `primitive.color.ink-100`
+- **map.label** (#5A616A) ← `primitive.color.ink-550`
+- **column.plenty** (#0B7A5E) ← `primitive.color.teal-700`
+- **column.some** (#A86F00) ← `primitive.color.amber-700`
+- **column.few** (#C2410C) ← `primitive.color.orange-700`
+- **column.full** (#B0124A) ← `primitive.color.crimson-700`
+- **column.no-realtime** (#6A717A) ← `primitive.color.ink-500`
+- **column.face.plenty-top** (#2D8D75) ← `primitive.color.teal-600`
+- **column.face.plenty-side** (#085D47) ← `primitive.color.teal-800`
+- **column.face.some-top** (#B17D1A) ← `primitive.color.amber-600`
+- **column.face.some-side** (#805400) ← `primitive.color.amber-800`
+- **column.face.few-top** (#CB5C2E) ← `primitive.color.orange-600`
+- **column.face.few-side** (#933109) ← `primitive.color.orange-800`
+- **column.face.full-top** (#BB3363) ← `primitive.color.crimson-600`
+- **column.face.full-side** (#860E38) ← `primitive.color.crimson-800`
+- **column.face.no-realtime-top** (#80868E) ← `primitive.color.ink-400`
+- **column.face.no-realtime-side** (#4B525B) ← `primitive.color.ink-600`
+- **leader** (#4B525B) ← `primitive.color.ink-600`
 - **primary**: `color.brand`의 별칭 (DESIGN.md의 대표 색 자리)
 
 지켜야 할 명도 대비:
 
-- `color.text` / `color.surface`: 4.5:1 이상 (현재 16.48:1)
-- `color.text-muted` / `color.surface`: 4.5:1 이상 (현재 7.64:1)
-- `color.text` / `color.surface-sunken`: 4.5:1 이상 (현재 14.95:1)
-- `color.text-muted` / `color.surface-sunken`: 4.5:1 이상 (현재 6.93:1)
-- `color.on-brand` / `color.brand`: 4.5:1 이상 (현재 8.68:1)
-- `color.brand` / `color.surface`: 4.5:1 이상 (현재 8.68:1)
-- `color.brand` / `color.brand-soft`: 4.5:1 이상 (현재 7.42:1)
-- `color.text` / `color.brand-soft`: 4.5:1 이상 (현재 14.09:1)
-- `color.warning` / `color.warning-soft`: 4.5:1 이상 (현재 7.63:1)
-- `color.text` / `color.warning-soft`: 4.5:1 이상 (현재 14.76:1)
-- `color.warning` / `color.surface`: 4.5:1 이상 (현재 8.52:1)
-- `color.danger` / `color.danger-soft`: 4.5:1 이상 (현재 5.80:1)
-- `color.text` / `color.danger-soft`: 4.5:1 이상 (현재 14.29:1)
-- `color.danger` / `color.surface`: 4.5:1 이상 (현재 6.69:1)
-- `color.border-strong` / `color.surface`: 3:1 이상 (현재 3.67:1)
-- `color.focus` / `color.surface`: 3:1 이상 (현재 8.68:1)
-- `color.brand` / `color.surface-sunken`: 3:1 이상 (현재 7.87:1)
+- `color.text` / `color.surface`: 4.5:1 이상 (현재 17.65:1)
+- `color.text-muted` / `color.surface`: 4.5:1 이상 (현재 7.90:1)
+- `color.text-disabled` / `color.surface`: 4.5:1 이상 (현재 6.26:1)
+- `color.text` / `color.surface-sunken`: 4.5:1 이상 (현재 16.04:1)
+- `color.text-muted` / `color.surface-sunken`: 4.5:1 이상 (현재 7.18:1)
+- `color.text-disabled` / `color.surface-sunken`: 4.5:1 이상 (현재 5.69:1)
+- `color.on-action` / `color.action`: 4.5:1 이상 (현재 17.65:1)
+- `color.on-inverse` / `color.inverse`: 4.5:1 이상 (현재 17.65:1)
+- `color.danger` / `color.danger-soft`: 4.5:1 이상 (현재 5.75:1)
+- `color.text` / `color.danger-soft`: 4.5:1 이상 (현재 15.44:1)
+- `color.danger` / `color.surface`: 4.5:1 이상 (현재 6.57:1)
+- `color.badge.stale-text` / `color.badge.stale-bg`: 4.5:1 이상 (현재 17.65:1)
+- `color.badge.muted-text` / `color.badge.muted-bg`: 4.5:1 이상 (현재 9.00:1)
+- `color.map.label` / `color.map.ground`: 4.5:1 이상 (현재 5.48:1)
+- `color.map.label` / `color.map.building`: 4.5:1 이상 (현재 4.60:1)
+- `color.map.label` / `color.map.water`: 4.5:1 이상 (현재 5.39:1)
+- `color.column.plenty` / `color.map.ground`: 3:1 이상 (현재 4.64:1)
+- `color.column.some` / `color.map.ground`: 3:1 이상 (현재 3.72:1)
+- `color.column.few` / `color.map.ground`: 3:1 이상 (현재 4.53:1)
+- `color.column.full` / `color.map.ground`: 3:1 이상 (현재 6.06:1)
+- `color.column.no-realtime` / `color.map.ground`: 3:1 이상 (현재 4.32:1)
+- `color.column.plenty` / `color.map.building`: 3:1 이상 (현재 3.89:1)
+- `color.column.some` / `color.map.building`: 3:1 이상 (현재 3.12:1)
+- `color.column.few` / `color.map.building`: 3:1 이상 (현재 3.80:1)
+- `color.column.full` / `color.map.building`: 3:1 이상 (현재 5.08:1)
+- `color.column.no-realtime` / `color.map.building`: 3:1 이상 (현재 3.62:1)
+- `color.column.plenty` / `color.surface`: 3:1 이상 (현재 5.30:1)
+- `color.column.some` / `color.surface`: 3:1 이상 (현재 4.25:1)
+- `color.column.few` / `color.surface`: 3:1 이상 (현재 5.18:1)
+- `color.column.full` / `color.surface`: 3:1 이상 (현재 6.93:1)
+- `color.focus` / `color.surface`: 3:1 이상 (현재 17.65:1)
+- `color.focus` / `color.map.ground`: 3:1 이상 (현재 15.45:1)
+- `color.action` / `color.surface-sunken`: 3:1 이상 (현재 16.04:1)
+- `color.column.face.plenty-top` / `color.map.ground`: 3:1 이상 (현재 3.55:1)
+- `color.column.face.plenty-side` / `color.map.ground`: 3:1 이상 (현재 6.89:1)
+- `color.column.face.some-top` / `color.map.ground`: 3:1 이상 (현재 3.16:1)
+- `color.column.face.some-side` / `color.map.ground`: 3:1 이상 (현재 5.77:1)
+- `color.column.face.few-top` / `color.map.ground`: 3:1 이상 (현재 3.60:1)
+- `color.column.face.few-side` / `color.map.ground`: 3:1 이상 (현재 6.85:1)
+- `color.column.face.full-top` / `color.map.ground`: 3:1 이상 (현재 4.88:1)
+- `color.column.face.full-side` / `color.map.ground`: 3:1 이상 (현재 8.62:1)
+- `color.column.face.no-realtime-top` / `color.map.ground`: 3:1 이상 (현재 3.21:1)
+- `color.column.face.no-realtime-side` / `color.map.ground`: 3:1 이상 (현재 6.92:1)
+- `color.column.plenty` / `color.map.building-front`: 3:1 이상 (현재 4.27:1)
+- `color.column.some` / `color.map.building-front`: 3:1 이상 (현재 3.43:1)
+- `color.column.few` / `color.map.building-front`: 3:1 이상 (현재 4.17:1)
+- `color.column.full` / `color.map.building-front`: 3:1 이상 (현재 5.58:1)
+- `color.column.no-realtime` / `color.map.building-front`: 3:1 이상 (현재 3.98:1)
+- `color.map.label` / `color.map.building-front`: 4.5:1 이상 (현재 5.05:1)
+- `color.column.plenty` / `color.map.building-side`: 3:1 이상 (현재 4.56:1)
+- `color.column.some` / `color.map.building-side`: 3:1 이상 (현재 3.66:1)
+- `color.column.few` / `color.map.building-side`: 3:1 이상 (현재 4.46:1)
+- `color.column.full` / `color.map.building-side`: 3:1 이상 (현재 5.96:1)
+- `color.column.no-realtime` / `color.map.building-side`: 3:1 이상 (현재 4.25:1)
+- `color.map.label` / `color.map.building-side`: 4.5:1 이상 (현재 5.39:1)
+- `color.leader` / `color.map.ground`: 3:1 이상 (현재 6.92:1)
+- `color.leader` / `color.map.building`: 3:1 이상 (현재 5.80:1)
+- `color.leader` / `color.map.building-front`: 3:1 이상 (현재 6.37:1)
+- `color.leader` / `color.map.building-side`: 3:1 이상 (현재 6.80:1)
+- `color.leader` / `color.map.water`: 3:1 이상 (현재 6.80:1)
+- `color.leader` / `color.surface`: 3:1 이상 (현재 7.90:1)
 
 ## Typography
 
-- 글꼴: IBM Plex Sans KR, Noto Sans KR, Apple SD Gothic Neo, sans-serif (`font-family.base`, 토큰에는 첫 글꼴만 적는다)
-- `font-size.caption`: 13px
-- `font-size.label`: 15px
+- 글꼴: Noto Sans KR, Apple SD Gothic Neo, sans-serif (`font-family.base`, 토큰에는 첫 글꼴만 적는다)
+- `font-size.caption`: 12px
+- `font-size.label`: 14px
 - `font-size.body`: 16px
-- `font-size.title`: 18px
-- `font-size.heading`: 22px
-- `font-size.count`: 32px
-- `font-size.count-lg`: 48px
+- `font-size.title`: 20px
+- `font-size.headline`: 28px
+- `font-size.display`: 44px
 - `font-weight.regular`: 400
-- `font-weight.semibold`: 600
+- `font-weight.medium`: 500
 - `font-weight.bold`: 700
-- `line-height.tight`: 1.15
-- `line-height.snug`: 1.35
+- `line-height.tight`: 1.2
 - `line-height.body`: 1.5
 
 굵기와 행간은 tokens.json에서 글자 크기와 짝지어 정하지 않았으므로 front matter의 typography에는 크기와 글꼴만 있다.
@@ -226,224 +347,356 @@ components:
 - `space.6`: 24px
 - `space.8`: 32px
 - `size.touch`: 44px
-- `size.header`: 48px
-- `size.input`: 48px
-- `size.row`: 96px
-- `size.icon`: 20px
-- `size.icon-lg`: 24px
+- `size.control`: 48px
+- `size.header`: 56px
+- `size.list-item`: 96px
+- `size.sheet-handle`: 44px
+- `size.icon`: 24px
+- `size.border`: 1px
 - `size.focus-ring`: 2px
+- `size.column-label-swatch`: 4px
+- `size.column-min-height`: 24px
+- `size.leader-width`: 2px
+- `size.label-offset-max`: 64px
+- `size.column-max-height`: 170px
 
 ## Shapes
 
-- `radius.sm`: 4px
-- `radius.md`: 8px
+- `radius.tag`: 4px
+- `radius.sheet`: 20px
+- `radius.pill`: 999px
 - 토큰 밖에서 허용하는 모서리: 0px
 
 ## Components
 
-- **AppBar** (`app-bar`): 변형 list, detail
+- **FloatingSearchBar** (`floating-search-bar`): 누를 수 있음, 변형 default, pressed
+  - border: `color.border-float` (#B9BEC5)
+  - paddingX: `space.4` (16px)
+  - pressScale: `motion.spring.press-scale` (0.96)
+  - press: `motion.duration.press` (100ms)
+  - 지도 위 상단 여백 16px에 떠 있음. 회색 그림자 없이 1px 테두리로 지도와 분리. 탭하면 검색 화면.
+- **ViewToggle** (`view-toggle`): 누를 수 있음, 변형 map-selected, list-selected, map-disabled
+  - track: `color.surface-sunken` (#F3F4F6)
+  - unselected: `color.text` (#15191E)
+  - disabled: `color.text-disabled` (#5A616A)
   - weight: `font-weight.bold` (700)
-  - divider: `color.border` (#D3DAE1)
-  - paddingX: `space.4` (16px)
-  - list: 제목 '서울 공영주차장 빈자리' + 오른쪽 RefreshButton. detail: 왼쪽 BackButton + 주차장 이름(한 줄 말줄임) + 오른쪽 FavoriteButton·RefreshButton. 스크롤 시 상단 고정.
-- **IconButton** (`icon-button`): 누를 수 있음, 변형 refresh, back
-  - icon: `color.brand` (#0A4A94)
-  - iconSize: `size.icon-lg` (24px)
-  - pressed: `color.brand-soft` (#E6EEF8)
-  - focus: `color.focus` (#0A4A94)
-  - 아이콘만 보이지만 접근 이름 필수(refresh: '새로고침', back: '목록으로'). busy: 새로고침 중 아이콘 회전 + 접근 이름 '불러오는 중', 중복 탭 무시.
-- **FavoriteButton** (`favorite-button`): 누를 수 있음, 변형 off, on
-  - icon: `color.brand` (#0A4A94)
-  - iconSize: `size.icon-lg` (24px)
-  - pressed: `color.brand-soft` (#E6EEF8)
-  - focus: `color.focus` (#0A4A94)
-  - 상세 AppBar의 RefreshButton 왼쪽에 두는 IconButton 꼴 토글. off: 별 테두리 아이콘 + aria-pressed=false + 접근 이름 '즐겨찾기 추가'. on: 채운 별 아이콘 + aria-pressed=true + 접근 이름 '즐겨찾기 빼기'. 색만이 아니라 아이콘 모양도 바뀐다. 이 기기 브라우저에만 저장(PRD F8).
-- **SearchField** (`search-field`): 누를 수 있음, 변형 empty, filled
-  - border: `color.border-strong` (#7A8794)
-  - focus: `color.focus` (#0A4A94)
-  - placeholder: `color.text-muted` (#475563)
-  - icon: `color.text-muted` (#475563)
+  - duration: `motion.duration.toggle` (200ms)
+  - easing: `motion.easing.standard` (0.2, 0, 0, 1)
+  - reduced: `motion.reduced.crossfade` (150ms)
+  - [지도 | 목록] 알약. 채움 칸이 옆으로 미끄러지고, 화면은 높이 전환(motion.duration.view-height). 각 칸 44px 이상.
+- **MapFab** (`map-fab`): 누를 수 있음, 변형 locate, locate-disabled, refresh, refreshing
+  - border: `color.border-float` (#B9BEC5)
+  - icon: `color.text` (#15191E)
+  - size: `size.control` (48px)
+  - iconSize: `size.icon` (24px)
+  - spinner: `motion.duration.spinner` (900ms)
+  - spinnerEasing: `motion.easing.spinner` (0, 0, 1, 1)
+  - reducedSpinner: `motion.reduced.spinner` (0ms)
+  - disabledFill: `color.surface-sunken` (#F3F4F6)
+  - disabledIcon: `color.text-disabled` (#5A616A)
+  - 우측 하단 엄지 영역, 위아래 간격 space.3. refreshing은 아이콘 회전, reduced-motion에서는 회전 대신 UpdatedAt에 '새로 받는 중'. locate-disabled(위치 권한 거부): 바탕 color.surface-sunken + 아이콘 color.text-disabled(대비 4.5:1 쌍 유지) + 사선 그은 위치 아이콘으로 모양까지 바꿔 색만으로 구분하지 않는다. aria-disabled로 포커스는 받고, 누르면 copy permission.locate.disabled 토스트. 접근성 이름 a11y.locate.disabled.
+- **UpdatedAt** (`updated-at`): 변형 fresh, stale, refreshing, summary
   - paddingX: `space.3` (12px)
-  - 왼쪽 돋보기 아이콘, placeholder '이름이나 주소로 찾기'. filled: 오른쪽에 44px 지우기 버튼(접근 이름 '검색어 지우기'). 이름·주소 부분 일치, 입력하는 대로 걸러 냄. 구 필터와 함께 적용.
-- **DistrictChip** (`district-chip`): 누를 수 있음, 변형 default, selected
-  - border: `color.border-strong` (#7A8794)
-  - selectedFill: `color.brand-soft` (#E6EEF8)
-  - selectedText: `color.brand` (#0A4A94)
-  - selectedBorder: `color.brand` (#0A4A94)
-  - paddingX: `space.3` (12px)
-  - gap: `space.2` (8px)
-  - focus: `color.focus` (#0A4A94)
-  - 가로 스크롤 한 줄, 첫 칩 '전체' 다음 데이터에 있는 구만(가나다순). selected는 색과 함께 체크 아이콘 + 굵기(font-weight.semibold) + aria-pressed=true. 칩 라벨에 구별 개수를 붙이지 않는다(목록 결과 건수로 보여 줌).
-- **ResultSummary** (`result-summary`)
-  - paddingX: `space.4` (16px)
-  - '{count}곳' + '{HH:MM}에 불러옴'. count는 필터·검색 후 실제 건수.
-- **StaleBanner** (`stale-banner`): 변형 list, detail
-  - border: `color.warning` (#6E4300)
-  - icon: `color.warning` (#6E4300)
-  - iconSize: `size.icon` (20px)
-  - gap: `space.2` (8px)
-  - 기준 시각이 20분을 넘은 경우만 표시. 경고 삼각 아이콘 + 글자 + 오른쪽 Button(secondary) '새로고침'. 목록에서는 표시 중인 연계 주차장 가운데 하나라도 20분을 넘으면 띠 1개만 보이고, 해당 행은 Timestamp stale로 따로 표시.
-- **OpeningBanner** (`opening-banner`): 변형 list, detail
-  - border: `color.brand` (#0A4A94)
-  - icon: `color.brand` (#0A4A94)
-  - iconSize: `size.icon` (20px)
-  - gap: `space.2` (8px)
-  - 즐겨찾기한 주차장이 직전 불러오기에서 만차였고 이번에 빈자리 1면 이상일 때만(PRD F10). 채운 별 아이콘 + '{name} 빈자리 {available}면 · {HH:MM} 기준' + 오른쪽 Button(secondary) '닫기'. 목록·상세 맨 위에 주차장마다 띠 1개, 같은 주차장이 다시 열리면 새 값으로 바꾼다. 실시간 정보 없음·20분 넘은 숫자로는 띄우지 않고, 띄운 뒤 20분이 지나면 시각 뒤에 '· 20분 넘음'을 붙인다. 화면 낭독기에 알리도록 role=status.
-- **GroupHeader** (`group-header`)
-  - weight: `font-weight.semibold` (600)
-  - paddingX: `space.4` (16px)
-  - 구 묶음 제목 '{구} {n}곳'. 높이 40px(space.8 + space.2), 스크롤 중 상단 바 아래 고정. 순번 표식(01/02)이나 영문 대문자 라벨 쓰지 않음.
-- **ParkingRow** (`parking-row`): 누를 수 있음, 변형 realtime, full, stale, no-realtime, bus-only, favorite
-  - pressed: `color.brand-soft` (#E6EEF8)
-  - name: `font-size.title` (18px)
-  - nameColor: `color.text` (#16202A)
-  - address: `font-size.label` (15px)
-  - addressColor: `color.text-muted` (#475563)
-  - divider: `color.border` (#D3DAE1)
-  - paddingX: `space.4` (16px)
+  - 항목별: '기준 2026-10-28 00:01:23' 형식. summary(지도 칩·목록 맨 위): copy updatedAt.summary — 화면 안 실시간 주차장 중 가장 오래된 기준 시각 '가장 오래된 정보 기준 HH:mm:ss'. 그 시각이 20분을 넘으면 뒤에 StatusBadge(stale). 숫자는 tabular-nums.
+- **VacancyColumn** (`vacancy-column`): 누를 수 있음, 변형 plenty, some, few, full, stale, no-realtime
+  - plenty: `color.column.plenty` (#0B7A5E)
+  - some: `color.column.some` (#A86F00)
+  - few: `color.column.few` (#C2410C)
+  - full: `color.column.full` (#B0124A)
+  - noRealtime: `color.column.no-realtime` (#6A717A)
+  - plentyTop: `color.column.face.plenty-top` (#2D8D75)
+  - plentySide: `color.column.face.plenty-side` (#085D47)
+  - someTop: `color.column.face.some-top` (#B17D1A)
+  - someSide: `color.column.face.some-side` (#805400)
+  - fewTop: `color.column.face.few-top` (#CB5C2E)
+  - fewSide: `color.column.face.few-side` (#933109)
+  - fullTop: `color.column.face.full-top` (#BB3363)
+  - fullSide: `color.column.face.full-side` (#860E38)
+  - noRealtimeTop: `color.column.face.no-realtime-top` (#80868E)
+  - noRealtimeSide: `color.column.face.no-realtime-side` (#4B525B)
+  - shadow: `color.map.shadow` (#15191E)
+  - shadowOpacity: `opacity.map-shadow` (0.08)
+  - staleOpacity: `opacity.column-stale` (0.35)
+  - rise: `motion.duration.column-rise` (700ms)
+  - riseEasing: `motion.easing.enter` (0.05, 0.7, 0.1, 1)
+  - stagger: `motion.duration.column-rise-stagger-max` (320ms)
+  - heightChange: `motion.duration.height-transition` (600ms)
+  - heightEasing: `motion.easing.standard` (0.2, 0, 0, 1)
+  - reducedRise: `motion.reduced.column-rise` (0ms)
+  - reducedHeight: `motion.reduced.height-transition` (0ms)
+  - minHeight: `size.column-min-height` (24px)
+  - maxHeight: `size.column-max-height` (170px)
+  - MapLibre fill-extrusion. 높이=빈자리 수의 제곱근 비율(최소 높이 size.column-min-height, 최대 높이 size.column-max-height, 기준은 서울 전체 최대 빈자리로 고정 — 화면을 옮겨도 같은 빈자리는 같은 높이. 규칙은 tokens harness.map.columnHeight), 색=빈자리 비율 구간. full은 높이 0이라 바닥 원판. stale은 투명도 0.35. no-realtime은 회색, 최소 높이 고정, 숫자 없음. 탭 영역은 화면상 44px 이상. 3D 면 구성: 비스듬히 내려다볼 때 보이는 세 면 — 앞면(가장 넓음)=구간 색(color.column.*), 윗면=face.*-top(밝게), 오른쪽 옆면=face.*-side(어둡게). 광원은 화면 왼쪽 위 한 방향이라 그림자(color.map.shadow, opacity.map-shadow)는 바닥 오른쪽 아래로 떨어지고 길이는 기둥 화면 높이에 비례. 그림자는 지도 3D 물체(기둥·건물)에만 쓰고 UI 요소에는 쓰지 않는다. stale이면 세 면과 그림자 모두 opacity.column-stale 적용. full은 높이 0이라 그림자 없음.
+- **ColumnLabel** (`column-label`): 누를 수 있음, 변형 plenty, some, few, full, stale, no-realtime, highlighted
+  - border: `color.border-float` (#B9BEC5)
+  - swatchWidth: `size.column-label-swatch` (4px)
+  - weight: `font-weight.bold` (700)
+  - highlight: `motion.duration.highlight` (900ms)
+  - focus: `color.focus` (#15191E)
+  - leader: `color.leader` (#4B525B)
+  - leaderWidth: `size.leader-width` (2px)
+  - offsetMax: `size.label-offset-max` (64px)
+  - 기둥 꼭대기 바로 위 꼬리표. 왼쪽 4px 막대가 기둥 색. 숫자만 크게(예: 1067) — 높이·숫자가 빈자리라는 것은 범례(legend.height)가 말한다. 접근성 이름은 a11y.column('빈자리 n면' 포함). 지시선: 라벨 아래 변(비켰으면 기둥 쪽 모서리)에서 기둥 윗면 가운데까지 직선, color.leader·size.leader-width, 바로 위일 때도 짧게 그린다. 겹치면 tokens harness.map.labelDensity대로 빈자리 큰 값부터 자리를 잡고 작은 값은 지시선으로 옆으로 비켜 놓으며, 비킬 자리가 없을 때만 생략. stale은 숫자 옆 '오래됨' 배지, no-realtime은 숫자 대신 '실시간 정보 없음'(font-size.label).
+- **MapLegend** (`map-legend`)
+  - border: `color.border-float` (#B9BEC5)
+  - plenty: `color.column.plenty` (#0B7A5E)
+  - some: `color.column.some` (#A86F00)
+  - few: `color.column.few` (#C2410C)
+  - full: `color.column.full` (#B0124A)
+  - noRealtime: `color.column.no-realtime` (#6A717A)
+  - staleOpacity: `opacity.column-stale` (0.35)
+  - 높이=빈자리 많을수록 높게(제곱근 비율), 색 구간 4개+회색, 흐린 기둥=오래됨(20분 초과). 색 칸마다 구간 글자 병기.
+- **AttributionChip** (`attribution-chip`)
+  - paddingX: `space.2` (8px)
+  - 지도·목록·시트 하단. 링크로 만들면 interactive로 바꾸고 44px 확보.
+- **BottomSheet** (`bottom-sheet`): 변형 peek, half, full
+  - scrim: `color.inverse` (#15191E)
+  - scrimOpacity: `opacity.scrim` (0.32)
+  - stiffness: `motion.spring.sheet-stiffness` (380)
+  - damping: `motion.spring.sheet-damping` (34)
+  - mass: `motion.spring.sheet-mass` (1)
+  - fallback: `motion.duration.sheet-fallback` (320ms)
+  - reduced: `motion.reduced.sheet` (0ms)
+  - 아래에서 스프링으로 올라옴. 뒤 지도는 해당 기둥으로 camera-to-result. full일 때만 덮개.
+- **SheetHandle** (`sheet-handle`): 누를 수 있음
+  - bar: `color.border-float` (#B9BEC5)
+  - 보이는 막대 36x4, 끌기 영역 44px. 끌어 높이 전환, 아래로 밀면 닫힘. 키보드는 닫기 버튼으로.
+- **DetailVacancy** (`detail-vacancy`): 변형 default, stale, no-realtime
+  - weight: `font-weight.bold` (700)
+  - lineHeight: `line-height.tight` (1.2)
+  - secondary: `color.text-muted` (#4B525B)
+  - secondaryText: `font-size.body` (16px)
+  - '빈자리 1067 / 총 1260면 (현재 주차 193대)'. '빈자리' 글자를 큰 숫자 앞 같은 줄에(secondaryText, color.text-muted), 숫자는 display. 목록 '빈자리 {n} / 총 {total}면'과 같은 표기. no-realtime은 숫자 자리에 '실시간 정보 없음'(font-size.title).
+- **InfoRow** (`info-row`)
+  - label: `color.text-muted` (#4B525B)
+  - divider: `color.border` (#DADDE1)
   - paddingY: `space.3` (12px)
-  - gap: `space.2` (8px)
-  - focus: `color.focus` (#0A4A94)
-  - 왼쪽: 이름(2줄까지) / 구·주소(1줄 말줄임). 오른쪽: AvailabilityCount + Timestamp를 한 덩어리로 세로 정렬, 숫자 오른쪽 맞춤. 행 전체가 상세로 가는 링크. 둥근 카드·그림자 없이 구분선으로 나눔. bus-only: 숫자 대신 BusOnlyTag, 연계 여부와 관계없이 구분 표시. favorite: 이름 앞에 채운 별 아이콘(color.brand, size.icon) + 화면에 안 보이는 글자 '즐겨찾기'. 행은 링크 하나로 남기고 안에 버튼을 넣지 않는다(즐겨찾기 추가·빼기는 상세의 FavoriteButton).
-- **AvailabilityCount** (`availability-count`): 변형 realtime, full, no-realtime
-  - count: `font-size.count` (32px)
-  - countLarge: `font-size.count-lg` (48px)
-  - weight: `font-weight.bold` (700)
-  - lineHeight: `line-height.tight` (1.15)
-  - unit: `font-size.label` (15px)
-  - unitColor: `color.text-muted` (#475563)
-  - realtime: '빈자리' 라벨 + 큰 숫자(TPKCT - NOW_PRK_VHCL_CNT) + '/ 총 {TPKCT}면'. full: 빈자리 계산이 0 이하일 때 숫자 '0' + 글자 '만차'(음수는 표시하지 않음 — 처리 방식은 사람 확인 필요). no-realtime(PRK_STTS_YN=0): 숫자 자리를 NoRealtimeTag로 대체하고 0, '-', 빈칸을 쓰지 않는다. 여유/혼잡 같은 임계값 색은 데이터 근거가 없어 쓰지 않는다. 숫자는 tabular-nums.
-- **Timestamp** (`timestamp`): 변형 fresh, stale
-  - staleColor: `color.warning` (#6E4300)
-  - icon: `size.icon` (20px)
-  - gap: `space.1` (4px)
-  - 항상 빈자리 숫자 바로 아래/옆. fresh: 시계 아이콘 + '{HH:MM} 기준'. stale(20분 초과): 경고 아이콘 + '{HH:MM} 기준 · 20분 넘음', 색 warning, 굵기 semibold. 오늘이 아니면 '{M}월 {D}일 {HH:MM} 기준'. NOW_PRK_VHCL_UPDT_TM 값을 그대로 쓰고 지어내지 않는다.
-- **NoRealtimeTag** (`no-realtime-tag`)
-  - border: `color.border-strong` (#7A8794)
-  - icon: `size.icon` (20px)
-  - paddingX: `space.2` (8px)
-  - 점선 테두리 + 줄 그은 신호 아이콘 + '실시간 정보 없음'. 숫자처럼 보이지 않게 숫자 크기를 쓰지 않는다. 상세에서는 아래에 '총 {TPKCT}면'만 따로 표시.
-- **BusOnlyTag** (`bus-only-tag`)
-  - border: `color.border-strong` (#7A8794)
-  - subColor: `color.text-muted` (#475563)
-  - icon: `size.icon` (20px)
-  - paddingX: `space.2` (8px)
-  - 버스 아이콘 + '버스전용', 아래 보조 글 '승용차 해당 없음'(text-muted). OPER_SE_NM이 버스전용인 주차장.
-- **Button** (`button`): 누를 수 있음, 변형 primary, secondary
-  - fontSize: `font-size.label` (15px)
-  - weight: `font-weight.semibold` (600)
+  - 요금·운영시간·유무료. 일 최대 요금 0이면 줄 자체를 숨김.
+- **Button** (`button`): 누를 수 있음, 변형 primary, secondary, disabled
   - secondaryFill: `color.surface` (#FFFFFF)
-  - secondaryText: `color.brand` (#0A4A94)
-  - secondaryBorder: `color.brand` (#0A4A94)
-  - paddingX: `space.4` (16px)
-  - focus: `color.focus` (#0A4A94)
-  - primary: 오류 상태의 '다시 시도'. secondary: 경고 띠의 '새로고침'. busy: 글자 '불러오는 중…'으로 바꾸고 비활성.
-- **StateMessage** (`state-message`): 변형 loading, empty, error
-  - errorFill: `color.danger-soft` (#FCEBEA)
-  - title: `font-size.body` (16px)
-  - titleWeight: `font-weight.semibold` (600)
-  - errorColor: `color.danger` (#B0261C)
-  - body: `font-size.label` (15px)
-  - muted: `color.text-muted` (#475563)
-  - icon: `size.icon-lg` (24px)
-  - gap: `space.2` (8px)
-  - 목록 영역을 대체(와이어프레임 상태 영역). loading: SkeletonRow 4개 + 화면 낭독용 '불러오는 중'. empty: 돋보기 아이콘 + 제목 + 검색어/구 안내 + Button(secondary) '검색 지우기'. error: 경고 아이콘(danger) + 제목 + 설명 + Button(primary) '다시 시도'. 이전에 받은 목록이 있으면 error는 StaleBanner 위치에 띠로 띄우고 목록은 남긴다.
-- **SkeletonRow** (`skeleton-row`)
-  - divider: `color.border` (#D3DAE1)
-  - ParkingRow와 같은 높이의 회색 막대. 숫자 자리에 0을 미리 넣지 않는다. 움직임 줄이기 설정이면 깜빡임 없음.
-- **DetailHero** (`detail-hero`): 변형 realtime, full, stale, no-realtime, bus-only
-  - name: `font-size.heading` (22px)
+  - secondaryText: `color.text` (#15191E)
+  - secondaryBorder: `color.text` (#15191E)
+  - disabled: `color.text-disabled` (#5A616A)
   - weight: `font-weight.bold` (700)
-  - gap: `space.2` (8px)
-  - divider: `color.border` (#D3DAE1)
-  - 주차장 이름 + 구분 태그(노상/노외, 버스전용) + AvailabilityCount(detail) + Timestamp. stale이면 바로 아래 StaleBanner(detail).
-- **DetailSection** (`detail-section`)
-  - title: `font-size.title` (18px)
-  - weight: `font-weight.semibold` (600)
-  - divider: `color.border` (#D3DAE1)
+  - pressScale: `motion.spring.press-scale` (0.96)
+  - focus: `color.focus` (#15191E)
+  - 다시 시도, 목록 보기, 전화 걸기, 길찾기. 글자 8자 이내.
+- **ListItem** (`list-item`): 누를 수 있음, 변형 default, stale, no-realtime, no-location
+  - divider: `color.border` (#DADDE1)
   - paddingX: `space.4` (16px)
-  - paddingY: `space.4` (16px)
+  - gap: `space.2` (8px)
+  - name: `font-size.title` (20px)
+  - count: `font-size.headline` (28px)
+  - meta: `color.text-muted` (#4B525B)
+  - metaText: `font-size.label` (14px)
+  - swatchWidth: `size.column-label-swatch` (4px)
+  - 둥근 카드가 아닌 전폭 행 + 구분선. 왼쪽 4px 막대가 기둥 색(지도와 같은 부호). no-location은 정렬 맨 뒤, 거리 없음.
+- **SortToggle** (`sort-toggle`): 누를 수 있음, 변형 distance, vacancy, distance-disabled
+  - track: `color.surface-sunken` (#F3F4F6)
+  - unselected: `color.text` (#15191E)
+  - disabled: `color.text-disabled` (#5A616A)
+  - duration: `motion.duration.toggle` (200ms)
+  - [거리순 | 빈자리순]. 위치 거부 시 거리순 비활성.
+- **StatusBadge** (`status-badge`): 변형 stale, no-realtime, no-location
+  - staleFill: `color.badge.stale-bg` (#FFFFFF)
+  - staleText: `color.badge.stale-text` (#15191E)
+  - staleBorder: `color.badge.stale-border` (#15191E)
+  - weight: `font-weight.medium` (500)
+  - paddingX: `space.2` (8px)
+  - 각진 꼬리표. 오래됨=흰 바탕+점선 먹색 테두리+시계, 실시간 정보 없음·지도 위치 없음=회색 바탕. 글자 항상 병기, 아이콘만 쓰지 않음.
+- **ErrorBanner** (`error-banner`)
+  - accent: `color.danger` (#B42318)
+  - 지도 상단(검색창 아래). 안에 Button(secondary) '다시 시도'.
+- **Toast** (`toast`): 변형 permission-denied, refresh-failed
+  - enter: `motion.duration.toast-enter` (200ms)
+  - hold: `motion.duration.toast-hold` (4000ms)
+  - easing: `motion.easing.enter` (0.05, 0.7, 0.1, 1)
+  - reduced: `motion.reduced.crossfade` (150ms)
+  - 4초. 위치 규칙: 화면 상단, 검색창(FloatingSearchBar) 바로 아래 space.2, ErrorBanner가 있으면 그 아래. 지도 하단(범례·저작권·MapFab)과 BottomSheet·목록 항목 위에는 놓지 않는다. 토스트가 떠 있는 동안 그 영역은 ColumnLabel 배치 후보에서 빠지고, 첫 진입 카메라 도착점(permission-denied)은 토스트 영역을 카메라 위쪽 여백(padding)에 더해 기둥이 토스트 아래에 오게 한다. 목록 화면에서는 정렬 줄 바로 아래. 닫기 버튼을 넣으면 그 버튼은 IconButton.
+- **StateMessage** (`state-message`): 변형 loading, empty, error, no-webgl, search-empty
+  - muted: `color.text-muted` (#4B525B)
+  - titleText: `font-size.title` (20px)
   - gap: `space.3` (12px)
-  - 전화·주소, 운영시간, 요금, 유형·구분, 토·공휴일·야간 순. 섹션 제목에 번호를 붙이지 않는다.
-- **InfoRow** (`info-row`): 변형 value, unknown, hidden
-  - label: `font-size.label` (15px)
-  - labelColor: `color.text-muted` (#475563)
-  - value: `font-size.body` (16px)
-  - valueColor: `color.text` (#16202A)
-  - gap: `space.3` (12px)
-  - paddingY: `space.2` (8px)
-  - 왼쪽 라벨(고정 폭 96px) / 오른쪽 값. unknown: 운영시간 '0000~0000' 등 의미 불명 값은 '정보 없음'(text-muted + 물음표 아이콘 없이 글자만). hidden: DAY_MAX_CRG=0이면 행 자체를 그리지 않는다('없음'으로 쓰지 않음). '0000~2400'은 '24시간'.
-- **PhoneLink** (`phone-link`): 누를 수 있음
-  - weight: `font-weight.semibold` (600)
-  - icon: `size.icon` (20px)
-  - pressed: `color.brand-soft` (#E6EEF8)
-  - focus: `color.focus` (#0A4A94)
-  - 전화 아이콘 + 번호(tel: 링크), 밑줄. TELNO가 비면 InfoRow unknown '정보 없음'으로 바꾸고 링크를 만들지 않는다.
-- **SourceNote** (`source-note`)
-  - 목록·상세 하단 고정 문구(copy.json examples.source).
+  - 가운데 정렬 문구 + Button 하나. 그림 장식 없음.
+- **Skeleton** (`skeleton`)
+  - duration: `motion.duration.skeleton` (1200ms)
+  - reduced: `motion.reduced.skeleton` (0ms)
+- **SearchField** (`search-field`): 누를 수 있음
+  - placeholder: `color.text-muted` (#4B525B)
+  - focus: `color.focus` (#15191E)
+  - 검색 화면 상단. 자동 포커스. 아래에 '주소·장소는 검색하지 않습니다'.
+- **IconButton** (`icon-button`): 누를 수 있음, 변형 close, back
+  - icon: `color.text` (#15191E)
+  - iconSize: `size.icon` (24px)
+  - focus: `color.focus` (#15191E)
+- **SearchResultRow** (`search-result-row`): 누를 수 있음, 변형 lot, district, no-realtime, no-location
+  - meta: `color.text-muted` (#4B525B)
+  - divider: `color.border` (#DADDE1)
+  - paddingX: `space.4` (16px)
+  - metaText: `font-size.label` (14px)
+  - flight: `motion.duration.camera-to-result` (1200ms)
+  - flightEasing: `motion.easing.camera` (0.45, 0.05, 0.15, 1)
+  - reducedFlight: `motion.reduced.camera-to-result` (0ms)
+  - lot 탭: 카메라가 그 주차장으로 이동 후 ColumnLabel highlighted. district 탭: 구 전체로. no-location: 지도 이동 없이 상세만.
+- **MapCamera** (`map-camera`): 변형 intro, to-result, reduced
+  - flight: `motion.duration.camera-flight` (2400ms)
+  - easing: `motion.easing.camera` (0.45, 0.05, 0.15, 1)
+  - pitch: `map.pitch-default` (55)
+  - reducedFlight: `motion.reduced.camera-flight` (0ms)
+  - reducedPitch: `map.pitch-reduced` (45)
+  - ground: `color.map.ground` (#EEF0F2)
+  - building: `color.map.building` (#DADDE1)
+  - buildingOpacity: `opacity.building` (0.9)
+  - road: `color.map.road` (#FFFFFF)
+  - water: `color.map.water` (#ECEEF1)
+  - label: `color.map.label` (#5A616A)
+  - 컴포넌트가 아닌 지도 연출 규칙. 첫 진입 서울 전체 -> 사용자 위치(거부 시 시청 근처) 비행 후 기둥 솟음. reduced-motion이면 목적지에서 바로 시작, 기둥 최종 높이로.
 
 ## Do's and Don'ts
 
 - Do: primitive 값 대신 semantic 토큰을 쓴다.
 - Do: 누를 수 있는 요소는 44px 이상으로 만든다.
-- Do: 버튼 문구는 6자 이내로 쓴다.
-- Don't: 「확실」 표현을 쓰지 않는다.
-- Don't: 「보장」 표현을 쓰지 않는다.
-- Don't: 「정확한」 표현을 쓰지 않는다.
-- Don't: 「100%」 표현을 쓰지 않는다.
-- Don't: 「최신 정보」 표현을 쓰지 않는다.
-- Don't: 「지금 바로 주차」 표현을 쓰지 않는다.
-- Don't: 「자리 있어요」 표현을 쓰지 않는다.
-- Don't: 「LIVE」 표현을 쓰지 않는다.
-- Don't: 「Error」 표현을 쓰지 않는다.
+- Do: 버튼 문구는 8자 이내로 쓴다.
+- Don't: 「운전 중」 표현을 쓰지 않는다.
+- Don't: 「운전하면서」 표현을 쓰지 않는다.
+- Don't: 「운전하며」 표현을 쓰지 않는다.
+- Don't: 「주행 중」 표현을 쓰지 않는다.
+- Don't: 「달리면서」 표현을 쓰지 않는다.
+- Don't: 「이동 중에도」 표현을 쓰지 않는다.
 - Don't: 「실패하였습니다」 표현을 쓰지 않는다.
-- Don't: 「오류가 발생하였습니다」 표현을 쓰지 않는다.
-- Don't: 「잠시만 기다려 주십시오」 표현을 쓰지 않는다.
-- Don't: 「!!」 표현을 쓰지 않는다.
-- Don't: 「빈자리 없음」 표현을 쓰지 않는다.
+- Don't: 「오류가 발생」 표현을 쓰지 않는다.
+- Don't: 「Error」 표현을 쓰지 않는다.
+- Don't: 「!」 표현을 쓰지 않는다.
+- Don't: 「잠시만 기다려」 표현을 쓰지 않는다.
+- Don't: 「항상 최신」 표현을 쓰지 않는다.
+- Don't: 「정확한 빈자리」 표현을 쓰지 않는다.
+- Don't: 「보장」 표현을 쓰지 않는다.
+- Don't: 「예상」 표현을 쓰지 않는다.
+- Don't: 「곧 빈자리」 표현을 쓰지 않는다.
+- Don't: 「앱 설치」 표현을 쓰지 않는다.
+- Don't: 「앱에서 보기」 표현을 쓰지 않는다.
 
 ## 문구 예
 
 | 자리 | 문구 |
 |---|---|
-| appTitle | 서울 공영주차장 빈자리 |
-| searchPlaceholder | 이름이나 주소로 찾기 |
-| chipAll | 전체 |
-| resultSummary | {count}곳 · {HH:MM}에 불러옴 |
-| groupHeader | {district} {count}곳 |
-| availableLabel | 빈자리 |
-| availableCount | {available} / 총 {total}면 |
-| full | 만차 |
-| timestamp | {HH:MM} 기준 |
-| timestampStale | {HH:MM} 기준 · 20분 넘음 |
-| staleBanner | 20분 넘게 지난 숫자가 있어요. 새로고침해 보세요. |
-| staleBannerDetail | 20분 넘게 지난 숫자예요. 지금은 다를 수 있어요. |
-| noRealtime | 실시간 정보 없음 |
-| noRealtimeDetail | 이 주차장은 빈자리 수를 보내지 않아요. 총 {total}면 |
-| busOnly | 버스전용 |
-| busOnlySub | 승용차 해당 없음 |
-| loading | 불러오는 중… |
-| emptyTitle | 찾는 주차장이 없어요 |
-| emptyBody | '{query}'와 맞는 이름·주소가 없어요. 구를 '전체'로 바꾸거나 다른 말로 찾아보세요. |
-| emptyAction | 검색 지우기 |
-| errorTitle | 주차장 정보를 불러오지 못했어요 |
-| errorBody | 인터넷 연결을 확인하고 다시 시도해 주세요. |
-| errorInline | 새 정보를 불러오지 못했어요. {HH:MM} 기준 목록을 보여 드려요. |
-| retry | 다시 시도 |
-| refresh | 새로고침 |
-| back | 목록으로 |
-| clearSearch | 검색어 지우기 |
-| favoriteAdd | 즐겨찾기 추가 |
-| favoriteRemove | 즐겨찾기 빼기 |
-| favoriteMark | 즐겨찾기 |
-| openingBanner | {name} 빈자리 {available}면 · {HH:MM} 기준 |
-| dismiss | 닫기 |
-| call | 전화 걸기 |
-| unknown | 정보 없음 |
-| hours24 | 24시간 |
-| sectionContact | 전화·주소 |
-| sectionHours | 운영시간 |
-| sectionFee | 요금 |
-| sectionType | 유형·구분 |
-| sectionHoliday | 토요일·공휴일·야간 |
-| source | 출처: 서울 열린데이터광장, 서울시 시영주차장 실시간 주차대수 정보 (공공누리 제1유형) |
+| search.placeholder | 주차장 이름·구 검색 (예: 세종로, 종로구) |
+| search.scope | 주소·장소는 검색하지 않습니다 |
+| search.empty | ‘{검색어}’에 맞는 주차장이나 구가 없습니다 |
+| search.empty.hint | 주차장 이름이나 구 이름으로 다시 검색하세요 |
+| search.result.district | 종로구 · 주차장 {n}곳 |
+| toggle.map | 지도 |
+| toggle.list | 목록 |
+| sort.distance | 거리순 |
+| sort.vacancy | 빈자리순 |
+| updatedAt | 기준 2026-10-28 00:01:23 |
+| status.stale | 오래됨 |
+| status.noRealtime | 실시간 정보 없음 |
+| status.noLocation | 지도 위치 없음 |
+| loading | 불러오는 중 |
+| refreshing | 새로 받는 중 |
+| error.title | 주차장 정보를 불러오지 못했습니다 |
+| error.body | 연결을 확인한 뒤 다시 시도하세요 |
+| error.retry | 다시 시도 |
+| refresh.failed | 새로 받지 못했습니다. 이전 기준 시각의 숫자입니다 |
+| permission.denied | 위치를 쓸 수 없어 시청 근처로 시작합니다 |
+| empty.viewport | 이 화면 안에 주차장이 없습니다 |
+| empty.viewport.hint | 지도를 옮기거나 목록에서 찾으세요 |
+| empty.viewport.action | 목록 보기 |
+| noWebgl | 이 기기에서는 3D 지도를 쓸 수 없어 목록으로 시작합니다 |
+| list.item.name | 세종로 공영주차장(시) |
+| list.item.district | 종로구 |
+| list.item.vacancy | 빈자리 1067 / 총 1260면 |
+| list.item.fee | 기본 430원/5분 |
+| list.item2.name | 종묘주차장 공영주차장(시) |
+| list.item2.vacancy | 빈자리 991 / 총 1312면 |
+| list.item2.fee | 기본 400원/5분 |
+| detail.vacancy | 빈자리 1067 / 총 1260면 (현재 주차 193대) |
+| detail.fee.basic | 기본 430원/5분 |
+| detail.fee.add | 추가 430원/5분 |
+| detail.hours.weekday | 평일 24시간 |
+| detail.hours.saturday | 토요일 24시간 |
+| detail.hours.holiday | 공휴일 24시간 |
+| detail.paid | 유료 |
+| detail.phone | 02-2290-6566 |
+| detail.call | 전화 걸기 |
+| detail.directions | 길찾기 |
+| detail.directions.hint | 외부 지도 앱에서 엽니다 |
+| detail.noRealtime.body | 이 주차장은 실시간 주차 대수를 보내지 않습니다. 요금과 운영시간만 보입니다 |
+| detail.noLocation.body | 원자료에 좌표가 없어 길찾기를 열 수 없습니다. 위 주소로 찾으세요 |
+| legend.height | 높이 = 빈자리 많을수록 높게 |
+| legend.color | 색 = 빈자리 비율 |
+| legend.plenty | 넉넉 |
+| legend.some | 보통 |
+| legend.few | 적음 |
+| legend.full | 0 |
+| legend.stale | 흐린 기둥 = 오래됨(20분 넘음) |
+| legend.noRealtime | 회색 = 실시간 정보 없음 |
+| attribution | 서울 열린데이터광장 · © OpenFreeMap © OpenMapTiles © OpenStreetMap contributors |
+| a11y.locate | 현위치로 이동 |
+| a11y.refresh | 새로고침 |
+| a11y.close | 닫기 |
+| a11y.column | 세종로 공영주차장(시), 빈자리 1067면, 총 1260면, 기준 2026-10-28 00:01:23 |
+| detail.hours.unknown | 공휴일 시간 정보 없음 |
+| detail.address | 중구 을지로6가 17-442 |
+| updatedAt.summary | 가장 오래된 정보 기준 00:01:23 |
+| permission.locate.disabled | 위치 권한이 꺼져 있어 현위치를 쓸 수 없습니다 |
+| a11y.locate.disabled | 현위치로 이동, 위치 권한 꺼짐 |
+
+## 그 밖의 토큰
+
+- `primitive.duration.0`: 0ms
+- `primitive.duration.100`: 100ms
+- `primitive.duration.150`: 150ms
+- `primitive.duration.200`: 200ms
+- `primitive.duration.320`: 320ms
+- `primitive.duration.600`: 600ms
+- `primitive.duration.700`: 700ms
+- `primitive.duration.900`: 900ms
+- `primitive.duration.1200`: 1200ms
+- `primitive.duration.2400`: 2400ms
+- `primitive.duration.4000`: 4000ms
+- `primitive.easing.standard`: 0.2, 0, 0, 1
+- `primitive.easing.decelerate`: 0.05, 0.7, 0.1, 1
+- `primitive.easing.accelerate`: 0.3, 0, 0.8, 0.15
+- `primitive.easing.in-out-long`: 0.45, 0.05, 0.15, 1
+- `primitive.easing.linear`: 0, 0, 1, 1
+- `opacity.column-stale`: 0.35
+- `opacity.scrim`: 0.32
+- `opacity.building`: 0.9
+- `opacity.map-shadow`: 0.08
+- `motion.duration.press`: 100ms ← `primitive.duration.100`
+- `motion.duration.toggle`: 200ms ← `primitive.duration.200`
+- `motion.duration.sheet-fallback`: 320ms ← `primitive.duration.320`
+- `motion.duration.view-height`: 320ms ← `primitive.duration.320`
+- `motion.duration.height-transition`: 600ms ← `primitive.duration.600`
+- `motion.duration.column-rise`: 700ms ← `primitive.duration.700`
+- `motion.duration.column-rise-stagger-max`: 320ms ← `primitive.duration.320`
+- `motion.duration.camera-flight`: 2400ms ← `primitive.duration.2400`
+- `motion.duration.camera-to-result`: 1200ms ← `primitive.duration.1200`
+- `motion.duration.highlight`: 900ms ← `primitive.duration.900`
+- `motion.duration.spinner`: 900ms ← `primitive.duration.900`
+- `motion.duration.skeleton`: 1200ms ← `primitive.duration.1200`
+- `motion.duration.toast-enter`: 200ms ← `primitive.duration.200`
+- `motion.duration.toast-hold`: 4000ms ← `primitive.duration.4000`
+- `motion.easing.standard`: 0.2, 0, 0, 1 ← `primitive.easing.standard`
+- `motion.easing.enter`: 0.05, 0.7, 0.1, 1 ← `primitive.easing.decelerate`
+- `motion.easing.exit`: 0.3, 0, 0.8, 0.15 ← `primitive.easing.accelerate`
+- `motion.easing.camera`: 0.45, 0.05, 0.15, 1 ← `primitive.easing.in-out-long`
+- `motion.easing.spinner`: 0, 0, 1, 1 ← `primitive.easing.linear`
+- `motion.spring.sheet-stiffness`: 380
+- `motion.spring.sheet-damping`: 34
+- `motion.spring.sheet-mass`: 1
+- `motion.spring.press-scale`: 0.96
+- `motion.reduced.camera-flight`: 0ms ← `primitive.duration.0`
+- `motion.reduced.camera-to-result`: 0ms ← `primitive.duration.0`
+- `motion.reduced.column-rise`: 0ms ← `primitive.duration.0`
+- `motion.reduced.height-transition`: 0ms ← `primitive.duration.0`
+- `motion.reduced.sheet`: 0ms ← `primitive.duration.0`
+- `motion.reduced.view-height`: 0ms ← `primitive.duration.0`
+- `motion.reduced.spinner`: 0ms ← `primitive.duration.0`
+- `motion.reduced.skeleton`: 0ms ← `primitive.duration.0`
+- `motion.reduced.press-scale`: 1
+- `motion.reduced.crossfade`: 150ms ← `primitive.duration.150`
+- `map.pitch-default`: 55
+- `map.pitch-reduced`: 45

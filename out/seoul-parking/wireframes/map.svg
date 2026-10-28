@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="844" viewBox="0 0 390 844">
+<rect width="100%" height="100%" fill="#FFF"/>
+<rect x="8" y="4" width="374" height="392" rx="6" fill="#F2F2F2" stroke="#333" stroke-width="5"/>
+<text x="20" y="26" font-size="13" font-family="sans-serif" fill="#111">1. 3D 지도 + 빈자리 기둥</text>
+<text x="20" y="46" font-size="12" font-family="sans-serif" fill="#555">세종로 공영주차장(시) 기둥 위 라벨 1067. 건물은 연한 무채색, 기둥은 채도 있는</text>
+<rect x="8" y="404" width="374" height="48" rx="6" fill="#F2F2F2" stroke="#333" stroke-width="4"/>
+<text x="20" y="426" font-size="13" font-family="sans-serif" fill="#111">2. 떠 있는 검색창</text>
+<text x="20" y="446" font-size="12" font-family="sans-serif" fill="#555">플레이스홀더 '주차장 이름·구 검색 (예: 세종로, 종로구)'. 탭하면 검색 화면.</text>
+<rect x="8" y="460" width="374" height="40" rx="6" fill="#F2F2F2" stroke="#333" stroke-width="3"/>
+<text x="20" y="484" font-size="12" font-family="sans-serif" fill="#111">3. 지도/목록 알약 토글 — <tspan fill="#555">[지도 | 목록] 현재 '지도'가 채워짐. WebGL 없으면 </tspan></text>
+<rect x="8" y="508" width="374" height="48" rx="6" fill="#F2F2F2" stroke="#333" stroke-width="2"/>
+<text x="20" y="530" font-size="13" font-family="sans-serif" fill="#111">4. 현위치·새로고침 버튼</text>
+<text x="20" y="550" font-size="12" font-family="sans-serif" fill="#555">우측 하단 엄지 영역 원형 버튼 2개. 새로고침 옆에 '기준 2026-10-28 00:</text>
+<rect x="8" y="564" width="374" height="48" rx="6" fill="#F2F2F2" stroke="#333" stroke-width="1"/>
+<text x="20" y="586" font-size="13" font-family="sans-serif" fill="#111">5. 하단 범례</text>
+<text x="20" y="606" font-size="12" font-family="sans-serif" fill="#555">기둥 높이=빈자리 수, 색=빈자리 비율 구간, 흐린 기둥=오래됨(20분 초과), 회색=</text>
+<rect x="8" y="620" width="374" height="32" rx="6" fill="#F2F2F2" stroke="#333" stroke-width="1"/>
+<text x="20" y="640" font-size="12" font-family="sans-serif" fill="#111">6. 저작권 칩 — <tspan fill="#555">서울 열린데이터광장 · © OpenFreeMap © OpenM</tspan></text>
+<rect x="8" y="660" width="374" height="180" rx="6" fill="#F2F2F2" stroke="#333" stroke-width="1"/>
+<text x="20" y="682" font-size="13" font-family="sans-serif" fill="#111">7. 상태·움직임 주석</text>
+<text x="20" y="702" font-size="12" font-family="sans-serif" fill="#555">loading: 지도 위 스켈레톤+'불러오는 중'. error: 상단 배너 '불러오지 </text>
+
+</svg>

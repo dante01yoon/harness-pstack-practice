@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="pele pele-state" viewBox="0 0 1277 650" width="1277" height="650" style="max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_tw:var(--pele-title-weight,bold);--_fm:var(--pele-font-mono,monospace);font:16px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)" fill="var(--_fg)" role="graphics-document document" aria-roledescription="state"><style>.pele {
+  --pele-bg: #ffffff;
+  --pele-fg: #1c1c1c;
+  --pele-muted: #656565;
+  --pele-line: #808080;
+  --pele-surface: #fcfcfc;
+  --pele-surface-alt: #f1f1f1;
+  --pele-border: #c9c9c9;
+}
+.pele .blue rect { fill: #c3e0ff; }
+.pele .orange rect { fill: #f0d3bf; }
+.pele .purple rect { fill: #e3d5ff; }
+.pele .yellow rect { fill: #f0dcbf; }
+.pele .teal rect { fill: #bfe3df; }
+.pele .tan rect { fill: #e5d9ce; }
+.pele .pink rect { fill: #ffcbe6; }
+.pele .breaks rect {
+  fill: #ffecee !important;
+  stroke: #e72e3b !important;
+  stroke-width: 2.5px !important;
+}
+.pele .breaks text {
+  fill: #cd2834 !important;
+}
+.pele .mayBreak rect {
+  fill: #fff3e6 !important;
+  stroke: #e8730c !important;
+  stroke-width: 2.5px !important;
+}
+.pele .mayBreak text {
+  fill: #b85a06 !important;
+}
+.pele .bugPath rect {
+  stroke: #1680f3 !important;
+  stroke-width: 2.5px !important;
+}
+.pele .repeats rect {
+  stroke: #9b35d6 !important;
+  stroke-width: 2.5px !important;
+  stroke-dasharray: 6 3;
+}
+@media (prefers-color-scheme: dark) {
+  .pele {
+    --pele-bg: #1f1f1f;
+    --pele-fg: #f5f5f5;
+    --pele-muted: #acacac;
+    --pele-line: #939393;
+    --pele-surface: #121212;
+    --pele-surface-alt: #2c2c2c;
+    --pele-border: #4e4e4e;
+  }
+  .pele .blue rect { fill: #1b3857; }
+  .pele .orange rect { fill: #573117; }
+  .pele .purple rect { fill: #3c2e57; }
+  .pele .yellow rect { fill: #573d17; }
+  .pele .teal rect { fill: #174641; }
+  .pele .tan rect { fill: #3d3127; }
+  .pele .pink rect { fill: #57233e; }
+  .pele .breaks rect {
+    fill: #2e2021 !important;
+    stroke: #cf2b35 !important;
+  }
+  .pele .breaks text {
+    fill: #ff6463 !important;
+  }
+  .pele .mayBreak rect {
+    fill: #2e2619 !important;
+    stroke: #d0700f !important;
+  }
+  .pele .mayBreak text {
+    fill: #ffa257 !important;
+  }
+  .pele .bugPath rect {
+    stroke: #116dd2 !important;
+  }
+  .pele .repeats rect {
+    stroke: #9a3fcf !important;
+  }
+}
+</style><text class="pele-title" font-weight="var(--_tw)" text-anchor="middle" xml:space="preserve"><tspan x="638.5" y="25.6">고친 뒤 (8e63ca3): 새로고침을 눌렀을 때 화면</tspan></text><g transform="translate(0,36)"><g class="pele-clusters"><g class="pele-cluster pele-state-composite" data-id="legend"><rect x="166.94" y="8" width="392.9" height="112" rx="10" fill="var(--_a)" fill-opacity="0.5" stroke="var(--_b)"/><path d="M166.94,44H559.84" fill="none" stroke="var(--_b)"/><text class="pele-cluster-label" x="363.39" y="31.6" text-anchor="middle">Legend</text></g><g class="pele-cluster pele-state-composite" data-id="s0"><rect x="8" y="164" width="595.37" height="442" rx="10" fill="var(--_a)" fill-opacity="0.5" stroke="var(--_b)"/><path d="M8,200H603.37" fill="none" stroke="var(--_b)"/><text class="pele-cluster-label" x="80.9" y="187.6" text-anchor="middle">3D 안 되는 기기</text></g><g class="pele-cluster pele-state-composite" data-id="s5"><rect x="643.37" y="164" width="625.5" height="442" rx="10" fill="var(--_a)" fill-opacity="0.5" stroke="var(--_b)"/><path d="M643.37,200H1268.87" fill="none" stroke="var(--_b)"/><text class="pele-cluster-label" x="956.12" y="187.6" text-anchor="middle">3D 되는 기기</text></g></g><g class="pele-edges" fill="none" stroke="var(--_l)" stroke-linecap="round"><g class="pele-edge pele-transition" data-id="edge0"><path d="M606.84,71C606.84,117.5 355.41,117.5 355.41,164L355.41,229"/><path class="pele-marker" d="M355.41,236L352.05,228L358.77,228Z" fill="var(--_l)" stroke="none"/></g><g class="pele-edge pele-transition" data-id="edge1"><path d="M606.84,71C606.84,117.5 858.26,117.5 858.26,164L858.26,229"/><path class="pele-marker" d="M858.26,236L854.9,228L861.62,228Z" fill="var(--_l)" stroke="none"/></g><g class="pele-edge pele-transition" data-id="edge2"><path d="M339.41,280L339.41,289.63C339.41,293.22 169.23,298.4 169.23,302L169.23,366"/><path class="pele-marker" d="M169.23,373L165.87,365L172.59,365Z" fill="var(--_l)" stroke="none"/></g><g class="pele-edge pele-transition" data-id="edge3"><path d="M355.41,280L355.41,357"/><path class="pele-marker" d="M355.41,364L352.05,356L358.77,356Z" fill="var(--_l)" stroke="none"/></g><g class="pele-edge pele-transition" data-id="edge4"><path d="M842.26,280L842.26,289.63C842.26,294.23 709.31,297.39 709.31,302L709.31,357"/><path class="pele-marker" d="M709.31,364L705.95,356L712.67,356Z" fill="var(--_l)" stroke="none"/></g><g class="pele-edge pele-transition" data-id="edge5"><path d="M874.26,280L874.26,289.63C874.26,292.91 1060.97,298.72 1060.97,302L1060.97,366"/><path class="pele-marker" d="M1060.97,373L1057.61,365L1064.33,365Z" fill="var(--_l)" stroke="none"/></g><g class="pele-edge pele-transition" data-id="edge6"><path d="M80.95,417L80.95,521"/><path class="pele-marker" d="M80.95,528L77.59,520L84.31,520Z" fill="var(--_l)" stroke="none"/></g><g class="pele-edge pele-transition" data-id="edge7"><path d="M504.36,364L504.36,302C504.36,298.19 371.41,294.56 371.41,290.75L371.41,287"/><path class="pele-marker" d="M371.41,280L374.77,288L368.05,288Z" fill="var(--_l)" stroke="none"/></g><g class="pele-edge pele-transition" data-id="edge8"><path d="M858.26,364L858.26,287"/><path class="pele-marker" d="M858.26,280L861.62,288L854.9,288Z" fill="var(--_l)" stroke="none"/></g><g class="pele-edge pele-transition" data-id="edge9"><path d="M972.69,417L972.69,521"/><path class="pele-marker" d="M972.69,528L969.33,520L976.05,520Z" fill="var(--_l)" stroke="none"/></g><g class="pele-edge pele-transition" data-id="edge10"><path d="M257.51,528L257.51,424"/><path class="pele-marker" d="M257.51,417L260.87,425L254.15,425Z" fill="var(--_l)" stroke="none"/></g><g class="pele-edge pele-transition" data-id="edge11"><path d="M1149.25,528L1149.25,424"/><path class="pele-marker" d="M1149.25,417L1152.61,425L1145.89,425Z" fill="var(--_l)" stroke="none"/></g></g><g class="pele-edge-labels" font-size="14"><g class="pele-edge-label" data-id="edge2"><rect x="112.33" y="311.5" width="113.78" height="21" rx="3" fill="var(--_bg)"/><text x="169.23" y="326.9" text-anchor="middle">주차장 정보가 옴</text></g><g class="pele-edge-label" data-id="edge3"><rect x="307.46" y="311.5" width="95.89" height="21" rx="3" fill="var(--_bg)"/><text x="355.41" y="326.9" text-anchor="middle">불러오지 못함</text></g><g class="pele-edge-label" data-id="edge4"><rect x="661.37" y="311.5" width="95.89" height="21" rx="3" fill="var(--_bg)"/><text x="709.31" y="326.9" text-anchor="middle">불러오지 못함</text></g><g class="pele-edge-label" data-id="edge5"><rect x="1004.08" y="311.5" width="113.78" height="21" rx="3" fill="var(--_bg)"/><text x="1060.97" y="326.9" text-anchor="middle">주차장 정보가 옴</text></g><g class="pele-edge-label" data-id="edge6"><rect x="26" y="466.5" width="109.89" height="21" rx="3" fill="var(--_bg)"/><text x="80.95" y="481.9" text-anchor="middle">새로고침을 누름</text></g><g class="pele-edge-label" data-id="edge7"><rect x="423.35" y="304" width="162.01" height="36" rx="3" fill="var(--_bg)"/><text text-anchor="middle" xml:space="preserve"><tspan x="504.36" y="317.9">새로고침을 누름 or [다시</tspan><tspan x="504.36" y="335.9">시도]를 누름</tspan></text></g><g class="pele-edge-label" data-id="edge8"><rect x="777.26" y="304" width="162.01" height="36" rx="3" fill="var(--_bg)"/><text text-anchor="middle" xml:space="preserve"><tspan x="858.26" y="317.9">새로고침을 누름 or [다시</tspan><tspan x="858.26" y="335.9">시도]를 누름</tspan></text></g><g class="pele-edge-label" data-id="edge9"><rect x="917.75" y="466.5" width="109.89" height="21" rx="3" fill="var(--_bg)"/><text x="972.69" y="481.9" text-anchor="middle">새로고침을 누름</text></g><g class="pele-edge-label" data-id="edge10"><rect x="155.89" y="450" width="203.23" height="54" rx="3" fill="var(--_bg)"/><text text-anchor="middle" xml:space="preserve"><tspan x="257.51" y="463.9">새 숫자가 옴 or 새로 받지 못함</tspan><tspan x="257.51" y="481.9">(알림만 뜸) or 먼저 보낸 요청의</tspan><tspan x="257.51" y="499.9">응답이 늦게 옴 (버림)</tspan></text></g><g class="pele-edge-label" data-id="edge11"><rect x="1047.64" y="450" width="203.23" height="54" rx="3" fill="var(--_bg)"/><text text-anchor="middle" xml:space="preserve"><tspan x="1149.25" y="463.9">새 숫자가 옴 or 새로 받지 못함</tspan><tspan x="1149.25" y="481.9">(알림만 뜸) or 먼저 보낸 요청의</tspan><tspan x="1149.25" y="499.9">응답이 늦게 옴 (버림)</tspan></text></g></g><g class="pele-nodes"><g class="pele-node pele-state-start" data-id="root_start" transform="translate(606.84,64)"><circle r="7" fill="var(--_l)"/></g><g class="pele-node pele-state blue" data-id="lg0" transform="translate(241.16,82)"><rect x="-58.22" y="-22" width="116.45" height="44" rx="10" fill="var(--_s)" stroke="var(--_b)"/><text class="pele-label" x="0" y="5.6" text-anchor="middle">불러오는 중</text></g><g class="pele-node pele-state orange" data-id="lg1" transform="translate(371.39,82)"><rect x="-32" y="-22" width="64" height="44" rx="10" fill="var(--_s)" stroke="var(--_b)"/><text class="pele-label" x="0" y="5.6" text-anchor="middle">실패</text></g><g class="pele-node pele-state teal" data-id="lg2" transform="translate(493.61,82)"><rect x="-50.22" y="-22" width="100.45" height="44" rx="10" fill="var(--_s)" stroke="var(--_b)"/><text class="pele-label" x="0" y="5.6" text-anchor="middle">숫자 보임</text></g><g class="pele-node pele-state blue" data-id="s1" transform="translate(355.41,258)"><rect x="-58.22" y="-22" width="116.45" height="44" rx="10" fill="var(--_s)" stroke="var(--_b)"/><text class="pele-label" x="0" y="5.6" text-anchor="middle">불러오는 중</text></g><g class="pele-node pele-state teal" data-id="s2" transform="translate(169.23,395)"><rect x="-101.54" y="-22" width="203.07" height="44" rx="10" fill="var(--_s)" stroke="var(--_b)"/><text class="pele-label" x="0" y="5.6" text-anchor="middle">목록 · 숫자와 기준 시각</text></g><g class="pele-node pele-state orange" data-id="s3" transform="translate(429.88,395)"><rect x="-113.98" y="-31" width="227.97" height="62" rx="10" fill="var(--_s)" stroke="var(--_b)"/><text class="pele-label" text-anchor="middle" xml:space="preserve"><tspan x="0" y="-4.9">불러오지 못함 · [다시 시도]</tspan><tspan x="0" y="16.1">보임</tspan></text></g><g class="pele-node pele-state teal" data-id="s4" transform="translate(169.23,559)"><rect x="-108.4" y="-31" width="216.8" height="62" rx="10" fill="var(--_s)" stroke="var(--_b)"/><text class="pele-label" text-anchor="middle" xml:space="preserve"><tspan x="0" y="-4.9">목록 · 숫자와 기준 시각 ·</tspan><tspan x="0" y="16.1">새로 받는 중</tspan></text></g><g class="pele-node pele-state blue" data-id="s6" transform="translate(858.26,258)"><rect x="-58.22" y="-22" width="116.45" height="44" rx="10" fill="var(--_s)" stroke="var(--_b)"/><text class="pele-label" x="0" y="5.6" text-anchor="middle">불러오는 중</text></g><g class="pele-node pele-state orange" data-id="s7" transform="translate(783.79,395)"><rect x="-113.98" y="-31" width="227.97" height="62" rx="10" fill="var(--_s)" stroke="var(--_b)"/><text class="pele-label" text-anchor="middle" xml:space="preserve"><tspan x="0" y="-4.9">불러오지 못함 · [다시 시도]</tspan><tspan x="0" y="16.1">보임</tspan></text></g><g class="pele-node pele-state teal" data-id="s8" transform="translate(1060.97,395)"><rect x="-101.54" y="-22" width="203.07" height="44" rx="10" fill="var(--_s)" stroke="var(--_b)"/><text class="pele-label" x="0" y="5.6" text-anchor="middle">지도 · 숫자와 기준 시각</text></g><g class="pele-node pele-state teal" data-id="s9" transform="translate(1060.97,559)"><rect x="-108.4" y="-31" width="216.8" height="62" rx="10" fill="var(--_s)" stroke="var(--_b)"/><text class="pele-label" text-anchor="middle" xml:space="preserve"><tspan x="0" y="-4.9">지도 · 숫자와 기준 시각 ·</tspan><tspan x="0" y="16.1">새로 받는 중</tspan></text></g></g></g></svg>

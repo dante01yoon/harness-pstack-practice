@@ -3,731 +3,869 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#FFFFFF">
 <title>서울 공영주차장 빈자리</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;600;700&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.css" rel="stylesheet">
 <style>
-  /* tokens.json (승인: system, dante, 2026-10-26) */
-  :root {
-    --color-brand: #0A4A94;
-    --color-brand-soft: #E6EEF8;
-    --color-on-brand: #FFFFFF;
-    --color-text: #16202A;
-    --color-text-muted: #475563;
-    --color-surface: #FFFFFF;
-    --color-surface-sunken: #F2F4F6;
-    --color-border: #D3DAE1;
-    --color-border-strong: #7A8794;
-    --color-warning: #6E4300;
-    --color-warning-soft: #FFF1D6;
-    --color-danger: #B0261C;
-    --color-danger-soft: #FCEBEA;
-    --color-focus: #0A4A94;
-    --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px;
-    --space-5: 20px; --space-6: 24px; --space-8: 32px;
-    --radius-sm: 4px; --radius-md: 8px;
-    --size-touch: 44px; --size-header: 48px; --size-input: 48px; --size-row: 96px;
-    --size-icon: 20px; --size-icon-lg: 24px; --size-focus-ring: 2px;
-    --font-size-caption: 13px; --font-size-label: 15px; --font-size-body: 16px;
-    --font-size-title: 18px; --font-size-heading: 22px;
-    --font-size-count: 32px; --font-size-count-lg: 48px;
-    --font-weight-regular: 400; --font-weight-semibold: 600; --font-weight-bold: 700;
-    --line-height-tight: 1.15; --line-height-snug: 1.35; --line-height-body: 1.5;
-    --font-family-base: 'IBM Plex Sans KR', 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif;
-  }
+/* 토큰: work/seoul-parking/tokens.json (system 승인본) */
+:root {
+  --ink-900:#15191E; --ink-700:#3A4048; --ink-600:#4B525B; --ink-550:#5A616A; --ink-500:#6A717A; --ink-400:#80868E;
+  --ink-300:#B9BEC5; --ink-200:#DADDE1; --ink-150:#E4E7EA; --ink-100:#ECEEF1; --ink-75:#EEF0F2; --ink-50:#F3F4F6; --white:#FFFFFF;
+  --color-text:var(--ink-900); --color-text-muted:var(--ink-600); --color-text-disabled:var(--ink-550);
+  --color-action:var(--ink-900); --color-on-action:var(--white);
+  --color-surface:var(--white); --color-surface-sunken:var(--ink-50); --color-skeleton:var(--ink-150);
+  --color-border:var(--ink-200); --color-border-float:var(--ink-300); --color-focus:var(--ink-900);
+  --color-inverse:var(--ink-900); --color-on-inverse:var(--white);
+  --color-danger:#B42318; --color-danger-soft:#FDECEA;
+  --color-leader:var(--ink-600);
+  --column-plenty:#0B7A5E; --column-some:#A86F00; --column-few:#C2410C; --column-full:#B0124A; --column-no-realtime:#6A717A;
+  --space-1:4px; --space-2:8px; --space-3:12px; --space-4:16px; --space-5:20px; --space-6:24px; --space-8:32px;
+  --radius-tag:4px; --radius-sheet:20px; --radius-pill:999px;
+  --size-touch:44px; --size-control:48px; --size-header:56px; --size-icon:24px; --size-swatch:4px; --leader-width:2px;
+  --font:"Noto Sans KR","Apple SD Gothic Neo",sans-serif;
+  --fs-caption:12px; --fs-label:14px; --fs-body:16px; --fs-title:20px; --fs-headline:28px; --fs-display:44px;
+  --lh-tight:1.2; --lh-body:1.5;
+  --ease-standard:cubic-bezier(.2,0,0,1); --ease-enter:cubic-bezier(.05,.7,.1,1); --ease-exit:cubic-bezier(.3,0,.8,.15);
+  --d-press:100ms; --d-toggle:200ms; --d-view:320ms; --d-sheet:320ms; --d-toast:200ms; --d-spinner:900ms; --d-skeleton:1200ms;
+  --press-scale:.96;
+  --opacity-scrim:.32;
+}
+@media (prefers-reduced-motion: reduce) {
+  :root { --d-press:0ms; --d-toggle:0ms; --d-view:150ms; --d-sheet:0ms; --d-toast:150ms; --press-scale:1; }
+}
+* { box-sizing:border-box; }
+html, body { margin:0; height:100%; background:var(--ink-75); }
+body { font-family:var(--font); color:var(--color-text); font-size:var(--fs-body); line-height:var(--lh-body);
+  -webkit-font-smoothing:antialiased; font-variant-numeric:tabular-nums; overflow:hidden; }
+button { font:inherit; color:inherit; }
+.app { position:relative; height:100%; max-width:480px; margin:0 auto; overflow:hidden; background:var(--ink-75); }
+@media (min-width:481px) { .app { border-left:1px solid var(--color-border); border-right:1px solid var(--color-border); } }
+.sr-only { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+:focus-visible { outline:2px solid var(--color-focus); outline-offset:2px; }
+.press { transition:transform var(--d-press) var(--ease-standard); }
+.press:active { transform:scale(var(--press-scale)); }
 
-  * { box-sizing: border-box; }
-  html { -webkit-text-size-adjust: 100%; }
-  body {
-    margin: 0; background: var(--color-surface-sunken); color: var(--color-text);
-    font-family: var(--font-family-base); font-size: var(--font-size-body);
-    line-height: var(--line-height-body); -webkit-tap-highlight-color: transparent;
-  }
-  .app { max-width: 480px; min-height: 100vh; margin: 0 auto; background: var(--color-surface); display: flex; flex-direction: column; }
-  main { flex: 1; }
-  button, input { font: inherit; color: inherit; }
-  button { cursor: pointer; }
-  :focus-visible { outline: var(--size-focus-ring) solid var(--color-focus); outline-offset: 2px; }
-  [hidden] { display: none !important; }
-  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
-  .icon { width: var(--size-icon); height: var(--size-icon); flex: none; }
-  .icon-lg { width: var(--size-icon-lg); height: var(--size-icon-lg); flex: none; }
-  .num { font-variant-numeric: tabular-nums; }
+/* 지도 */
+#map { position:absolute; inset:0; }
+.maplibregl-ctrl-attrib, .maplibregl-ctrl-logo { display:none !important; }
+#labels { position:absolute; inset:0; pointer-events:none; overflow:hidden; }
+#labels svg { position:absolute; inset:0; width:100%; height:100%; }
+.col-label { position:absolute; pointer-events:auto; display:flex; align-items:center; gap:var(--space-1);
+  min-height:var(--size-touch); min-width:var(--size-touch); padding:0 var(--space-2) 0 calc(var(--space-2) + var(--size-swatch));
+  background:var(--color-surface); border:1px solid var(--color-border-float); border-radius:var(--radius-tag);
+  font-size:var(--fs-title); font-weight:700; line-height:var(--lh-tight); white-space:nowrap; cursor:pointer;
+  transition:opacity var(--d-toggle) var(--ease-standard); }
+.col-label::before { content:""; position:absolute; left:0; top:0; bottom:0; width:var(--size-swatch); background:var(--sw); border-radius:var(--radius-tag) 0 0 var(--radius-tag); }
+.col-label.muted { font-size:var(--fs-label); font-weight:500; }
+.col-label.highlighted { border-color:var(--ink-900); box-shadow:0 0 0 1px var(--ink-900); }
 
-  /* AppBar */
-  .appbar {
-    position: sticky; top: 0; z-index: 3; height: var(--size-header);
-    display: flex; align-items: center; gap: var(--space-1); padding: 0 var(--space-2) 0 var(--space-4);
-    background: var(--color-surface); border-bottom: 1px solid var(--color-border);
-  }
-  .appbar.detail { padding-left: var(--space-1); }
-  .appbar h1 {
-    flex: 1; min-width: 0; margin: 0; font-size: var(--font-size-title); font-weight: var(--font-weight-bold);
-    line-height: var(--line-height-snug); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  }
+/* 위쪽 떠 있는 것 */
+.top { position:absolute; left:var(--space-4); right:var(--space-4); top:calc(var(--space-4) + env(safe-area-inset-top)); z-index:5; display:flex; flex-direction:column; gap:var(--space-3); pointer-events:none; }
+.top > * { pointer-events:auto; }
+.searchbar { display:flex; align-items:center; gap:var(--space-2); height:var(--size-control); padding:0 var(--space-4);
+  background:var(--color-surface); border:1px solid var(--color-border-float); border-radius:var(--radius-pill);
+  font-size:var(--fs-body); color:var(--color-text-muted); text-align:left; cursor:pointer; width:100%; }
+.row { display:flex; align-items:center; justify-content:space-between; gap:var(--space-2); }
+.toggle { position:relative; display:inline-flex; padding:var(--space-1); background:var(--color-surface-sunken); border:1px solid var(--color-border-float); border-radius:var(--radius-pill); }
+.toggle button { position:relative; z-index:1; min-width:68px; min-height:var(--size-touch); padding:0 var(--space-4); border:0; background:none; border-radius:var(--radius-pill);
+  font-size:var(--fs-label); font-weight:700; cursor:pointer; }
+.toggle button[aria-pressed="true"] { color:var(--color-on-action); }
+.toggle button:disabled { color:var(--color-text-disabled); text-decoration:line-through; cursor:not-allowed; }
+.toggle .thumb { position:absolute; top:var(--space-1); bottom:var(--space-1); left:var(--space-1); background:var(--color-action); border-radius:var(--radius-pill);
+  transition:transform var(--d-toggle) var(--ease-standard), width var(--d-toggle) var(--ease-standard); }
+.toast { align-self:stretch; padding:var(--space-3) var(--space-4); background:var(--color-inverse); color:var(--color-on-inverse);
+  border-radius:var(--radius-tag); font-size:var(--fs-label); opacity:0; transform:translateY(-8px);
+  transition:opacity var(--d-toast) var(--ease-standard), transform var(--d-toast) var(--ease-standard); pointer-events:none; }
+.toast.show { opacity:1; transform:none; }
+.toast[hidden] { display:none; }
+.error-banner { padding:var(--space-3) var(--space-4); background:var(--color-danger-soft); color:var(--color-danger); border:1px solid var(--color-danger); border-radius:var(--radius-tag); font-size:var(--fs-label); }
+.error-banner b { display:block; font-size:var(--fs-body); }
+.error-banner button { margin-top:var(--space-2); }
 
-  /* IconButton */
-  .icon-btn {
-    width: var(--size-touch); height: var(--size-touch); flex: none; display: inline-grid; place-items: center;
-    border: 0; border-radius: var(--radius-sm); background: transparent; color: var(--color-brand);
-  }
-  .icon-btn:active { background: var(--color-brand-soft); }
-  .icon-btn[aria-busy="true"] svg { animation: spin 0.9s linear infinite; }
-  @keyframes spin { to { transform: rotate(360deg); } }
+/* 아래쪽 */
+.bottom { position:absolute; left:0; right:0; bottom:0; z-index:4; display:flex; flex-direction:column; pointer-events:none; }
+.bottom > * { pointer-events:auto; }
+.fabs { align-self:flex-end; display:flex; flex-direction:column; gap:var(--space-3); margin:0 var(--space-4) var(--space-3); }
+.fab, .icon-btn { width:var(--size-control); height:var(--size-control); display:grid; place-items:center; border-radius:var(--radius-pill);
+  background:var(--color-surface); border:1px solid var(--color-border-float); cursor:pointer; padding:0; }
+.fab[aria-disabled="true"] { background:var(--color-surface-sunken); color:var(--color-text-disabled); }
+.fab svg, .icon-btn svg { width:var(--size-icon); height:var(--size-icon); }
+.fab.spinning svg { animation:spin var(--d-spinner) linear infinite; }
+@keyframes spin { to { transform:rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .fab.spinning svg { animation:none; } }
+.updated { align-self:flex-end; margin:0 var(--space-4) var(--space-3); display:inline-flex; align-items:center; gap:var(--space-2);
+  padding:var(--space-1) var(--space-3); background:var(--color-surface); border:1px solid var(--color-border-float); border-radius:var(--radius-pill); font-size:var(--fs-label); }
+.legend { margin:0 var(--space-4) var(--space-2); padding:var(--space-3) var(--space-4); background:var(--color-surface); border:1px solid var(--color-border-float); border-radius:var(--radius-tag); font-size:var(--fs-label); line-height:var(--lh-body); }
+.legend .items { display:flex; flex-wrap:wrap; gap:var(--space-1) var(--space-3); margin-top:var(--space-1); }
+.legend .sw { display:inline-block; width:12px; height:12px; margin-right:var(--space-1); vertical-align:-1px; border-radius:2px; }
+.attrib { padding:var(--space-2) var(--space-4) calc(var(--space-2) + env(safe-area-inset-bottom)); background:var(--color-surface); border-top:1px solid var(--color-border); font-size:var(--fs-caption); color:var(--color-text-muted); }
 
-  /* SearchField */
-  .search { padding: var(--space-3) var(--space-4) var(--space-1); }
-  .search-box {
-    display: flex; align-items: center; height: var(--size-input); padding-left: var(--space-3);
-    border: 1px solid var(--color-border-strong); border-radius: var(--radius-md); background: var(--color-surface);
-    color: var(--color-text-muted);
-  }
-  .search-box:focus-within { outline: var(--size-focus-ring) solid var(--color-focus); outline-offset: 0; border-color: var(--color-focus); }
-  .search-box input {
-    flex: 1; min-width: 0; height: 100%; border: 0; outline: 0; background: transparent;
-    padding: 0 var(--space-2); font-size: var(--font-size-body); color: var(--color-text);
-  }
-  .search-box input::placeholder { color: var(--color-text-muted); }
-  .search-box input::-webkit-search-cancel-button { display: none; }
-  .search-box .icon-btn { color: var(--color-text-muted); }
+/* 배지 */
+.badge { display:inline-flex; align-items:center; gap:2px; padding:0 var(--space-1); border-radius:var(--radius-tag); font-size:var(--fs-caption); font-weight:500; line-height:20px; white-space:nowrap; vertical-align:middle; }
+.badge.stale { background:var(--white); color:var(--ink-900); border:1px dashed var(--ink-900); }
+.badge.muted { background:var(--ink-100); color:var(--ink-700); }
 
-  /* DistrictChip */
-  .chips {
-    display: flex; gap: var(--space-2); overflow-x: auto; padding: var(--space-2) var(--space-4);
-    scrollbar-width: none; scroll-padding: 0 var(--space-4);
-  }
-  .chips::-webkit-scrollbar { display: none; }
-  .chip {
-    flex: none; display: inline-flex; align-items: center; gap: var(--space-1); min-height: var(--size-touch);
-    padding: 0 var(--space-3); border: 1px solid var(--color-border-strong); border-radius: var(--radius-sm);
-    background: var(--color-surface); color: var(--color-text); font-size: var(--font-size-label); white-space: nowrap;
-  }
-  .chip:active { background: var(--color-brand-soft); }
-  .chip[aria-pressed="true"] {
-    background: var(--color-brand-soft); color: var(--color-brand); border-color: var(--color-brand);
-    font-weight: var(--font-weight-semibold);
-  }
-  .chip .check { display: none; width: 16px; height: 16px; }
-  .chip[aria-pressed="true"] .check { display: block; }
+/* 목록 */
+.list { position:absolute; inset:0; z-index:7; background:var(--color-surface); display:flex; flex-direction:column;
+  transition:opacity var(--d-view) var(--ease-standard), transform var(--d-view) var(--ease-standard); }
+.list[hidden] { display:flex; opacity:0; transform:translateY(24px); pointer-events:none; visibility:hidden; }
+.list-head { padding:calc(var(--space-4) + env(safe-area-inset-top)) var(--space-4) var(--space-2); display:flex; flex-direction:column; gap:var(--space-3); border-bottom:1px solid var(--color-border); }
+.list-body { flex:1; overflow:auto; }
+.item { position:relative; display:block; width:100%; text-align:left; background:none; border:0; border-bottom:1px solid var(--color-border);
+  padding:var(--space-3) var(--space-8) var(--space-3) calc(var(--space-4) + var(--size-swatch)); min-height:96px; cursor:pointer; }
+.item::before { content:""; position:absolute; left:0; top:var(--space-3); bottom:var(--space-3); width:var(--size-swatch); background:var(--sw); }
+.item::after { content:"›"; position:absolute; right:var(--space-4); top:50%; transform:translateY(-50%); font-size:var(--fs-headline); color:var(--color-text-muted); }
+.item .name { font-size:var(--fs-title); font-weight:700; line-height:var(--lh-tight); }
+.item .vac { margin-top:var(--space-1); }
+.item .vac b { font-size:var(--fs-headline); line-height:var(--lh-tight); }
+.item .meta { font-size:var(--fs-label); color:var(--color-text-muted); }
+.item.dim .vac b { opacity:.5; }
 
-  /* ResultSummary */
-  .summary {
-    min-height: var(--size-touch); display: flex; align-items: center; padding: 0 var(--space-4);
-    font-size: var(--font-size-label); color: var(--color-text-muted);
-  }
+/* 상태 */
+.state { padding:var(--space-8) var(--space-4); text-align:center; color:var(--color-text-muted); }
+.state b { display:block; color:var(--color-text); font-size:var(--fs-title); margin-bottom:var(--space-2); }
+.btn { min-height:var(--size-control); padding:0 var(--space-5); border-radius:var(--radius-pill); font-size:var(--fs-body); font-weight:700; cursor:pointer;
+  border:1px solid var(--color-action); background:var(--color-surface); color:var(--color-text); }
+.btn.primary { background:var(--color-action); color:var(--color-on-action); }
+.btn[aria-disabled="true"] { opacity:.5; pointer-events:none; }
+.skeleton { height:96px; border-bottom:1px solid var(--color-border); padding:var(--space-3) var(--space-4); }
+.skeleton i { display:block; height:16px; margin:var(--space-2) 0; border-radius:var(--radius-tag); background:var(--color-skeleton); animation:pulse var(--d-skeleton) ease-in-out infinite; }
+@keyframes pulse { 50% { opacity:.5; } }
+@media (prefers-reduced-motion: reduce) { .skeleton i { animation:none; } }
+.loading-veil { position:absolute; inset:0; z-index:20; display:grid; place-items:center; background:var(--ink-75); color:var(--color-text-muted); font-size:var(--fs-body);
+  transition:opacity var(--d-view) var(--ease-standard); }
+.loading-veil.gone { opacity:0; pointer-events:none; }
 
-  /* StaleBanner / inline error */
-  .banner {
-    display: flex; align-items: center; gap: var(--space-2); margin: 0 var(--space-4) var(--space-3);
-    padding: var(--space-3); border: 1px solid var(--color-warning); border-radius: var(--radius-md);
-    background: var(--color-warning-soft); color: var(--color-warning); font-size: var(--font-size-label);
-    line-height: var(--line-height-snug);
-  }
-  .banner p { flex: 1; margin: 0; }
-  .banner.danger { border-color: var(--color-danger); background: var(--color-danger-soft); color: var(--color-danger); }
-  .detail-hero + .banner { margin-top: 0; }
+/* 검색 */
+.search { position:absolute; inset:0; z-index:8; background:var(--color-surface); display:flex; flex-direction:column; }
+.search[hidden] { display:none; }
+.search-head { display:flex; align-items:center; gap:var(--space-2); padding:calc(var(--space-4) + env(safe-area-inset-top)) var(--space-4) var(--space-2); }
+.search-head input { flex:1; height:var(--size-control); padding:0 var(--space-4); border:1px solid var(--color-border-float); border-radius:var(--radius-pill); font:inherit; font-size:var(--fs-body); color:var(--color-text); }
+.search-head input::placeholder { color:var(--color-text-muted); opacity:1; }
+.search-scope { padding:0 var(--space-4) var(--space-2); font-size:var(--fs-label); color:var(--color-text-muted); border-bottom:1px solid var(--color-border); }
+.result { display:block; width:100%; text-align:left; background:none; border:0; border-bottom:1px solid var(--color-border); padding:var(--space-3) var(--space-8) var(--space-3) var(--space-4); min-height:var(--size-touch); cursor:pointer; position:relative; }
+.result::after { content:"›"; position:absolute; right:var(--space-4); top:50%; transform:translateY(-50%); font-size:var(--fs-title); color:var(--color-text-muted); }
+.result .t { font-weight:700; }
+.result .m { font-size:var(--fs-label); color:var(--color-text-muted); }
+.result .n { font-weight:700; color:var(--color-text); }
+.result.district { background:var(--color-surface-sunken); }
 
-  /* OpeningBanner */
-  .banner.opening { border-color: var(--color-brand); background: var(--color-brand-soft); color: var(--color-text); }
-  .banner.opening > svg { color: var(--color-brand); }
-  .appbar + .banner { margin-top: var(--space-3); }
-
-  /* Button */
-  .btn {
-    flex: none; min-height: var(--size-touch); padding: 0 var(--space-4); border-radius: var(--radius-sm);
-    font-size: var(--font-size-label); font-weight: var(--font-weight-semibold); white-space: nowrap;
-    border: 1px solid var(--color-brand); background: var(--color-brand); color: var(--color-on-brand);
-  }
-  .btn.secondary { background: var(--color-surface); color: var(--color-brand); }
-  .btn:active { filter: brightness(0.92); }
-  .btn:disabled { cursor: default; opacity: 0.7; }
-
-  /* GroupHeader */
-  .group-header {
-    position: sticky; top: var(--size-header); z-index: 2; height: calc(var(--space-8) + var(--space-2));
-    display: flex; align-items: center; margin: 0; padding: 0 var(--space-4);
-    background: var(--color-surface-sunken); font-size: var(--font-size-label); font-weight: var(--font-weight-semibold);
-  }
-  .list { list-style: none; margin: 0; padding: 0; }
-
-  /* ParkingRow */
-  .row {
-    display: flex; align-items: center; gap: var(--space-2); min-height: var(--size-row);
-    padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--color-border);
-    color: inherit; text-decoration: none; background: var(--color-surface);
-  }
-  .row:active { background: var(--color-brand-soft); }
-  .row:focus-visible { outline-offset: -2px; }
-  .row-main { flex: 1; min-width: 0; }
-  .row-name {
-    margin: 0; font-size: var(--font-size-title); font-weight: var(--font-weight-semibold); line-height: var(--line-height-snug);
-    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
-  }
-  .row-name .fav { margin-right: var(--space-1); vertical-align: text-bottom; color: var(--color-brand); }
-  .row-addr {
-    margin: var(--space-1) 0 0; font-size: var(--font-size-label); color: var(--color-text-muted);
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  }
-  .row-side { flex: none; display: flex; flex-direction: column; align-items: flex-end; gap: var(--space-1); text-align: right; max-width: 52%; }
-
-  /* AvailabilityCount */
-  .avail-label { font-size: var(--font-size-label); color: var(--color-text-muted); line-height: var(--line-height-snug); }
-  .avail { display: flex; align-items: baseline; gap: var(--space-1); justify-content: flex-end; }
-  .avail-count { font-size: var(--font-size-count); font-weight: var(--font-weight-bold); line-height: var(--line-height-tight); }
-  .avail-unit { font-size: var(--font-size-label); color: var(--color-text-muted); white-space: nowrap; }
-  .avail-full { font-size: var(--font-size-label); font-weight: var(--font-weight-bold); color: var(--color-text); }
-  .lg .avail-count { font-size: var(--font-size-count-lg); }
-  .lg .avail { justify-content: flex-start; }
-
-  /* Timestamp */
-  .ts { display: inline-flex; align-items: center; gap: var(--space-1); font-size: var(--font-size-label); color: var(--color-text-muted); white-space: nowrap; }
-  .ts.stale { color: var(--color-warning); font-weight: var(--font-weight-semibold); }
-
-  /* NoRealtimeTag / BusOnlyTag / type tags */
-  .tag {
-    display: inline-flex; align-items: center; gap: var(--space-1); padding: var(--space-1) var(--space-2);
-    border: 1px solid var(--color-border-strong); border-radius: var(--radius-sm);
-    font-size: var(--font-size-label); line-height: var(--line-height-snug); color: var(--color-text); white-space: nowrap;
-  }
-  .tag.no-rt { border-style: dashed; background: var(--color-surface-sunken); }
-  .tag.bus { background: var(--color-surface); }
-  .tag-sub { font-size: var(--font-size-label); color: var(--color-text-muted); white-space: nowrap; }
-
-  /* StateMessage / SkeletonRow */
-  .state {
-    margin: var(--space-3) var(--space-4); padding: var(--space-5); border-radius: var(--radius-md);
-    background: var(--color-surface-sunken); display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-2);
-  }
-  .state.error { background: var(--color-danger-soft); }
-  .state.error > svg { color: var(--color-danger); }
-  .state > svg { color: var(--color-text-muted); }
-  .state h2 { margin: 0; font-size: var(--font-size-body); font-weight: var(--font-weight-semibold); }
-  .state.error h2 { color: var(--color-danger); }
-  .state p { margin: 0; font-size: var(--font-size-label); color: var(--color-text-muted); }
-  .state .btn { margin-top: var(--space-2); }
-  .skeleton { display: flex; align-items: center; gap: var(--space-3); min-height: var(--size-row); padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--color-border); }
-  .skeleton span { display: block; background: var(--color-surface-sunken); border-radius: var(--radius-sm); animation: pulse 1.2s ease-in-out infinite; }
-  @keyframes pulse { 50% { opacity: 0.5; } }
-
-  /* DetailHero / DetailSection / InfoRow */
-  .detail-hero { padding: var(--space-4); border-bottom: 1px solid var(--color-border); display: flex; flex-direction: column; gap: var(--space-2); }
-  .detail-hero h2 { margin: 0; font-size: var(--font-size-heading); font-weight: var(--font-weight-bold); line-height: var(--line-height-snug); }
-  .tags { display: flex; flex-wrap: wrap; gap: var(--space-2); }
-  .detail-hero .avail-block { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-1); padding-top: var(--space-2); }
-  .detail-hero .note { margin: 0; font-size: var(--font-size-label); color: var(--color-text-muted); }
-  .section { padding: var(--space-4); border-bottom: 1px solid var(--color-border); }
-  .section h3 { margin: 0 0 var(--space-1); font-size: var(--font-size-title); font-weight: var(--font-weight-semibold); line-height: var(--line-height-snug); }
-  .info { display: flex; gap: var(--space-3); padding: var(--space-2) 0; margin: 0; align-items: baseline; }
-  .info dt { flex: none; width: 96px; font-size: var(--font-size-label); color: var(--color-text-muted); }
-  .info dd { flex: 1; min-width: 0; margin: 0; font-size: var(--font-size-body); }
-  .info dd.unknown { color: var(--color-text-muted); }
-
-  /* PhoneLink */
-  .phone {
-    display: inline-flex; align-items: center; gap: var(--space-1); min-height: var(--size-touch);
-    color: var(--color-brand); font-weight: var(--font-weight-semibold); text-decoration: underline; text-underline-offset: 3px;
-    border-radius: var(--radius-sm);
-  }
-  .phone:active { background: var(--color-brand-soft); }
-  .info.phone-row { padding: 0; align-items: center; }
-
-  /* SourceNote */
-  .source { padding: var(--space-4); background: var(--color-surface-sunken); font-size: var(--font-size-caption); color: var(--color-text-muted); line-height: var(--line-height-body); }
-  .source p { margin: 0; }
-
-  @media (prefers-reduced-motion: reduce) {
-    .skeleton span, .icon-btn[aria-busy="true"] svg { animation: none; }
-  }
+/* 상세 시트 */
+.scrim { position:absolute; inset:0; z-index:9; background:var(--color-inverse); opacity:0; transition:opacity var(--d-sheet) var(--ease-standard); }
+.scrim.show { opacity:var(--opacity-scrim); }
+.scrim[hidden] { display:none; }
+.sheet { position:absolute; left:0; right:0; bottom:0; z-index:10; max-height:78%; display:flex; flex-direction:column;
+  background:var(--color-surface); border-radius:var(--radius-sheet) var(--radius-sheet) 0 0; border-top:1px solid var(--color-border-float);
+  transform:translateY(105%); transition:transform 420ms cubic-bezier(.2,1.1,.3,1); }
+@media (prefers-reduced-motion: reduce) { .sheet { transition:none; } }
+.sheet.open { transform:none; }
+.sheet .handle { height:var(--size-touch); display:grid; place-items:center; cursor:grab; touch-action:none; border:0; background:none; width:100%; }
+.sheet .handle::before { content:""; width:36px; height:4px; border-radius:2px; background:var(--ink-300); }
+.sheet-body { overflow:auto; padding:0 var(--space-4) calc(var(--space-4) + env(safe-area-inset-bottom)); }
+.sheet h2 { margin:0; font-size:var(--fs-title); line-height:var(--lh-tight); }
+.sheet .addr { font-size:var(--fs-label); color:var(--color-text-muted); }
+.sheet .big { margin-top:var(--space-4); }
+.sheet .big .lbl { font-size:var(--fs-body); font-weight:700; margin-right:var(--space-2); }
+.sheet .big b { font-size:var(--fs-display); line-height:var(--lh-tight); }
+.sheet .big .tot { color:var(--color-text-muted); }
+.sheet dl { margin:var(--space-4) 0 0; }
+.sheet dl > div { display:grid; grid-template-columns:88px 1fr; padding:var(--space-3) 0; border-top:1px solid var(--color-border); }
+.sheet dt { color:var(--color-text-muted); }
+.sheet dd { margin:0; }
+.sheet .actions { display:grid; grid-template-columns:1fr 1fr; gap:var(--space-3); margin-top:var(--space-4); }
+.sheet .actions a { display:grid; place-items:center; text-decoration:none; }
+.sheet .note { font-size:var(--fs-label); color:var(--color-text-muted); margin-top:var(--space-2); }
+.sheet .close { position:absolute; right:var(--space-3); top:var(--space-2); }
 </style>
 </head>
 <body>
-<div class="app">
-  <main id="view" tabindex="-1"></main>
-  <footer class="source">
-    <p>출처: 서울 열린데이터광장, 서울시 시영주차장 실시간 주차대수 정보 (공공누리 제1유형)</p>
-  </footer>
+<div class="app" id="app">
+  <div id="map" role="application" aria-label="서울 공영주차장 3D 지도"></div>
+  <div id="labels"><svg aria-hidden="true"></svg></div>
+
+  <div class="top" id="top">
+    <button class="searchbar press" id="openSearch" type="button">
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+      <span>주차장 이름·구 검색 (예: 세종로, 종로구)</span>
+    </button>
+    <div class="row">
+      <div class="toggle" role="group" aria-label="보기 전환">
+        <span class="thumb" id="thumb"></span>
+        <button type="button" id="tMap" aria-pressed="true">지도</button>
+        <button type="button" id="tList" aria-pressed="false">목록</button>
+      </div>
+    </div>
+    <div class="toast" id="toast" role="status" hidden></div>
+    <div class="error-banner" id="errorBanner" role="alert" hidden></div>
+  </div>
+
+  <div class="bottom" id="bottom">
+    <div class="fabs">
+      <button class="fab press" id="locate" type="button" aria-label="현위치로 이동">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><path class="slash" d="M4 4l16 16" style="display:none"/></svg>
+      </button>
+    </div>
+    <div class="row" style="justify-content:flex-end; align-items:flex-end; margin:0 var(--space-4) 0 0">
+      <div class="updated" id="updated" role="status"></div>
+      <button class="fab press" id="refresh" type="button" aria-label="새로고침" style="margin-bottom:var(--space-3)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.3-5.7"/><path d="M20 4v5h-5"/></svg>
+      </button>
+    </div>
+    <div class="legend" id="legend">
+      <div>높이 = 빈자리 많을수록 높게 · 색 = 빈자리 비율</div>
+      <div class="items">
+        <span><i class="sw" style="background:var(--column-plenty)"></i>넉넉 50% 이상</span>
+        <span><i class="sw" style="background:var(--column-some)"></i>보통 20–50%</span>
+        <span><i class="sw" style="background:var(--column-few)"></i>적음 20% 미만</span>
+        <span><i class="sw" style="background:var(--column-full)"></i>0</span>
+        <span><i class="sw" style="background:var(--column-no-realtime)"></i>회색 = 실시간 정보 없음</span>
+        <span><i class="sw" style="background:var(--column-plenty);opacity:.35"></i>흐린 기둥 = 오래됨(20분 넘음)</span>
+      </div>
+    </div>
+    <div class="attrib">서울 열린데이터광장 · © OpenFreeMap © OpenMapTiles © OpenStreetMap contributors</div>
+  </div>
+
+  <section class="list" id="list" hidden aria-label="주차장 목록">
+    <div class="list-head">
+      <div class="row">
+        <div class="toggle" role="group" aria-label="보기 전환">
+          <span class="thumb" id="thumb2"></span>
+          <button type="button" id="tMap2" aria-pressed="false">지도</button>
+          <button type="button" id="tList2" aria-pressed="true">목록</button>
+        </div>
+        <button class="icon-btn press" id="refresh2" type="button" aria-label="새로고침">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.3-5.7"/><path d="M20 4v5h-5"/></svg>
+        </button>
+      </div>
+      <button class="searchbar press" id="openSearch2" type="button">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+        <span>주차장 이름·구 검색 (예: 세종로, 종로구)</span>
+      </button>
+      <div class="row">
+        <div class="toggle" role="group" aria-label="정렬">
+          <span class="thumb" id="thumbSort"></span>
+          <button type="button" id="sDist" aria-pressed="false">거리순</button>
+          <button type="button" id="sVac" aria-pressed="true">빈자리순</button>
+        </div>
+      </div>
+      <div class="meta" id="listUpdated" style="font-size:var(--fs-label)"></div>
+      <div class="toast" id="toast2" role="status" hidden></div>
+    </div>
+    <div class="list-body" id="listBody"></div>
+    <div class="attrib">서울 열린데이터광장 · © OpenFreeMap © OpenMapTiles © OpenStreetMap contributors</div>
+  </section>
+
+  <section class="search" id="search" hidden aria-label="검색">
+    <div class="search-head">
+      <button class="icon-btn press" id="closeSearch" type="button" aria-label="닫기">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+      </button>
+      <input id="q" type="search" placeholder="주차장 이름·구 검색 (예: 세종로, 종로구)" autocomplete="off" aria-label="주차장 이름·구 검색">
+    </div>
+    <div class="search-scope">주소·장소는 검색하지 않습니다</div>
+    <div class="list-body" id="results"></div>
+  </section>
+
+  <div class="scrim" id="scrim" hidden></div>
+  <section class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle" aria-hidden="true">
+    <button class="handle" id="handle" type="button" aria-label="시트 끌어서 닫기"></button>
+    <button class="icon-btn close press" id="closeSheet" type="button" aria-label="닫기">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+    <div class="sheet-body" id="sheetBody"></div>
+  </section>
+
+  <div class="loading-veil" id="veil" role="status">불러오는 중</div>
 </div>
 
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <symbol id="i-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></symbol>
-  <symbol id="i-back" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></symbol>
-  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></symbol>
-  <symbol id="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></symbol>
-  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
-  <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol>
-  <symbol id="i-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5l9.5 16.5h-19z"/><path d="M12 10v4.5M12 17.5v.01"/></symbol>
-  <symbol id="i-no-signal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 19v-2M10 19v-5M15 19v-8M20 19V7"/><path d="M3 4l18 16"/></symbol>
-  <symbol id="i-bus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="3.5" width="15" height="14" rx="2"/><path d="M4.5 11h15M8 20.5v-3M16 20.5v-3"/><path d="M8 14.5h.01M16 14.5h.01"/></symbol>
-  <symbol id="i-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9l-5.2 2.8 1-5.9-4.3-4.1 5.9-.8z"/></symbol>
-  <symbol id="i-star-fill" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9l-5.2 2.8 1-5.9-4.3-4.1 5.9-.8z"/></symbol>
-  <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a1 1 0 0 1-1 1A16 16 0 0 1 4 5a1 1 0 0 1 1-1z"/></symbol>
-</svg>
-
+<script src="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.js"></script>
 <script>
-(() => {
-  const DATA_URL = 'api/parking';
-  const STALE_MS = 20 * 60 * 1000; // PRD F6: 기준 시각이 20분을 넘으면 오래됨
-  const REFRESH_MS = 30 * 1000;     // PRD F9: 화면이 보일 때 자동 새로고침 간격
-  const FAVORITES_KEY = 'seoul-parking:favorites';
-  const TZ = 'Asia/Seoul';
-  // PRD F2: 구 선택지. 구만 받으면 받은 데이터로 선택지를 만들 수 없어 2026-10-26 데이터에 있던 23개 구를 둔다.
-  const DISTRICTS = ['강남구', '강동구', '강북구', '강서구', '관악구', '광진구', '구로구', '금천구', '노원구', '도봉구', '동대문구', '동작구', '마포구', '서초구', '성동구', '송파구', '양천구', '영등포구', '용산구', '은평구', '종로구', '중구', '중랑구'];
+"use strict";
+// ---- 토큰에서 온 값 ----
+const T = {
+  staleAfterMin: 20,
+  pitch: 55, pitchReduced: 45, bearing: -20,
+  minPx: 24, maxPx: 170,               // size.column-min-height / column-max-height
+  labelOffsetMax: 64,                  // size.label-offset-max
+  dur: { flight: 2400, toResult: 1200, rise: 700, stagger: 320, height: 600, toastHold: 4000 },
+  ease: { standard: [0.2, 0, 0, 1], enter: [0.05, 0.7, 0.1, 1], camera: [0.45, 0.05, 0.15, 1] },
+  color: {
+    plenty: "#0B7A5E", some: "#A86F00", few: "#C2410C", full: "#B0124A", "no-realtime": "#6A717A",
+    ground: "#EEF0F2", building: "#DADDE1", road: "#FFFFFF", water: "#ECEEF1", label: "#5A616A", shadow: "#15191E", leader: "#4B525B"
+  },
+  opacity: { stale: 0.35, shadow: 0.08 },
+};
+const CITY_HALL = [126.9779, 37.5663];
+const ARRIVE = [126.9835, 37.5685]; // 시청 근처(시청–종각 사이) 도착점
+const SEOUL = [126.99, 37.55];
+const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  const state = {
-    status: 'loading',   // loading | ready | error
-    lots: [],
-    loadedAt: null,      // 목록을 불러온 시각
-    refreshing: false,
-    refreshFailed: false,
-    query: '',
-    district: '전체',
-    loadedFor: null,     // state.lots가 담은 구('전체' 또는 구 이름)
-    listScroll: 0,
-    favorites: readFavorites(), // PKLT_CD Set, 이 기기에만 저장(PRD F8)
-    openings: [],               // 띄운 빈자리 배너 { id, name, available, updated }
-  };
+// ---- 상태 ----
+const S = { rows: [], seq: 0, maxVac: 1, view: "map", sort: "vacancy", user: null, geoDenied: false, selected: null, heightM: null, anim: new Map() };
 
-  const view = document.getElementById('view');
+// ---- 도우미 ----
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+function bezier([x1, y1, x2, y2]) {
+  const cx = 3 * x1, bx = 3 * (x2 - x1) - cx, ax = 1 - cx - bx, cy = 3 * y1, by = 3 * (y2 - y1) - cy, ay = 1 - cy - by;
+  const sx = (t) => ((ax * t + bx) * t + cx) * t, sy = (t) => ((ay * t + by) * t + cy) * t, dx = (t) => (3 * ax * t + 2 * bx) * t + cx;
+  return (x) => { let t = x; for (let i = 0; i < 8; i++) { const e = sx(t) - x, d = dx(t); if (Math.abs(e) < 1e-5 || !d) break; t -= e / d; } return sy(Math.min(1, Math.max(0, t))); };
+}
+const EASE = { standard: bezier(T.ease.standard), enter: bezier(T.ease.enter), camera: bezier(T.ease.camera) };
 
-  // ---------- 형식 ----------
-  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-  const icon = (id, cls = 'icon') => `<svg class="${cls}" aria-hidden="true"><use href="#i-${id}"/></svg>`;
-  const won = (n) => Number(n).toLocaleString('ko-KR');
+// 기준 시각(한국 시간 문자열) → Date
+const kst = (s) => (s ? new Date(s.replace(" ", "T") + "+09:00") : null);
+const isStale = (r) => r.live && r.updatedAt && Date.now() - kst(r.updatedAt).getTime() > T.staleAfterMin * 60000;
+function band(r) {
+  if (!r.live) return "no-realtime";
+  if (r.vacant === 0) return "full";
+  const ratio = r.vacant / r.total;
+  return ratio >= 0.5 ? "plenty" : ratio >= 0.2 ? "some" : "few";
+}
+const addr = (a) => a.replace(/ 0$/, "");
+const hm = (s) => s.slice(0, 2) + ":" + s.slice(2);
+function hours([b, e]) {
+  if (b === "0000" && e === "2400") return "24시간";
+  if (b === "0000" && e === "0000") return "시간 정보 없음";
+  return `${hm(b)}–${hm(e)}`;
+}
+const timeOnly = (s) => s.slice(11);
+function oldest(rows) {
+  const ts = rows.filter((r) => r.live && r.updatedAt).map((r) => r.updatedAt).sort();
+  return ts[0] || null;
+}
+function distM(a, b) {
+  const R = 6371000, toR = Math.PI / 180, dLat = (b[1] - a[1]) * toR, dLng = (b[0] - a[0]) * toR;
+  const h = Math.sin(dLat / 2) ** 2 + Math.cos(a[1] * toR) * Math.cos(b[1] * toR) * Math.sin(dLng / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(h));
+}
+const fmtDist = (m) => (m < 1000 ? `${Math.round(m / 10) * 10}m` : `${(m / 1000).toFixed(1)}km`);
 
-  const kstParts = (d) => Object.fromEntries(
-    new Intl.DateTimeFormat('en-CA', { timeZone: TZ, year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' })
-      .formatToParts(d).map((p) => [p.type, p.value]));
-  const hhmm = (d) => { const p = kstParts(d); return `${p.hour}:${p.minute}`; };
-  const sameKstDay = (a, b) => { const x = kstParts(a), y = kstParts(b); return x.year === y.year && x.month === y.month && x.day === y.day; };
+// ---- 기둥 높이: 최소 + (최대 − 최소) × √(빈자리 ÷ 서울 전체 최대 빈자리) ----
+function columnPx(r) {
+  if (!r.live) return T.minPx;
+  if (r.vacant === 0) return 0;
+  return T.minPx + (T.maxPx - T.minPx) * Math.sqrt(r.vacant / S.maxVac);
+}
+// 첫 진입 도착 카메라 기준으로 화면 px → 미터를 한 번 환산해 고정한다.
+function pxToMetersAt(zoom, lat, pitchDeg) {
+  const mpp = (40075016.686 * Math.cos((lat * Math.PI) / 180)) / (512 * 2 ** zoom);
+  return mpp / Math.sin((pitchDeg * Math.PI) / 180);
+}
 
-  // NOW_PRK_VHCL_UPDT_TM은 'YYYY-MM-DD HH:MM:SS'(KST)
-  const parseUpdated = (s) => {
-    const m = /^(\d{4}-\d{2}-\d{2}) (\d{2}:\d{2}(?::\d{2})?)$/.exec((s || '').trim());
-    if (!m) return null;
-    const d = new Date(`${m[1]}T${m[2]}+09:00`);
-    return isNaN(d) ? null : d;
-  };
-  const tsLabel = (d) => {
-    if (sameKstDay(d, new Date())) return `${hhmm(d)} 기준`;
-    const p = kstParts(d);
-    return `${p.month}월 ${p.day}일 ${hhmm(d)} 기준`;
-  };
-
-  const hours = (b, e) => {
-    b = (b || '').trim(); e = (e || '').trim();
-    if (!/^\d{4}$/.test(b) || !/^\d{4}$/.test(e)) return null;
-    if (b === '0000' && e === '2400') return '24시간';
-    if (b === e) return null; // '0000~0000' 등 의미 불명
-    return `${b.slice(0, 2)}:${b.slice(2)}~${e.slice(0, 2)}:${e.slice(2)}`;
-  };
-
-  // ---------- 데이터 ----------
-  const toLot = (r) => {
-    const total = Number(r.TPKCT) || 0;
-    const realtime = r.PRK_STTS_YN === '1';
-    const busOnly = (r.OPER_SE_NM || '').trim() === '버스전용 주차장';
-    const updated = realtime ? parseUpdated(r.NOW_PRK_VHCL_UPDT_TM) : null;
-    const available = realtime ? total - (Number(r.NOW_PRK_VHCL_CNT) || 0) : null;
-    const addr = (r.ADDR || '').trim();
-    return {
-      raw: r, id: String(r.PKLT_CD), name: (r.PKLT_NM || '').trim(), addr,
-      district: addr.split(/\s+/)[0] || '정보 없음',
-      total, realtime: realtime && Boolean(updated), busOnly, updated, available,
-    };
-  };
-  const isOld = (updated) => Date.now() - updated.getTime() > STALE_MS;
-  const isStale = (lot) => lot.realtime && isOld(lot.updated);
-  const fresh = (lot) => lot.realtime && !isOld(lot.updated);
-
-  // 사생활 보호 모드 등에서는 localStorage에 손대기만 해도 예외가 난다. 못 읽으면 빈 목록, 못 쓰면 이번 화면에서만 유지.
-  function readFavorites() {
-    try {
-      const ids = JSON.parse(localStorage.getItem(FAVORITES_KEY));
-      return new Set(Array.isArray(ids) && ids.every((id) => typeof id === 'string') ? ids : []);
-    } catch (_) { return new Set(); }
+// ---- 지오메트리 ----
+function ring(lng, lat, rM, n = 12) {
+  const dLat = rM / 111320, dLng = rM / (111320 * Math.cos((lat * Math.PI) / 180)), pts = [];
+  for (let i = 0; i <= n; i++) { const a = (i / n) * 2 * Math.PI + Math.PI / n; pts.push([lng + dLng * Math.cos(a), lat + dLat * Math.sin(a)]); }
+  return pts;
+}
+function hull(points) {
+  const p = points.slice().sort((a, b) => a[0] - b[0] || a[1] - b[1]), cr = (o, a, b) => (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]);
+  const lo = [], up = [];
+  for (const q of p) { while (lo.length >= 2 && cr(lo[lo.length - 2], lo[lo.length - 1], q) <= 0) lo.pop(); lo.push(q); }
+  for (const q of p.reverse()) { while (up.length >= 2 && cr(up[up.length - 2], up[up.length - 1], q) <= 0) up.pop(); up.push(q); }
+  const h = lo.slice(0, -1).concat(up.slice(0, -1)); h.push(h[0]); return h;
+}
+const COL_R = 26; // 기둥 반지름(m)
+function columnsGeoJSON(factor = (r) => 1) {
+  const cols = [], shadows = [];
+  for (const r of S.rows) {
+    if (r.lat == null) continue;
+    const f = factor(r), h = columnPx(r) * S.heightM * f, b = band(r), stale = isStale(r);
+    S.anim.set(r.code, f);
+    const base = ring(r.lng, r.lat, COL_R);
+    const props = { code: r.code, band: b, stale, h: r.vacant === 0 && r.live ? 1.5 : h, color: T.color[b] };
+    cols.push({ type: "Feature", properties: props, geometry: { type: "Polygon", coordinates: [base] } });
+    if (props.h > 2) {
+      // 광원은 화면 왼쪽 위 → 그림자는 바닥 오른쪽 아래, 길이는 높이에 비례
+      const L = props.h * 0.45, br = ((T.bearing + 135) * Math.PI) / 180;
+      const dx = (L * Math.sin(br)) / (111320 * Math.cos((r.lat * Math.PI) / 180)), dy = (L * Math.cos(br)) / 111320;
+      const moved = base.map(([x, y]) => [x + dx, y + dy]);
+      shadows.push({ type: "Feature", properties: { op: T.opacity.shadow * (stale ? T.opacity.stale : 1) }, geometry: { type: "Polygon", coordinates: [hull(base.concat(moved))] } });
+    }
   }
-  const saveFavorites = () => {
-    try { localStorage.setItem(FAVORITES_KEY, JSON.stringify([...state.favorites].sort())); } catch (_) {}
-  };
+  return { cols: { type: "FeatureCollection", features: cols }, shadows: { type: "FeatureCollection", features: shadows } };
+}
 
-  // PRD F10: 즐겨찾기 가운데 직전에 만차였다가 이번에 1면 이상이 된 주차장. 양쪽 다 실시간이고 20분 이내 숫자일 때만.
-  function openings(prevLots, nextLots, favorites) {
-    const prev = new Map(prevLots.map((l) => [l.id, l]));
-    return nextLots.filter((l) => {
-      const p = prev.get(l.id);
-      return favorites.has(l.id) && p && fresh(p) && p.available <= 0 && fresh(l) && l.available >= 1;
-    });
-  }
-
-  // 즐겨찾기의 구는 받아 둔 목록에서 찾는다. 처음 불러오기는 늘 '전체'라 모든 즐겨찾기의 구를 안다.
-  const dataUrl = (district) => {
-    if (district === '전체') return DATA_URL;
-    const gus = new Set([district]);
-    for (const l of state.lots) if (state.favorites.has(l.id)) gus.add(l.district);
-    return `${DATA_URL}?${[...gus].map((g) => `gu=${encodeURIComponent(g)}`).join('&')}`;
-  };
-  const covers = (district) => state.loadedFor === '전체' || state.loadedFor === district;
-
-  // 마지막에 부른 불러오기의 응답만 쓴다. 구를 빨리 바꾸면 앞서 고른 구의 응답이 늦게 와도 버린다.
-  let latestLoad = 0;
-  async function load() {
-    const seq = ++latestLoad;
-    const district = state.district;
-    const hadData = state.lots.length > 0;
-    if (hadData) { state.refreshing = true; render(); } else { state.status = 'loading'; render(); }
+// ---- 지도 ----
+let map = null;
+function webglOK() {
+  try { const c = document.createElement("canvas"); return !!(c.getContext("webgl2") || c.getContext("webgl")); } catch { return false; }
+}
+function styleMap() {
+  const style = map.getStyle();
+  for (const l of style.layers) {
     try {
-      const res = await fetch(dataUrl(district), { cache: 'no-store' });
-      if (!res.ok) throw new TypeError(String(res.status));
-      const body = await res.json();
-      if (seq !== latestLoad) return;
-      const rows = body?.GetParkingInfo?.row;
-      if (!Array.isArray(rows)) throw new TypeError('rows');
-      const prev = state.lots;
-      state.lots = rows.map(toLot);
-      // PRD F10: 띄운 배너도 이번 응답의 숫자로 바꾸고, 다시 만차이거나 실시간 정보 없음이 되면 내린다.
-      const byId = new Map(state.lots.map((l) => [l.id, l]));
-      const kept = state.openings.map((o) => byId.get(o.id)).filter((l) => l && l.realtime && l.available >= 1);
-      state.openings = [...kept, ...openings(prev, state.lots, state.favorites)]
-        .map(({ id, name, available, updated }) => ({ id, name, available, updated }));
-      state.loadedFor = district;
-      state.loadedAt = new Date();
-      state.status = 'ready';
-      state.refreshFailed = false;
-    } catch (_) {
-      if (seq !== latestLoad) return;
-      if (hadData) state.refreshFailed = true; else state.status = 'error';
-    } finally {
-      if (seq === latestLoad) {
-        state.refreshing = false;
-        render();
+      if (l.type === "background") map.setPaintProperty(l.id, "background-color", T.color.ground);
+      else if (l.type === "fill" && l["source-layer"] === "water") map.setPaintProperty(l.id, "fill-color", T.color.water);
+      else if (l.type === "fill" && l["source-layer"] === "building") map.setLayoutProperty(l.id, "visibility", "none");
+      else if (l.type === "line" && l["source-layer"] === "transportation" && /inner|minor|major|motorway/.test(l.id)) map.setPaintProperty(l.id, "line-color", T.color.road);
+      else if (l.type === "symbol") {
+        if (l["source-layer"] === "place") {
+          map.setLayoutProperty(l.id, "text-field", ["coalesce", ["get", "name:ko"], ["get", "name"]]);
+          map.setPaintProperty(l.id, "text-color", T.color.label);
+        } else map.setLayoutProperty(l.id, "visibility", "none");
+      }
+    } catch { /* 스타일에 없는 속성은 건너뜀 */ }
+  }
+  // 3D 건물: 연한 무채색(map.building), 기둥보다 눈에 덜 띄게
+  map.addLayer({
+    id: "buildings-3d", type: "fill-extrusion", source: "openmaptiles", "source-layer": "building", minzoom: 13,
+    paint: {
+      "fill-extrusion-color": T.color.building,
+      "fill-extrusion-height": ["coalesce", ["get", "render_height"], 8],
+      "fill-extrusion-base": ["coalesce", ["get", "render_min_height"], 0],
+      "fill-extrusion-opacity": 0.9,
+    },
+  });
+  map.setLight({ anchor: "viewport", position: [1.3, 225, 40], color: "#FFFFFF", intensity: 0.35 });
+}
+function addColumnLayers() {
+  const g = columnsGeoJSON(() => (reduced ? 1 : 0));
+  map.addSource("shadows", { type: "geojson", data: g.shadows });
+  map.addSource("columns", { type: "geojson", data: g.cols });
+  map.addLayer({ id: "column-shadows", type: "fill", source: "shadows", paint: { "fill-color": T.color.shadow, "fill-opacity": ["get", "op"] } }, "buildings-3d");
+  const paint = { "fill-extrusion-color": ["get", "color"], "fill-extrusion-height": ["get", "h"], "fill-extrusion-base": 0, "fill-extrusion-vertical-gradient": true };
+  map.addLayer({ id: "columns-fresh", type: "fill-extrusion", source: "columns", filter: ["!", ["get", "stale"]], paint: { ...paint, "fill-extrusion-opacity": 1 } });
+  map.addLayer({ id: "columns-stale", type: "fill-extrusion", source: "columns", filter: ["get", "stale"], paint: { ...paint, "fill-extrusion-opacity": T.opacity.stale } });
+  for (const id of ["columns-fresh", "columns-stale"]) {
+    map.on("click", id, (e) => { const f = e.features[0]; if (f) openDetail(f.properties.code); });
+    map.on("mouseenter", id, () => (map.getCanvas().style.cursor = "pointer"));
+    map.on("mouseleave", id, () => (map.getCanvas().style.cursor = ""));
+  }
+}
+function setColumns(factorFn) {
+  const g = columnsGeoJSON(factorFn);
+  map.getSource("columns").setData(g.cols);
+  map.getSource("shadows").setData(g.shadows);
+  placeLabels();
+}
+// 기둥 솟음(enter 이징, 순서대로 최대 320ms 안에 퍼짐). reduced-motion이면 최종 높이로 바로.
+function riseColumns(duration = T.dur.rise, ease = EASE.enter) {
+  if (reduced) { setColumns(() => 1); return; }
+  const order = S.rows.filter((r) => r.lat != null).sort((a, b) => b.vacant - a.vacant);
+  const delay = new Map(order.map((r, i) => [r.code, (i / Math.max(1, order.length - 1)) * T.dur.stagger]));
+  const t0 = performance.now();
+  const step = (now) => {
+    const t = now - t0;
+    setColumns((r) => ease(Math.min(1, Math.max(0, (t - delay.get(r.code)) / duration))));
+    if (t < duration + T.dur.stagger) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+
+// ---- 라벨(자기 기둥 위 + 지시선, 겹치면 비키고, 자리가 없을 때만 생략) ----
+let labelRaf = 0;
+function placeLabels() {
+  if (labelRaf) return;
+  labelRaf = requestAnimationFrame(() => { labelRaf = 0; doPlaceLabels(); });
+}
+function uiRects() {
+  const app = $("app").getBoundingClientRect();
+  return ["top", "bottom"].flatMap((id) => [...$(id).querySelectorAll(":scope > *:not([hidden]), .fabs > *, .row > *")])
+    .map((el) => el.getBoundingClientRect()).filter((r) => r.width && r.height)
+    .map((r) => ({ x: r.left - app.left, y: r.top - app.top, w: r.width, h: r.height }));
+}
+const overlap = (a, b) => a.x < b.x + b.w && b.x < a.x + a.w && a.y < b.y + b.h && b.y < a.y + a.h;
+function doPlaceLabels() {
+  const layer = $("labels"), svg = layer.querySelector("svg");
+  layer.querySelectorAll(".col-label").forEach((n) => n.remove());
+  svg.innerHTML = "";
+  if (!map || S.view !== "map") return;
+  const W = layer.clientWidth, H = layer.clientHeight, zoom = map.getZoom(), pitch = map.getPitch();
+  const mpp = (40075016.686 * Math.cos((37.56 * Math.PI) / 180)) / (512 * 2 ** zoom);
+  const k = Math.sin((pitch * Math.PI) / 180) / mpp;
+  const blocked = uiRects();
+  // 기둥 꼭대기가 위쪽 떠 있는 UI 뒤로 숨으면, 보이는 부분 맨 위에 라벨을 건다
+  const topUI = $("top").querySelector(".row").getBoundingClientRect().bottom - $("app").getBoundingClientRect().top;
+  const minTop = topUI + 44 + 10 + 8;
+  const cand = [];
+  for (const r of S.rows) {
+    if (r.lat == null) continue;
+    const p = map.project([r.lng, r.lat]);
+    if (p.x < -40 || p.x > W + 40 || p.y < -40 || p.y > H + 40) continue;
+    const anim = S.anim.get(r.code) ?? 1;
+    const hM = r.vacant === 0 && r.live ? 0 : columnPx(r) * S.heightM * anim;
+    const topY = Math.max(p.y - hM * k, Math.min(p.y - 8, minTop));
+    cand.push({ r, base: p, top: { x: p.x, y: topY } });
+  }
+  const pri = (c) => (c.r.code === S.selected ? 3e6 : !c.r.live ? -1 : c.r.vacant === 0 ? 0.5 : 1e3 + c.r.vacant);
+  cand.sort((a, b) => pri(b) - pri(a));
+  // 기둥 꼭대기 자체도 라벨이 덮으면 안 되는 자리
+  const tops = cand.map((c) => ({ x: c.top.x - 10, y: c.top.y - 6, w: 20, h: 12, code: c.r.code }));
+  const placed = [];
+  const M = T.labelOffsetMax;
+  for (const c of cand) {
+    const el = document.createElement("button");
+    const b = band(c.r), stale = isStale(c.r);
+    el.type = "button";
+    el.className = "col-label" + (c.r.live ? "" : " muted") + (c.r.code === S.selected ? " highlighted" : "");
+    el.style.setProperty("--sw", T.color[b]);
+    el.innerHTML = c.r.live ? `${c.r.vacant}${stale ? ' <span class="badge stale">오래됨</span>' : ""}` : "실시간 정보 없음";
+    el.setAttribute("aria-label", c.r.live
+      ? `${c.r.name}, 빈자리 ${c.r.vacant}면, 총 ${c.r.total}면, 기준 ${c.r.updatedAt}${stale ? ", 오래됨" : ""}`
+      : `${c.r.name}, 실시간 정보 없음`);
+    el.addEventListener("click", () => openDetail(c.r.code));
+    el.style.visibility = "hidden";
+    layer.appendChild(el);
+    const w = el.offsetWidth, h = el.offsetHeight, gap = 10;
+    const ax = c.top.x - w / 2, ay = c.top.y - gap - h;
+    const tries = [[0, 0], [0, -M / 2], [0, -M], [-M / 2, -M / 2], [-M, -M / 2], [M / 2, -M / 2], [M, -M / 2], [-w / 2 - 14, h / 2 + gap], [w / 2 + 14, h / 2 + gap]];
+    let spot = null;
+    for (const [dx, dy] of tries) {
+      const rect = { x: Math.min(Math.max(ax + dx, 4), W - 4 - w), y: ay + dy, w, h };
+      if (rect.x < 4 || rect.y < 4 || rect.x + w > W - 4 || rect.y + h > H - 4) continue;
+      if (blocked.some((u) => overlap(rect, u))) continue;
+      if (placed.some((u) => overlap(rect, { x: u.x - 2, y: u.y - 2, w: u.w + 4, h: u.h + 4 }))) continue;
+      if (tops.some((t) => t.code !== c.r.code && overlap(rect, t))) continue;
+      spot = rect; break;
+    }
+    if (!spot) { el.remove(); continue; }
+    placed.push(spot);
+    el.style.left = spot.x + "px"; el.style.top = spot.y + "px"; el.style.visibility = "visible";
+    if (stale) el.style.opacity = 1;
+    const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    const lx = Math.min(Math.max(c.top.x, spot.x + 6), spot.x + w - 6), ly = spot.y + h;
+    line.setAttribute("x1", lx); line.setAttribute("y1", ly > c.top.y ? spot.y : ly);
+    line.setAttribute("x2", c.top.x); line.setAttribute("y2", c.top.y);
+    line.setAttribute("stroke", T.color.leader); line.setAttribute("stroke-width", 2);
+    svg.appendChild(line);
+  }
+}
+
+// ---- 위·아래 UI ----
+function setToggle(thumb, active) {
+  thumb.style.width = active.offsetWidth + "px";
+  thumb.style.transform = `translateX(${active.offsetLeft - 4}px)`;
+}
+function syncToggles() {
+  const m = S.view === "map";
+  for (const [a, b, th] of [[$("tMap"), $("tList"), $("thumb")], [$("tMap2"), $("tList2"), $("thumb2")]]) {
+    a.setAttribute("aria-pressed", m); b.setAttribute("aria-pressed", !m); setToggle(th, m ? a : b);
+  }
+  const d = S.sort === "distance";
+  $("sDist").setAttribute("aria-pressed", d); $("sVac").setAttribute("aria-pressed", !d);
+  setToggle($("thumbSort"), d ? $("sDist") : $("sVac"));
+}
+let toastTimer = 0;
+function toast(msg) {
+  const el = S.view === "map" ? $("toast") : $("toast2");
+  for (const t of [$("toast"), $("toast2")]) { t.hidden = true; t.classList.remove("show"); }
+  el.textContent = msg; el.hidden = false; requestAnimationFrame(() => el.classList.add("show"));
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { el.classList.remove("show"); setTimeout(() => { el.hidden = true; placeLabels(); }, 200); }, T.dur.toastHold);
+  placeLabels();
+}
+function visibleRows() {
+  if (!map) return S.rows;
+  const b = map.getBounds();
+  return S.rows.filter((r) => r.lat != null && b.contains([r.lng, r.lat]));
+}
+function renderUpdated() {
+  const o = oldest(S.view === "map" ? visibleRows() : listRows().filter((r) => r.lat != null || true));
+  const stale = o && Date.now() - kst(o).getTime() > T.staleAfterMin * 60000;
+  const txt = o ? `가장 오래된 정보 기준 ${timeOnly(o)}${stale ? ' <span class="badge stale">오래됨</span>' : ""}` : "";
+  $("updated").innerHTML = txt; $("updated").hidden = !o;
+  $("listUpdated").innerHTML = txt;
+}
+function setView(v) {
+  if (v === "map" && !map) { toast("이 기기에서는 3D 지도를 쓸 수 없어 목록으로 시작합니다"); return; }
+  S.view = v;
+  $("list").hidden = v !== "list";
+  syncToggles();
+  if (v === "list") renderList();
+  renderUpdated(); placeLabels();
+}
+
+// ---- 목록 ----
+function listRows() {
+  const inView = map ? visibleRows() : S.rows.filter((r) => r.lat != null);
+  const noLoc = S.rows.filter((r) => r.lat == null);
+  const live = (r) => (r.live ? 1 : 0);
+  let rows = inView.slice();
+  if (S.sort === "distance" && S.user) rows.sort((a, b) => distM(S.user, [a.lng, a.lat]) - distM(S.user, [b.lng, b.lat]));
+  else rows.sort((a, b) => live(b) - live(a) || b.vacant - a.vacant);
+  return rows.concat(noLoc);
+}
+function itemHTML(r) {
+  const b = band(r), stale = isStale(r);
+  const vac = r.live
+    ? `빈자리 <b>${r.vacant}</b> / 총 ${r.total}면 ${stale ? '<span class="badge stale">오래됨</span>' : ""}`
+    : `<span class="badge muted">실시간 정보 없음</span> 총 ${r.total}면`;
+  const fee = r.paid ? `기본 ${r.basicFee}원/${r.basicMin}분` : "무료";
+  const dist = S.sort === "distance" && S.user && r.lat != null ? ` · ${fmtDist(distM(S.user, [r.lng, r.lat]))}` : "";
+  const loc = r.lat == null ? ' · <span class="badge muted">지도 위치 없음</span>' : "";
+  return `<button class="item press${r.live ? "" : " dim"}" type="button" data-code="${r.code}" style="--sw:${T.color[b]}">
+    <div class="name">${esc(r.name)}</div>
+    <div class="vac">${vac}</div>
+    <div class="meta">${esc(r.gu)} · ${fee}${dist}${loc}</div>
+    ${r.live && r.updatedAt ? `<div class="meta">기준 ${r.updatedAt}</div>` : ""}
+  </button>`;
+}
+function renderList() {
+  const rows = listRows(), body = $("listBody");
+  if (!rows.length) {
+    body.innerHTML = `<div class="state"><b>이 화면 안에 주차장이 없습니다</b>지도를 옮기거나 검색에서 찾으세요<br><br><button class="btn primary press" type="button" id="emptySearch">검색</button></div>`;
+    $("emptySearch").onclick = openSearch;
+    return;
+  }
+  body.innerHTML = rows.map(itemHTML).join("");
+  body.querySelectorAll(".item").forEach((el) => (el.onclick = () => openDetail(el.dataset.code)));
+}
+function listSkeleton() {
+  $("listBody").innerHTML = Array.from({ length: 5 }, () => `<div class="skeleton"><i style="width:60%"></i><i style="width:40%"></i><i style="width:50%"></i></div>`).join("");
+}
+
+// ---- 검색(이름·구만) ----
+function openSearch() { $("search").hidden = false; $("q").value = ""; renderResults(""); setTimeout(() => $("q").focus(), 0); }
+function closeSearch() { $("search").hidden = true; }
+function renderResults(q) {
+  const box = $("results"); q = q.trim();
+  if (!q) { box.innerHTML = ""; return; }
+  const gus = [...new Set(S.rows.map((r) => r.gu))].filter((g) => g.includes(q) || g.replace(/구$/, "") === q);
+  const lots = S.rows.filter((r) => r.name.includes(q) || r.gu.includes(q));
+  if (!gus.length && !lots.length) {
+    box.innerHTML = `<div class="state"><b>‘${esc(q)}’에 맞는 주차장이나 구가 없습니다</b>주차장 이름이나 구 이름으로 다시 검색하세요<br><br><button class="btn press" type="button" id="toList">목록에서 찾기</button></div>`;
+    $("toList").onclick = () => { closeSearch(); setView("list"); };
+    return;
+  }
+  box.innerHTML =
+    gus.map((g) => `<button class="result district press" type="button" data-gu="${esc(g)}"><div class="t">${esc(g)}</div><div class="m">${esc(g)} · 주차장 ${S.rows.filter((r) => r.gu === g).length}곳</div></button>`).join("") +
+    lots.map((r) => {
+      const stale = isStale(r);
+      const v = r.live ? `빈자리 <span class="n">${r.vacant}</span> / 총 ${r.total}면${stale ? ' <span class="badge stale">오래됨</span>' : ""}` : '<span class="badge muted">실시간 정보 없음</span>';
+      return `<button class="result press" type="button" data-code="${r.code}"><div class="t">${esc(r.name)}</div><div class="m">${v}</div><div class="m">${esc(r.gu)}${r.live && r.updatedAt ? ` · 기준 ${r.updatedAt}` : ""}${r.lat == null ? ' · <span class="badge muted">지도 위치 없음</span>' : ""}</div></button>`;
+    }).join("");
+  box.querySelectorAll("[data-gu]").forEach((el) => (el.onclick = () => { closeSearch(); goGu(el.dataset.gu); }));
+  box.querySelectorAll("[data-code]").forEach((el) => (el.onclick = () => { closeSearch(); goLot(el.dataset.code); }));
+}
+function goGu(gu) {
+  const pts = S.rows.filter((r) => r.gu === gu && r.lat != null);
+  if (!map || !pts.length) { setView("list"); return; }
+  setView("map");
+  const b = new maplibregl.LngLatBounds();
+  pts.forEach((r) => b.extend([r.lng, r.lat]));
+  map.fitBounds(b, { padding: { top: 160, bottom: 260, left: 40, right: 40 }, pitch: reduced ? T.pitchReduced : T.pitch, bearing: T.bearing, duration: reduced ? 0 : T.dur.toResult, easing: EASE.camera, maxZoom: 15.5 });
+}
+function goLot(code) {
+  const r = S.rows.find((x) => x.code === code);
+  if (map && r.lat != null) {
+    setView("map");
+    map.flyTo({ center: [r.lng, r.lat], zoom: 15.6, pitch: reduced ? T.pitchReduced : T.pitch, bearing: T.bearing, duration: reduced ? 0 : T.dur.toResult, easing: EASE.camera, padding: { top: 0, bottom: 300, left: 0, right: 0 } });
+  }
+  openDetail(code);
+}
+
+// ---- 상세 시트 ----
+function openDetail(code) {
+  const r = S.rows.find((x) => x.code === code);
+  if (!r) return;
+  S.selected = code;
+  const stale = isStale(r);
+  const fee = r.paid
+    ? [`기본 ${r.basicFee}원/${r.basicMin}분`, r.addFee ? `추가 ${r.addFee}원/${r.addMin}분` : null, r.dayMax ? `일 최대 ${r.dayMax}원` : null].filter(Boolean).join("<br>")
+    : "무료";
+  const big = r.live
+    ? `<div class="big"><span class="lbl">빈자리</span><b>${r.vacant}</b> <span class="tot">/ 총 ${r.total}면</span><div class="tot" style="font-size:var(--fs-label)">현재 주차 ${r.parked}대</div></div>
+       <div class="meta" style="font-size:var(--fs-label)">기준 ${r.updatedAt}${stale ? ' <span class="badge stale">오래됨</span>' : ""}</div>`
+    : `<div class="big"><span class="badge muted">실시간 정보 없음</span> <span class="tot">총 ${r.total}면</span></div>
+       <p class="note">이 주차장은 실시간 주차 대수를 보내지 않습니다. 요금과 운영시간만 보입니다</p>`;
+  const dir = r.lat != null
+    ? `<a class="btn primary press" href="https://map.kakao.com/link/to/${encodeURIComponent(r.name)},${r.lat},${r.lng}" target="_blank" rel="noopener">길찾기</a>`
+    : `<span class="btn primary" aria-disabled="true" style="display:grid;place-items:center">길찾기</span>`;
+  $("sheetBody").innerHTML = `
+    <h2 id="sheetTitle">${esc(r.name)}</h2>
+    <div class="addr">${esc(addr(r.addr))} · ${r.paid ? "유료" : "무료"}${r.lat == null ? ' · <span class="badge muted">지도 위치 없음</span>' : ""}</div>
+    ${big}
+    <dl>
+      <div><dt>요금</dt><dd>${fee}</dd></div>
+      <div><dt>운영시간</dt><dd>평일 ${hours(r.weekday)}<br>토요일 ${hours(r.sat)}<br>공휴일 ${hours(r.holiday)}</dd></div>
+      ${r.tel ? `<div><dt>전화</dt><dd>${esc(r.tel)}</dd></div>` : ""}
+    </dl>
+    <div class="actions">
+      ${r.tel ? `<a class="btn press" href="tel:${esc(r.tel)}">전화 걸기</a>` : "<span></span>"}
+      ${dir}
+    </div>
+    <p class="note">${r.lat != null ? "외부 지도 앱에서 엽니다" : "원자료에 좌표가 없어 길찾기를 열 수 없습니다. 위 주소로 찾으세요"}</p>`;
+  $("scrim").hidden = false;
+  requestAnimationFrame(() => { $("scrim").classList.add("show"); $("sheet").classList.add("open"); });
+  $("sheet").setAttribute("aria-hidden", "false");
+  $("closeSheet").focus();
+  placeLabels();
+}
+function closeDetail() {
+  S.selected = null;
+  $("sheet").classList.remove("open"); $("sheet").style.transform = "";
+  $("scrim").classList.remove("show");
+  $("sheet").setAttribute("aria-hidden", "true");
+  setTimeout(() => ($("scrim").hidden = true), 320);
+  placeLabels();
+}
+function dragSheet() {
+  let y0 = null, dy = 0;
+  const h = $("handle"), sh = $("sheet");
+  h.addEventListener("pointerdown", (e) => { y0 = e.clientY; dy = 0; sh.style.transition = "none"; h.setPointerCapture(e.pointerId); });
+  h.addEventListener("pointermove", (e) => { if (y0 == null) return; dy = Math.max(0, e.clientY - y0); sh.style.transform = `translateY(${dy}px)`; });
+  h.addEventListener("pointerup", () => {
+    sh.style.transition = ""; y0 = null;
+    if (dy > 80) closeDetail(); else sh.style.transform = "";
+  });
+  h.addEventListener("click", () => { if (dy < 4) closeDetail(); });
+}
+
+// ---- 데이터 ----
+async function load() {
+  const res = await fetch("api/parkings", { cache: "no-store" });
+  if (!res.ok) throw new Error("HTTP " + res.status);
+  const j = await res.json();
+  return j.rows;
+}
+function showError(on) {
+  const el = $("errorBanner");
+  if (!on) { el.hidden = true; return; }
+  el.innerHTML = `<b>주차장 정보를 불러오지 못했습니다</b>연결을 확인한 뒤 다시 시도하세요<br><button class="btn press" type="button" id="retry">다시 시도</button>`;
+  el.hidden = false;
+  $("retry").onclick = () => start();
+}
+async function refresh() {
+  if (!started) return start();
+  const my = ++S.seq;
+  const btns = [$("refresh"), $("refresh2")];
+  btns.forEach((b) => b.classList.add("spinning"));
+  if (reduced) $("updated").textContent = "새로 받는 중";
+  const prev = new Map(S.rows.map((r) => [r.code, r]));
+  try {
+    const rows = await load();
+    if (my !== S.seq) return;
+    S.rows = rows; S.maxVac = Math.max(1, ...rows.filter((r) => r.live).map((r) => r.vacant));
+    if (map) {
+      // 높이 전환(standard 600ms): 이전 높이 → 새 높이
+      const from = (r) => (prev.get(r.code) ? columnPx(prev.get(r.code)) : 0), to = (r) => columnPx(r);
+      if (reduced) setColumns(() => 1);
+      else {
+        const t0 = performance.now();
+        const step = (now) => {
+          const p = EASE.standard(Math.min(1, (now - t0) / T.dur.height));
+          setColumns((r) => { const t = to(r) || 1; return (from(r) + (to(r) - from(r)) * p) / t; });
+          if (p < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
       }
     }
+    if (S.view === "list") renderList();
+  } catch {
+    if (my === S.seq) toast("새로 받지 못했습니다. 이전 기준 시각의 숫자입니다");
+  } finally {
+    btns.forEach((b) => b.classList.remove("spinning"));
+    renderUpdated();
   }
-  const pickDistrict = (district) => {
-    if (district === state.district) return;
-    state.district = district;
-    load();
-  };
+}
 
-  // ---------- 조각 ----------
-  const refreshBtn = () => `
-    <button class="icon-btn" type="button" data-act="refresh" aria-label="${state.refreshing ? '불러오는 중' : '새로고침'}" ${state.refreshing ? 'aria-busy="true"' : ''}>
-      ${icon('refresh', 'icon-lg')}
-    </button>`;
-
-  const timestamp = (lot) => {
-    const stale = isStale(lot);
-    return `<span class="ts${stale ? ' stale' : ''}">${icon(stale ? 'warn' : 'clock')}<span class="num">${esc(tsLabel(lot.updated))}${stale ? ' · 20분 넘음' : ''}</span></span>`;
-  };
-
-  const noRealtimeTag = () => `<span class="tag no-rt">${icon('no-signal')}실시간 정보 없음</span>`;
-  const busTag = () => `<span class="tag bus">${icon('bus')}버스전용</span>`;
-
-  const availability = (lot, size) => {
-    if (!lot.realtime) return noRealtimeTag();
-    const full = lot.available <= 0;
-    return `
-      <span class="avail-label">빈자리</span>
-      <span class="avail num">
-        <span class="avail-count">${full ? 0 : won(lot.available)}</span>
-        ${full ? '<span class="avail-full">만차</span>' : ''}
-        <span class="avail-unit">/ 총 ${won(lot.total)}면</span>
-      </span>`;
-  };
-
-  const banner = (kind, text, action) => `
-    <div class="banner${kind === 'danger' ? ' danger' : ''}" role="status">
-      ${icon('warn')}<p>${esc(text)}</p>
-      ${action ? `<button class="btn secondary" type="button" data-act="refresh" ${state.refreshing ? 'disabled' : ''}>${state.refreshing ? '불러오는 중…' : '새로고침'}</button>` : ''}
-    </div>`;
-
-  const openingBanners = () => state.openings.map((o) => `
-    <div class="banner opening" role="status">
-      ${icon('star-fill')}<p>${esc(o.name)} 빈자리 <span class="num">${won(o.available)}면 · ${esc(tsLabel(o.updated))}${isOld(o.updated) ? ' · 20분 넘음' : ''}</span></p>
-      <button class="btn secondary" type="button" data-act="dismiss" data-id="${esc(o.id)}">닫기</button>
-    </div>`).join('');
-
-  const favoriteBtn = (id) => {
-    const on = state.favorites.has(id);
-    return `
-    <button class="icon-btn" type="button" data-act="favorite" aria-pressed="${on}" aria-label="${on ? '즐겨찾기 빼기' : '즐겨찾기 추가'}">
-      ${icon(on ? 'star-fill' : 'star', 'icon-lg')}
-    </button>`;
-  };
-
-  const errorInline = () => state.refreshFailed
-    ? banner('danger', `새 정보를 불러오지 못했어요. ${hhmm(state.loadedAt)} 기준 목록을 보여 드려요.`, false) : '';
-
-  // ---------- 목록 ----------
-  const norm = (s) => s.replace(/\s+/g, '').toLowerCase();
-  const filtered = () => {
-    const q = norm(state.query);
-    return state.lots.filter((l) =>
-      (state.district === '전체' || l.district === state.district) &&
-      (!q || norm(l.name).includes(q) || norm(l.addr).includes(q)));
-  };
-
-  const row = (lot) => {
-    let side;
-    if (lot.busOnly) side = `${busTag()}<span class="tag-sub">승용차 해당 없음</span>`;
-    else if (!lot.realtime) side = noRealtimeTag();
-    else side = `${availability(lot, 'row')}${timestamp(lot)}`;
-    return `
-      <li><a class="row" href="#/p/${encodeURIComponent(lot.id)}">
-        <div class="row-main">
-          <p class="row-name">${state.favorites.has(lot.id) ? `${icon('star-fill', 'icon fav')}<span class="sr-only">즐겨찾기</span>` : ''}${esc(lot.name)}</p>
-          <p class="row-addr">${esc(lot.addr)}</p>
-        </div>
-        <div class="row-side">${side}</div>
-      </a></li>`;
-  };
-
-  const skeletons = () => Array.from({ length: 4 }, () => `
-    <div class="skeleton" aria-hidden="true">
-      <div style="flex:1;display:grid;gap:8px"><span style="height:18px;width:70%"></span><span style="height:14px;width:50%"></span></div>
-      <span style="width:72px;height:40px"></span>
-    </div>`).join('');
-
-  function listChrome() {
-    const chips = ['전체', ...DISTRICTS].map((d) => `
-      <button class="chip" type="button" data-district="${esc(d)}" aria-pressed="${state.district === d}">
-        <svg class="check" aria-hidden="true"><use href="#i-check"/></svg>${esc(d)}
-      </button>`).join('');
-    return `
-      <header class="appbar">
-        <h1>서울 공영주차장 빈자리</h1>
-        ${state.status === 'ready' ? refreshBtn() : ''}
-      </header>
-      <div class="search" role="search">
-        <label class="search-box">
-          ${icon('search')}
-          <span class="sr-only">주차장 찾기</span>
-          <input id="q" type="search" inputmode="search" enterkeyhint="search" autocomplete="off"
-                 placeholder="이름이나 주소로 찾기" value="${esc(state.query)}" ${state.status !== 'ready' ? 'disabled' : ''}>
-          <button class="icon-btn" type="button" data-act="clear" aria-label="검색어 지우기" ${state.query ? '' : 'hidden'}>${icon('close')}</button>
-        </label>
-      </div>
-      ${state.status === 'ready' ? `<nav class="chips" aria-label="구 선택">${chips}</nav>` : ''}
-      <div id="results"></div>`;
-  }
-
-  function renderResults() {
-    const box = document.getElementById('results');
-    if (!box) return;
-    // 고른 구를 아직 받지 못했으면 다른 구 목록이나 '찾는 주차장이 없어요'를 보이지 않는다
-    const missing = state.status === 'ready' && !covers(state.district);
-    if (state.status === 'loading' || (missing && state.refreshing)) {
-      box.innerHTML = `<p class="sr-only" role="status">불러오는 중</p>${skeletons()}`;
-      return;
-    }
-    if (state.status === 'error' || missing) {
-      box.innerHTML = `
-        <div class="state error" role="alert">
-          ${icon('warn', 'icon-lg')}
-          <h2>주차장 정보를 불러오지 못했어요</h2>
-          <p>인터넷 연결을 확인하고 다시 시도해 주세요.</p>
-          <button class="btn" type="button" data-act="retry">다시 시도</button>
-        </div>`;
-      return;
-    }
-    const lots = filtered();
-    const summary = `<p class="summary" role="status"><span class="num">${won(lots.length)}곳 · ${hhmm(state.loadedAt)}에 불러옴</span></p>`;
-    if (!lots.length) {
-      const q = state.query.trim();
-      box.innerHTML = `${openingBanners()}${summary}
-        <div class="state">
-          ${icon('search', 'icon-lg')}
-          <h2>찾는 주차장이 없어요</h2>
-          <p>'${esc(q)}'와 맞는 이름·주소가 없어요. 구를 '전체'로 바꾸거나 다른 말로 찾아보세요.</p>
-          <button class="btn secondary" type="button" data-act="clear">검색 지우기</button>
-        </div>`;
-      return;
-    }
-    const anyStale = lots.some((l) => !l.busOnly && isStale(l));
-    const groups = new Map();
-    for (const l of lots) { if (!groups.has(l.district)) groups.set(l.district, []); groups.get(l.district).push(l); }
-    const ordered = [...groups.entries()].sort((a, b) => a[0].localeCompare(b[0], 'ko'));
-    box.innerHTML = `${openingBanners()}${summary}
-      ${errorInline()}
-      ${anyStale ? banner('warning', '20분 넘게 지난 숫자가 있어요. 새로고침해 보세요.', true) : ''}
-      ${ordered.map(([d, ls]) => `
-        <section aria-label="${esc(d)}">
-          <h2 class="group-header">${esc(d)} ${ls.length}곳</h2>
-          <ul class="list">${ls.sort((a, b) => a.name.localeCompare(b.name, 'ko')).map(row).join('')}</ul>
-        </section>`).join('')}`;
-  }
-
-  // ---------- 상세 ----------
-  const info = (label, value) => value == null
-    ? `<dl class="info"><dt>${esc(label)}</dt><dd class="unknown">정보 없음</dd></dl>`
-    : `<dl class="info"><dt>${esc(label)}</dt><dd>${esc(value)}</dd></dl>`;
-  const text = (v) => { const s = String(v ?? '').trim(); return s && s !== '*' ? s : null; };
-
-  function feeRows(lot) {
-    const r = lot.raw;
-    if (r.PAY_YN === 'N') return info('요금', '무료');
-    const p = lot.busOnly ? 'BUS_' : '';
-    const bHr = Number(r[`${p}BSC_PRK_HR`]), bCrg = Number(r[`${p}BSC_PRK_CRG`]);
-    const aHr = Number(r[`${p}ADD_PRK_HR`]), aCrg = Number(r[`${p}ADD_PRK_CRG`]);
-    const day = Number(r.DAY_MAX_CRG), month = Number(r.PRD_AMT);
-    return [
-      info('기본 요금', bHr > 0 ? `${won(bHr)}분 ${won(bCrg)}원` : null),
-      info('추가 요금', aHr > 0 ? `${won(aHr)}분마다 ${won(aCrg)}원` : null),
-      day > 0 ? info('일 최대', `${won(day)}원`) : '', // DAY_MAX_CRG=0이면 줄을 그리지 않음
-      info('월 정기권', month > 0 ? `월 ${won(month)}원` : null),
-    ].join('');
-  }
-
-  function renderDetail(id) {
-    const lot = state.lots.find((l) => l.id === id);
-    const bar = (title) => `
-      <header class="appbar detail">
-        <button class="icon-btn" type="button" data-act="back" aria-label="목록으로">${icon('back', 'icon-lg')}</button>
-        <h1>${esc(title)}</h1>
-        ${state.status === 'ready' && lot ? favoriteBtn(lot.id) : ''}
-        ${state.status === 'ready' ? refreshBtn() : ''}
-      </header>`;
-    if (state.status === 'loading') { view.innerHTML = `${bar('')}<p class="sr-only" role="status">불러오는 중</p>${skeletons()}`; return; }
-    if (state.status === 'error' || !lot) {
-      view.innerHTML = `${bar('')}
-        <div class="state error" role="alert">
-          ${icon('warn', 'icon-lg')}
-          <h2>주차장 정보를 불러오지 못했어요</h2>
-          <p>인터넷 연결을 확인하고 다시 시도해 주세요.</p>
-          <button class="btn" type="button" data-act="${state.status === 'error' ? 'retry' : 'back'}">${state.status === 'error' ? '다시 시도' : '목록으로'}</button>
-        </div>`;
-      return;
-    }
-    const r = lot.raw;
-    const type = text(r.PRK_TYPE_NM);
-    let hero;
-    if (lot.busOnly) {
-      hero = `<div class="avail-block lg"><span class="tag-sub">승용차 해당 없음</span>
-        ${lot.realtime ? `${availability(lot, 'detail')}${timestamp(lot)}` : noRealtimeTag()}</div>`;
-    } else if (!lot.realtime) {
-      hero = `<div class="avail-block">${noRealtimeTag()}<p class="note">이 주차장은 빈자리 수를 보내지 않아요. 총 <span class="num">${won(lot.total)}</span>면</p></div>`;
-    } else {
-      hero = `<div class="avail-block lg">${availability(lot, 'detail')}${timestamp(lot)}</div>`;
-    }
-    const tel = text(r.TELNO);
-    view.innerHTML = `${bar(lot.name)}
-      ${openingBanners()}
-      <section class="detail-hero">
-        <h2>${esc(lot.name)}</h2>
-        <div class="tags">${type ? `<span class="tag">${esc(type)}</span>` : ''}${lot.busOnly ? busTag() : ''}</div>
-        ${hero}
-      </section>
-      ${errorInline()}
-      ${isStale(lot) ? banner('warning', '20분 넘게 지난 숫자예요. 지금은 다를 수 있어요.', true) : ''}
-      <section class="section">
-        <h3>전화·주소</h3>
-        ${tel
-          ? `<dl class="info phone-row"><dt>전화</dt><dd><a class="phone num" href="tel:${esc(tel.replace(/[^\d+]/g, ''))}" aria-label="전화 걸기 ${esc(tel)}">${icon('phone')}${esc(tel)}</a></dd></dl>`
-          : info('전화', null)}
-        ${info('주소', text(lot.addr))}
-      </section>
-      <section class="section">
-        <h3>운영시간</h3>
-        ${info('평일', hours(r.WD_OPER_BGNG_TM, r.WD_OPER_END_TM))}
-        ${info('주말', hours(r.WE_OPER_BGNG_TM, r.WE_OPER_END_TM))}
-        ${info('공휴일', hours(r.LHLDY_OPER_BGNG_TM, r.LHLDY_OPER_END_TM))}
-      </section>
-      <section class="section">
-        <h3>요금</h3>
-        ${feeRows(lot)}
-      </section>
-      <section class="section">
-        <h3>유형·구분</h3>
-        ${info('주차장 유형', type)}
-        ${info('운영 구분', text(r.OPER_SE_NM))}
-        ${info('유료·무료', text(r.PAY_YN_NM))}
-      </section>
-      <section class="section">
-        <h3>토요일·공휴일·야간</h3>
-        ${info('토요일', text(r.SAT_CHGD_FREE_NM))}
-        ${info('공휴일', text(r.LHLDY_CHGD_FREE_SE_NAME))}
-        ${info('야간', text(r.NGHT_PAY_YN_NM))}
-      </section>`;
-  }
-
-  // ---------- 화면 전환 ----------
-  const route = () => { const m = /^#\/p\/(.+)$/.exec(location.hash); return m ? decodeURIComponent(m[1]) : null; };
-  let lastRoute;
-
-  // 30초마다 다시 그려도 키보드 초점이 있던 버튼·칩·행으로 돌아가게 한다
-  const focusSelector = (el) => {
-    const d = el?.dataset;
-    if (!d || !view.contains(el)) return null;
-    if (d.act) return `[data-act="${d.act}"]${d.id ? `[data-id="${d.id}"]` : ''}`;
-    if (d.district) return `[data-district="${d.district}"]`;
-    if (el.matches('a.row')) return `a.row[href="${el.getAttribute('href')}"]`;
-    return null;
-  };
-
-  function render() {
-    const id = route();
-    const changed = id !== lastRoute;
-    const focused = changed ? null : focusSelector(document.activeElement);
-    if (id) {
-      if (changed && lastRoute == null) state.listScroll = window.scrollY;
-      renderDetail(id);
-      if (changed) window.scrollTo(0, 0);
-    } else {
-      const q = document.getElementById('q');
-      const keepFocus = q && document.activeElement === q;
-      view.innerHTML = listChrome();
-      renderResults();
-      view.querySelector('.chip[aria-pressed="true"]')?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
-      if (keepFocus) { const n = document.getElementById('q'); n.focus(); n.setSelectionRange(n.value.length, n.value.length); }
-      if (changed && lastRoute != null) window.scrollTo(0, state.listScroll);
-    }
-    if (focused) view.querySelector(focused)?.focus({ preventScroll: true });
-    lastRoute = id;
-  }
-
-  view.addEventListener('input', (e) => {
-    if (e.target.id !== 'q') return;
-    state.query = e.target.value;
-    view.querySelector('[data-act="clear"]').hidden = !state.query;
-    renderResults();
+// ---- 위치 ----
+function locate() {
+  return new Promise((resolve) => {
+    if (!navigator.geolocation) return resolve(null);
+    navigator.geolocation.getCurrentPosition((p) => resolve([p.coords.longitude, p.coords.latitude]), () => resolve(null), { timeout: 6000, maximumAge: 60000 });
   });
-  view.addEventListener('click', (e) => {
-    const chip = e.target.closest('[data-district]');
-    if (chip) { pickDistrict(chip.dataset.district); return; }
-    const btn = e.target.closest('[data-act]');
-    if (!btn) return;
-    const act = btn.dataset.act;
-    if (act === 'refresh' || act === 'retry') { if (!state.refreshing) load(); }
-    else if (act === 'clear') { state.query = ''; pickDistrict('전체'); render(); document.getElementById('q')?.focus(); }
-    else if (act === 'back') { if (history.state?.fromList) history.back(); else location.hash = ''; }
-    else if (act === 'favorite') {
-      const id = route();
-      if (!state.favorites.delete(id)) state.favorites.add(id);
-      saveFavorites();
-      render();
+}
+function setLocateDisabled(off) {
+  const b = $("locate");
+  b.setAttribute("aria-disabled", off ? "true" : "false");
+  b.setAttribute("aria-label", off ? "현위치로 이동, 위치 권한 꺼짐" : "현위치로 이동");
+  b.querySelector(".slash").style.display = off ? "" : "none";
+  $("sDist").disabled = off || !S.user;
+}
+
+// ---- 시작 ----
+let started = false;
+async function start() {
+  showError(false);
+  $("veil").classList.remove("gone"); $("veil").textContent = "불러오는 중";
+  S.seq++;
+  let rows;
+  try { rows = await load(); } catch {
+    $("veil").classList.add("gone"); showError(true); setView("list");
+    $("listBody").innerHTML = `<div class="state"><b>주차장 정보를 불러오지 못했습니다</b>연결을 확인한 뒤 다시 시도하세요<br><br><button class="btn press" type="button" id="retry2">다시 시도</button></div>`;
+    $("retry2").onclick = () => start();
+    return;
+  }
+  S.rows = rows;
+  S.maxVac = Math.max(1, ...rows.filter((r) => r.live).map((r) => r.vacant));
+  started = true;
+
+  if (!webglOK()) {
+    S.view = "list";
+    $("tMap").disabled = $("tMap2").disabled = true;
+    $("veil").classList.add("gone");
+    setView("list");
+    toast("이 기기에서는 3D 지도를 쓸 수 없어 목록으로 시작합니다");
+    return;
+  }
+
+  const userP = locate();
+  map = new maplibregl.Map({
+    container: "map",
+    style: "https://tiles.openfreemap.org/styles/positron",
+    center: SEOUL, zoom: 10.3, pitch: 0, bearing: 0,
+    attributionControl: false, maxPitch: 70,
+    localIdeographFontFamily: "'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif",
+  });
+  map.on("error", (e) => console.warn(e.error || e));
+  map.on("load", async () => {
+    styleMap();
+    const arriveZoom = 14.6, pitch = reduced ? T.pitchReduced : T.pitch;
+    S.heightM = pxToMetersAt(arriveZoom, CITY_HALL[1], pitch);
+    addColumnLayers();
+    if (S.view === "list") setView("map");
+    $("veil").classList.add("gone");
+    const user = await userP;
+    S.user = user; S.geoDenied = !user;
+    setLocateDisabled(!user);
+    const dest = user && distM(user, CITY_HALL) < 40000 ? user : ARRIVE;
+    if (!user) toast("위치를 쓸 수 없어 시청 근처로 시작합니다");
+    const cam = { center: dest, zoom: arriveZoom, pitch, bearing: T.bearing, padding: { top: 160, bottom: 200, left: 0, right: 0 } };
+    if (reduced) { map.jumpTo(cam); riseColumns(); }
+    else {
+      map.flyTo({ ...cam, duration: T.dur.flight, easing: EASE.camera, essential: false });
+      map.once("moveend", () => riseColumns());
     }
-    else if (act === 'dismiss') { state.openings = state.openings.filter((o) => o.id !== btn.dataset.id); render(); }
+    renderUpdated();
   });
-  view.addEventListener('click', (e) => {
-    const a = e.target.closest('a.row');
-    if (a) { e.preventDefault(); history.pushState({ fromList: true }, '', a.getAttribute('href')); render(); }
+  for (const ev of ["move", "zoom", "pitch", "rotate", "resize"]) map.on(ev, placeLabels);
+  map.on("moveend", () => { renderUpdated(); if (S.view === "list") renderList(); });
+  map.on("click", (e) => {
+    const hit = map.queryRenderedFeatures(e.point, { layers: ["columns-fresh", "columns-stale"] });
+    if (!hit.length && S.selected) closeDetail();
   });
-  window.addEventListener('popstate', render);
-  window.addEventListener('hashchange', render);
+}
 
-  // 검색창에 입력하는 동안 다시 그리면 한글 조합이 끊긴다. 벗어난 뒤 다음 차례에 불러온다.
-  const canAutoLoad = () => document.visibilityState === 'visible' && !state.refreshing && state.status !== 'loading'
-    && document.activeElement?.id !== 'q';
-  setInterval(() => { if (canAutoLoad()) load(); }, REFRESH_MS);
-  document.addEventListener('visibilitychange', () => {
-    if (canAutoLoad() && Date.now() - state.loadedAt >= REFRESH_MS) load();
-  });
-
-  render();
-  load();
-})();
+// ---- 이벤트 ----
+$("tMap").onclick = $("tMap2").onclick = () => setView("map");
+$("tList").onclick = $("tList2").onclick = () => setView("list");
+$("sVac").onclick = () => { S.sort = "vacancy"; syncToggles(); renderList(); };
+$("sDist").onclick = () => { if (!S.user) return; S.sort = "distance"; syncToggles(); renderList(); };
+$("openSearch").onclick = $("openSearch2").onclick = openSearch;
+$("closeSearch").onclick = closeSearch;
+$("q").addEventListener("input", (e) => renderResults(e.target.value));
+$("refresh").onclick = $("refresh2").onclick = refresh;
+$("locate").onclick = () => {
+  if (!S.user) { toast("위치 권한이 꺼져 있어 현위치를 쓸 수 없습니다"); return; }
+  map && map.easeTo({ center: S.user, duration: reduced ? 0 : T.dur.toResult, easing: EASE.camera });
+};
+$("closeSheet").onclick = closeDetail;
+$("scrim").onclick = closeDetail;
+document.addEventListener("keydown", (e) => {
+  if (e.key !== "Escape") return;
+  if (!$("search").hidden) closeSearch(); else if (S.selected) closeDetail();
+});
+addEventListener("resize", () => { syncToggles(); placeLabels(); });
+dragSheet();
+if (document.fonts) document.fonts.ready.then(syncToggles);
+syncToggles();
+listSkeleton();
+start();
 </script>
 </body>
 </html>

@@ -1,82 +1,99 @@
 ---
 name: verify-refresh-order
-description: seoul-parking의 30초 자동 새로고침(PRD F9)·구 선택(F2)·즐겨찾기 빈자리 알림(F10) 순서 검증(TLA+). index.html의 load()·openings()·pickDistrict()·새로고침/다시 시도/닫기 처리·setInterval·visibilitychange, 또는 server/index.mjs의 cachedParking()을 바꿀 때, "새로고침 순서", "알림 두 번", /verify-refresh-order에 쓴다.
+description: 새로고침·불러오기 순서(index.html의 load·refresh·start·showError, 새로고침/다시 시도 버튼, #veil)를 TLA+ 모델로 형식 검증한다. 이 코드를 바꾸거나 리뷰할 때, "새로고침 순서", "응답 늦게 오면", "버튼 여러 번" 같은 동시성 질문이나 /verify-refresh-order에 쓴다.
 ---
 
-# /verify-refresh-order — 새로고침·빈자리 알림 순서 검증
+# /verify-refresh-order — 새로고침 순서 형식 검증
 
-## 지키는 약속
-- **약속 1 (`ScreenLatest`)**: 목록·상세의 빈자리 숫자는 이 브라우저가 받아 반영한 응답 가운데 가장 새 것이다(뒤로 가지 않는다). 구를 바꿔서 버린 앞 응답은 다른 구 목록이라 반영 대상이 아니다. 깨지면 운전자가 이미 지나간 숫자를 보고 출발한다.
-- **약속 2 (`NotifyOnce`)**: 즐겨찾기 주차장이 만차에서 빈자리로 바뀐 한 번의 사건에 배너는 한 번만 뜬다(닫은 뒤 같은 사건으로 다시 뜨는 것도 두 번). 깨지면 이미 본 알림이 다시 떠서 새 빈자리로 오해한다.
-- **약속 3 (`BannerLatest`)**: 빈자리 배너의 숫자도 목록·상세와 같은 가장 새 응답에서 나온다. 배너를 띄운 뒤 응답이 오면 배너 숫자를 그 응답으로 바꾸고, 다시 만차가 되면 배너를 내린다(PRD F10). 깨지면 목록은 만차인데 배너만 빈자리를 보여 준다.
+## 지키는 약속 두 개
 
-테스트는 누가 떠올린 순서만 본다. 이 검증은 아래 범위 안에서 가능한 모든 순서(타이머·버튼·구 칩·탭 전환·응답 도착 순서·서버 캐시 만료·다른 브라우저 요청·실패)를 다 본다.
-
-## 실행
-
-```
-verify/refresh-order/run.sh          # 20초쯤. load 4번, Open API 스냅숏 4개
-DEEP=1 verify/refresh-order/run.sh   # 1분 반쯤. load 5번
-```
-
-필요한 것: Java 11 이상, TLA+ tools 1.7.4(`~/.cache/tlaplus/tla2tools-1.7.4.jar`, 다른 곳이면 `TLA2TOOLS_JAR`). 없으면 스크립트가 받는 명령과 sha256을 알려 준다. TLC 출력은 `$TMPDIR/seoul-parking-tlc/*.out`.
-
-스크립트가 하는 일과 결과 읽기:
-
-| 단계 | 정상 | 아니면 |
+| 이름 | 약속(한 문장) | 깨지면 생기는 일 |
 |---|---|---|
-| `anchors.mjs`: 모델이 기대는 코드 줄 25개와 `load()` 호출 5곳·`pickDistrict()` 호출 2곳이 그대로인지 | `코드 앵커 27개 그대로` | exit 2. 바뀐 줄과 모델 동작 이름을 찍는다. 아래 "코드를 바꿨을 때" |
-| `RefreshOrder.cfg`: 약속 1·2·3 | `통과` | exit 1. 진짜 버그이거나 모델 오류. 아래 "깨졌을 때" |
-| `mutant-screen`·`mutant-notify.cfg`: `DiscardSuperseded = FALSE`(구를 바꿔 겹친 load의 늦은 앞 응답도 반영). `mutant-banner.cfg`: `RefreshBanner = FALSE`(띄운 배너를 그대로 둠, F1 전 코드) | 셋 다 `잡힘` | exit 1. 검증이 무뎌졌다. 모델을 고친다 |
+| `LatestWins` | 화면이 읽는 숫자(`S.rows`)는 가장 마지막에 보낸 요청의 응답이다: (가) 한 번 넣은 응답보다 먼저 보낸 요청의 응답으로 되돌아가지 않고, (나) 가장 마지막 요청이 성공했으면 그 응답이다. | 새로고침을 연달아 눌렀을 때 늦게 온 옛 응답이 새 숫자를 덮어, 빈자리가 과거 값으로 돌아간다. |
+| `NoWipe` | 불러오기 실패가 이미 보이는 숫자를 지우지 않는다. | 연결이 흔들릴 때 보던 목록이 통째로 사라진다. |
 
-exit 0은 앵커·약속·변형이 모두 맞다는 뜻이다.
+더 나중 요청이 아직 오는 중이거나 실패해서 이전 숫자를 두는 것은 두 약속 모두에 맞다. 그동안 도착한 중간 요청의 응답은 버려도 넣어도 된다. 요청 번호는 `load()`를 부른 순서이고, `start()`와 `refresh()`가 한 줄로 번호를 나눠 쓴다.
 
-TLC 결과(통과든 반례든)는 pstack `/statechart` 스킬로 읽는다. 반례는 가장 짧은 경로를 쉬운 말로 보여 주고, 고친 모델을 주면 어떤 반례가 사라지는지 보여 준다. 통과하면 상태가 어떻게 옮겨 가는지 그림으로 보여 준다. 쓰는 법은 그 스킬을 따른다.
+## 이 변경이 대상인가
 
-## 알려진 발견
-- **F1 (닫힘, `BannerLatest`)**: 빈자리 배너의 숫자가 배너를 띄운 응답에 고정되어, 다시 만차가 되거나 빈자리 수가 바뀌어도 배너만 이전 숫자를 보였다. 순서: 방화역(동) 만차 응답 → 빈자리 1면 응답(배너) → 다시 만차 응답 → 행은 "만차", 배너는 "빈자리 1면". 사용자가 "배너도 최신 숫자로 맞추고, 다시 만차면 내린다"고 정해 PRD F10에 적고 고쳤다(index.html `kept` `:391`). 실시간 정보 없음이 되거나 응답에 행이 없을 때도 숫자를 보일 수 없어 내린다. 이제 약속 3이고, `tests/screen.test.mjs`의 "빈자리 배너의 숫자는 목록처럼 가장 새 응답을 따른다"·"…다시 만차이거나 실시간 정보 없음이 되면 배너를 내린다"가 같은 순서를 지킨다.
+`index.html`에서 아래 중 하나라도 바뀌면 이 검사를 돈다. `check.mjs`가 이 조각들의 해시를 `formal/refresh-order/coverage.json`과 비교해 알려 준다.
 
-## 모델이 보는 것과 빼는 것
-`verify/refresh-order/RefreshOrder.tla`. 동작마다 코드 줄을 주석에 적었다. 동작 하나는 JS 이벤트 루프에서 await 없이 도는 한 덩어리다.
-
-| 모델 동작 | 코드 |
+| 조각 | 모델에서 |
 |---|---|
-| `Begin` | index.html `load()` 시작~`fetch` 호출(`:375-382`). `latest`는 `latestLoad`(`:376`) |
-| `Start`(`CanStart`) | 부르는 곳: 클릭 `:702`(새로고침은 status=ready일 때만, 다시 시도는 error이거나 고른 구를 못 받았을 때만 그려짐 `:531`, 둘 다 status가 ready·error), 30초 타이머 `:723`, visibilitychange `:725`, 처음 `:729`, `canAutoLoad` `:721` |
-| `Switch` | `pickDistrict()` `:408`를 부르는 두 곳: 구 칩 `:698`, 검색어 지우기 `:703`('전체'로). 칩은 status=ready일 때만 그려지고(`:512`), 지우기는 검색어가 있을 때만 보이는데 검색창은 ready일 때만 입력된다. 둘 다 `refreshing`을 보지 않는다 |
-| `Receive` / `NetFail` | `await fetch` 뒤 `res.ok` 검사 / fetch 거절 |
-| `JsonFail` / `JsonDone` | `await res.json()` 뒤 rows 검사 실패 / `seq` 검사(`:384`) 뒤 `state.lots` 교체·`openings()`(`:356`)·띄운 배너 맞추기(`kept` `:391`)·`state.openings`(`:392`)·finally |
-| `FailLoad` | catch `:398-400`(`seq` 검사)·finally `:401-406`(`seq`가 마지막일 때만 `refreshing` 해제) |
-| `Current` | `seq === latestLoad`. 아니면 응답·실패를 버린다 |
-| `Dismiss` | 닫기 `:711` |
-| `Arrive` / `OtherArrive` | server/index.mjs `cachedParking()` `:34-40`: 저장분, 진행 중인 한 번 같이 기다리기, 새로 부르기 / 다른 브라우저 요청. `?gu=` 거르기(`onlyDistricts` `:69`)는 저장분을 받은 뒤의 순수 함수라 순서에 영향이 없다 |
-| `UpstreamOk` / `UpstreamFail` / `Expire` / `Advance` | 저장, 실패는 저장 안 함, 30초 TTL 만료, Open API 숫자 변화 |
+| `async function load()` | 요청 하나 = `load()` 호출 하나. 번호는 부른 순서 |
+| `function showError(on)` | `banner`, 지도의 "다시 시도"(`#retry` → `start()`) |
+| `async function refresh()` | `YouTapRefresh`(숫자를 받기 전이면 `start()`), `RefreshArrives`, `RefreshFails` |
+| `async function start()` | `YouTapRetry`(목록의 `#retry2` 포함), `StartArrives`, `StartFails`, `started`, `HasMap` |
+| `$("refresh").onclick = $("refresh2").onclick = refresh;` | 두 새로고침 버튼 모두 `YouTapRefresh` |
+| `.loading-veil` / `.loading-veil.gone` CSS | `veil`: 덮여 있는 동안 버튼을 못 누름 |
+| `listSkeleton();` `start();` (스크립트 끝) | `Init`: 첫 요청 #1이 나가 있고 #veil이 덮임 |
 
-범위와 가정(통과는 이 안에서만 뜻이 있다):
-- 이 브라우저의 load 4번(DEEP 5번), Open API 스냅숏 4개, 즐겨찾기 주차장 1곳. 빈자리는 0(만차)과 1 이상 두 값.
-- 즐겨찾기 주차장은 어느 구를 고른 응답에도 들어 있다고 둔다(`dataUrl()`이 즐겨찾기의 구를 함께 넣는다. `tests/screen.test.mjs`의 "즐겨찾기가 있는 구를 함께 받아" 테스트가 지킨다). 그래서 `state.lots`는 비지 않고, 한 번 ready가 되면 계속 ready다(검색어 지우기가 status를 보지 않아도 Switch 조건 status=ready에 들어맞는 근거). 구 칩·지우기는 어느 구로 바꾸는지 보지 않고 load 시작으로만 본다.
-- 고른 구의 응답이 빈 배열인 경우(즐겨찾기 없음 + 그 구의 행이 Open API에서 사라짐)는 보지 않는다. 그러면 `hadData`가 false가 되어 다음 load가 status를 loading·error로 바꾸고, 그 사이 검색어 지우기가 status=ready가 아닌 채 load를 겹쳐 부를 수 있다.
-- 즐겨찾기는 켜진 채로 둔다. 숫자는 늘 실시간·20분 이내로 둔다(알림이 갈 수 있는 경우). 즐겨찾기 끄기·오래됨·실시간 없음은 알림을 막기만 하므로 뺐다.
-- 보임·검색창 초점·30초 경과 조건은 load를 막기만 하므로 빼서 더 많은 순서를 본다.
-- Open API는 스냅숏 번호가 뒤로 가지 않는다고 둔다. Open API 자체가 더 오래된 `NOW_PRK_VHCL_UPDT_TM`을 돌려주는 경우는 보지 않는다(코드로 막을 수 없음).
-- 진행만 본다(안전 성질). fetch가 끝나지 않으면 `refreshing`이 풀리지 않아 새로고침이 멈추는 문제(index.html의 fetch에 시간 제한이 없음)는 이 검증이 보지 않는다.
-- 상세/목록 화면 전환, 화면 그리기, 초점 복원은 상태를 바꾸지 않아 뺐다.
+`S.rows`를 읽는 그리기 함수(`renderList`, `setColumns`, `doPlaceLabels`, `renderUpdated`)는 `Redraw`·`screen`으로 뭉뚱그렸다. 이 함수들이 `S.rows`를 바꾸거나 화면을 비우게 되면 그것도 대상이다.
 
-## 깨졌을 때: 버그인가 모델 오류인가
-1. `/statechart`로 반례 경로를 쉬운 말로 펼친다.
-2. 경로를 실제 코드로 한 단계씩 따라간다. `tests/harness.mjs`의 `open()`·`serve()`·`tick()`·`click()`으로 브라우저 쪽을 재현할 수 있다(`tests/screen.test.mjs`의 빈자리 배너 테스트가 예시). 응답 순서를 바꿔야 하면 하네스의 `fetch`를 대신하는 스크립트를 `verify/refresh-order/`에 따로 만든다. `tests/`나 하네스를 약하게 고치지 않는다.
-3. 재현되면 버그다. 반례를 코드 말로(어떤 클릭·타이머·응답이 어떤 순서로) 사용자에게 보고하고, 사용자가 고치라고 하기 전에는 제품 코드를 고치지 않는다. 약속이나 모델을 느슨하게 해서 통과시키지 않는다.
-4. 재현이 안 되면 모델이 코드보다 넓거나 틀렸다고 보고, 어느 동작이 코드의 어느 줄과 다른지 찾아 모델을 고친다. 고친 뒤 `mutant-*`가 여전히 잡히는지 본다.
+**마지막으로 모델이 코드를 그대로 옮긴다고 확인한 커밋: `8e63ca3`**
 
-## 코드를 바꿨을 때
-위 표의 파일·함수를 건드렸으면, 혹은 `anchors.mjs`가 exit 2를 냈으면:
-1. 바뀐 코드가 표의 어느 동작인지 찾고, 그 동작이 여전히 코드와 같은 덩어리·같은 조건인지 읽는다. 새 await가 생겼으면 동작을 둘로 나눈다. load()를 부르는 곳이 새로 생기면 `CanStart`에 넣는다.
-2. 모델을 코드에 맞춘다. 예: 클릭 처리에서 `!state.refreshing` 검사를 빼면 `RefreshOrder.cfg`의 `GuardRefreshing`을 `FALSE`로 한다. `1f192e8`부터는 `seq` 검사(`DiscardSuperseded`)가 겹친 load의 앞 응답을 버리므로 `GuardRefreshing = FALSE`만으로는 약속 1·2가 깨지지 않는다(TLC 통과). 둘 다 빼면 약속 1이 깨진다. `seq` 검사를 빼면 `DiscardSuperseded`를 `FALSE`로 한다(`mutant-screen`·`mutant-notify`처럼 약속 1·2가 다 깨진다). 배너 맞추기(`kept`)를 빼면 `RefreshBanner`를 `FALSE`로 한다(`mutant-banner`처럼 약속 3이 깨진다).
-3. `anchors.mjs`의 줄을 새 코드로 바꾸고 `run.sh`를 돌린다.
-4. 모델이 새 커밋의 코드를 그대로 설명한다고 확인한 뒤에만 아래 동기화 커밋을 그 커밋으로 옮긴다. 앵커만 고치고 모델을 안 읽었으면 옮기지 않는다.
+이 커밋 뒤 대상 코드가 바뀌었는지는 `git diff 8e63ca3 -- index.html`에서 위 조각을 보거나, `check.mjs`의 "근거 코드가 바뀌었습니다" 줄로 안다.
 
-## 동기화 기록
-- 덮는 코드: `index.html` 375-412(`load`·`pickDistrict`), 356-362(`openings`), 501·512·531·590(버튼·칩이 그려지는 조건), 698·702·703·711(클릭 처리), 721-729(`canAutoLoad`·타이머·visibilitychange·첫 load). `server/index.mjs` 12-40(`createApp`·`cachedParking`).
-- 마지막으로 모델이 코드를 그대로 설명한다고 확인한 커밋: `79bd5aa` (2026-10-26). 도구: TLA+ tools 1.7.4(TLC 2.19), Java 26.
-- 이 커밋 뒤에 위 파일이 바뀌었는지: `git log --oneline 79bd5aa..HEAD -- index.html server/index.mjs`. 나오는 커밋이 있으면 위 "코드를 바꿨을 때"를 따른다.
-- 오래 손보지 않은 검증을 다시 맞출 때는 pstack `/maintain-formal-verification-skill`.
+## 돌리기
+
+저장소 루트에서:
+
+```sh
+node formal/refresh-order/check.mjs
+```
+
+- 필요: Node 18+, Java 11+. TLC는 `tla2tools.jar` 1.7.4(sha256 고정)를 `TLA2TOOLS_JAR` 또는 `~/.cache/tla/tla2tools-1.7.4.jar`에서 찾고, 없으면 GitHub 릴리스에서 받는다.
+- 약속마다 TLC를 따로 돌린다. 2초 안팎.
+- 종료 코드: `0` 예상대로(통과이거나 알려진 발견만), `1` 새 반례 또는 알려진 발견이 사라짐, `2` TLC를 못 돌림, `3` 결과는 예상대로지만 근거 코드가 바뀜.
+- CI(`node --test`)에는 넣지 않았다. CI에 Java가 없다.
+
+모든 결과는 pstack `/statechart` 스킬로 읽는다(Claude Code에서는 `/pstack:statechart`, 사용법은 그 스킬 문서를 따른다). 반례는 가장 짧은 경로를 쉬운 말로 보여 주고, 통과하면 상태 사이를 어떻게 오가는지 그림으로 보여 준다. `check.mjs`도 반례를 코드 말로 풀어 쓴다.
+
+## 지금 알려진 발견 (없음)
+
+`formal/refresh-order/known-findings.json`이 비어 있다. 일부러 고치지 않고 두는 반례만 그 파일에 서명을 적는다. `check.mjs`는 같은 반례를 "알려진 발견"이라고 적는다.
+
+`bc64f30`에서 찾은 두 반례와 고친 방법:
+
+1. **`LatestWins`** — 첫 불러오기 성공(#1) → 새로고침(#2) → 새로고침(#3) → #3 도착 → 늦은 #2 도착으로 화면이 #2로 되돌아감. 지금은 `refresh()`와 `start()`가 `S.seq`를 같이 올리고, `refresh()`는 `await load()` 뒤 `my !== S.seq`면 숫자도 toast도 건드리지 않는다.
+2. **`NoWipe`** — 첫 실패(#1) → 새로고침(#2) → "다시 시도"(#3) → #2 도착 → #3 실패로 `#listBody`가 비워짐. 브라우저에서 짚어 보니 3번 걸음은 불가능했다. 첫 실패 때 `start()`가 목록으로 바꾸고, 목록(z-index 7, 화면 전체)이 `#errorBanner`를 덮어 "다시 시도"가 보이지도 눌리지도 않았다(WebGL이 있어도 같음). 진짜 문제는 둘이었다. 실패 화면에 다시 시도가 없었고, 숫자를 받기 전 `refresh()`가 `start()`와 따로 돌아 성공해도 처음 시작(지도 만들기, WebGL 없음 처리)을 건너뛰었다. 지금은 실패 때 목록에 실패 문구와 `#retry2`를 그리고, 숫자를 받기 전(`started` 거짓) `refresh()`는 `start()`를 부른다. 그래서 `start()`가 실패할 때는 지울 숫자가 없다. 닿지 않던 `if (started) { ...; refresh(); return; }` 갈래는 지웠다. 다시 시도가 성공하면 지도의 `load`에서 목록을 지도로 되돌린다(IA 흐름 recover-error).
+
+## 결과 읽기: 진짜 버그인가, 모델 잘못인가
+
+반례가 나오면 걸음마다 코드에서 같은 순서가 정말 가능한지 짚는다.
+
+- 버튼 걸음(`YouTap*`): 그때 그 버튼이 화면에 있고 #veil이 걷혀 있는가. 목록 화면이면 `#refresh2`, 지도면 `#refresh`. `hidden`이 아니어도 다른 층에 덮일 수 있으니, 브라우저에서 버튼 가운데의 `document.elementFromPoint`가 그 버튼인지 본다.
+- 도착 걸음(`*Arrives`, `*Fails`): `await load()` 다음 줄부터 다음 `await` 또는 함수 끝까지가 정말 한 번에 도는가. 모델은 그 구간을 한 걸음으로 본다.
+- `HasMap`: `map`은 첫 `start()` 성공 뒤 `webglOK()`일 때만 생긴다. 지도의 `load` 이벤트를 기다리는 시간은 한 걸음으로 묶었다.
+
+모든 걸음이 코드에서 가능하면 진짜 버그다. 약속이나 모델을 약하게 고쳐 통과시키지 말고, 반례를 위 형식(걸음 순서, 코드 이름)으로 사용자에게 보고한다. 사용자가 고치라고 하기 전에는 앱 코드를 고치지 않는다.
+
+가능하지 않은 걸음이 있으면 모델 잘못이다. 그 걸음의 조건을 코드에 맞게 고치고 왜 그런지 주석으로 남긴다.
+
+## 코드를 일부러 바꿨을 때 모델 맞추기
+
+1. 바뀐 조각을 읽고 `RefreshOrder.tla`의 해당 걸음(위 표)을 고친다. 단순한 경우는 `RefreshOrder.cfg` 상수로 된다:
+   - `RefreshDropsStale` / `StartDropsStale`: 그 함수가 응답을 받은 뒤 "내 요청이 `start()`·`refresh()`를 통틀어 마지막 `load()` 호출인가"를 보고 아니면 `S.rows`를 건드리지 않으면 `TRUE`. 카운터를 `refresh()`에서만 올리면 `TRUE`가 아니다. "다시 시도" 성공 뒤 그보다 먼저 보낸 새로고침 응답이 가드를 통과해 덮는다(첫 실패 → 새로고침 #2 → 다시 시도 #3 → #3 도착 → #2 도착). 그런 코드는 상수로 표현되지 않으니, 가드가 세는 범위를 변수로 모델에 넣는다.
+   - `ClearsListOnStartFail`: `start()` 실패가 `map` 없을 때 `#listBody`를 숫자 없는 화면(지금은 실패 문구)으로 바꾸면 `TRUE`. 숫자가 없을 때만 바꾸면 `FALSE`.
+   - 지금 코드의 값은 `RefreshDropsStale = TRUE`, `StartDropsStale = FALSE`, `ClearsListOnStartFail = TRUE`.
+   - `MaxClicks`: 사람이 누르는 횟수 상한. 5에서 1초 안쪽이다. 새 버튼이나 새 요청 경로를 넣으면 올려서 한 번 더 돌린다.
+2. `node formal/refresh-order/check.mjs`. 알려진 발견이 사라졌다고 나오면(코드가 고쳐짐) `known-findings.json`에서 그 항목을 지운다. 새 반례면 위 "결과 읽기"를 따른다.
+3. 모델이 새 코드를 그대로 옮긴다고 확인한 뒤에만 `node formal/refresh-order/check.mjs --print-coverage` 결과로 `coverage.json`의 `snippets`를 바꾸고, 이 문서의 확인 커밋을 그 코드가 들어간 커밋으로 옮긴다. 확인하지 않았으면 둘 다 그대로 둔다.
+
+## 이 검사가 실패할 수 있다는 근거
+
+`bc64f30`에서 이 문서대로 해 봤다(임시 변경, 커밋 안 함):
+
+- 고친 판: `refresh()`와 `start()`가 같은 `S.seq`를 올리고, `refresh()`는 `await load()` 뒤 `my !== S.seq`면 돌아가며, `start()` 실패는 `S.rows`가 빌 때만 `#listBody`를 비운다. 상수 `RefreshDropsStale = TRUE`, `ClearsListOnStartFail = FALSE`로 두 약속 모두 통과(6342 상태).
+- 그 위에 `start()`의 `++S.seq`만 뺀 판: 해시 비교가 `start()` 변경을 알렸고, 가드 범위를 모델에 넣자 `LatestWins`가 위 반례로 깨졌다.
+- 되돌린 뒤 두 알려진 발견으로 돌아옴.
+
+지금 코드에서 `RefreshDropsStale = FALSE`로만 바꿔 돌리면 `LatestWins`가 위 1번 반례로 다시 깨진다(54 상태).
+
+## 다루지 않는 것
+
+- 모델이지 코드 자체가 아니다. 코드와 모델의 대응은 위 표와 해시 비교로만 지킨다.
+- 경계: 사람이 최대 5번 누름(새로고침 + 다시 시도), 따라서 요청은 최대 6개. 응답 도착 순서는 모두 섞어 본다. WebGL 있음·없음 둘 다.
+- 숫자의 내용(빈자리 계산, 오래됨 20분, 실시간 없음)은 보지 않는다. 그건 `node --test`가 본다.
+- 새로고침 버튼의 돌기(`spinning`) 표시, toast 문구, 기준 시각 문구가 맞는지는 보지 않는다.
+- 서버(`server.mjs`)의 캐시·재시도, 브라우저 `fetch` 시간 초과, 탭 숨김·재방문은 모델에 없다.

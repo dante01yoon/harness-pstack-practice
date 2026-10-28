@@ -1,111 +1,90 @@
 {
-  "viewport": {
-    "width": 360,
-    "height": 800
-  },
-  "requiredStates": [
-    "default",
-    "loading",
-    "empty",
-    "error",
-    "stale",
-    "no-realtime"
-  ],
+  "viewport": { "width": 390, "height": 844 },
+  "requiredStates": ["default", "empty", "error", "loading"],
   "screens": [
     {
+      "id": "map",
+      "title": "3D 지도 (첫 화면)",
+      "features": ["F1", "F2", "F5", "F6", "F7", "F8"],
+      "parent": null,
+      "states": ["default", "loading", "error", "empty", "permission-denied", "stale", "no-realtime"],
+      "notes": "empty=화면 안에 주차장 없음. permission-denied=위치 권한 거부, 시청 근처로 시작. stale=기준 시각 20분 초과(기둥 흐림). no-realtime=PRK_STTS_YN≠1(회색 기둥, 숫자 없음). 위치 정보 없음 5곳은 지도에 기둥 없음. 움직임: 첫 진입 카메라 비행(서울 전체 → 사용자 위치 또는 시청 근처)과 기둥 솟음, 새로고침 시 높이 전환. prefers-reduced-motion이면 모두 끄고 즉시 배치."
+    },
+    {
       "id": "list",
-      "name": "주차장 목록",
-      "features": [
-        "F1",
-        "F2",
-        "F3",
-        "F4",
-        "F6",
-        "F7",
-        "F8",
-        "F9",
-        "F10"
-      ],
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "stale",
-        "no-realtime"
-      ]
+      "title": "목록 (거리순/빈자리순)",
+      "features": ["F4", "F6", "F7", "F8"],
+      "parent": "map",
+      "states": ["default", "loading", "error", "empty", "no-webgl", "stale", "no-realtime", "no-location"],
+      "notes": "empty=화면 안 주차장 없음. no-webgl=3D를 못 그리는 기기는 이 화면으로 시작(지도 토글 비활성+안내). no-location=좌표 미결합 5곳, 목록·검색에만 '위치 정보 없음'."
+    },
+    {
+      "id": "search",
+      "title": "검색 (이름·자치구)",
+      "features": ["F5", "F6", "F8"],
+      "parent": "map",
+      "states": ["default", "empty", "no-realtime", "no-location"],
+      "notes": "empty=검색 결과 없음. 이름·자치구만 검색, 주소·장소·POI 안 함. 결과 탭 시 지도가 그 주차장(구는 구 전체)으로 이동."
     },
     {
       "id": "detail",
-      "name": "주차장 상세",
-      "features": [
-        "F4",
-        "F5",
-        "F6",
-        "F7",
-        "F8",
-        "F9",
-        "F10"
-      ],
-      "states": [
-        "default",
-        "loading",
-        "error",
-        "stale",
-        "no-realtime"
-      ]
+      "title": "주차장 상세 바텀시트",
+      "features": ["F3", "F6"],
+      "parent": "map",
+      "states": ["default", "stale", "no-realtime", "no-location"],
+      "notes": "지도 기둥 또는 목록 항목에서 아래로부터 올라옴. no-location이면 길찾기 링크를 숨김."
     }
   ],
   "flows": [
     {
-      "steps": [
-        "list",
-        "list:loading",
-        "list",
-        "detail"
-      ],
-      "goal": "구로 찾아 빈자리 확인"
+      "id": "check-vacancy",
+      "goal": "목적지 근처 빈자리 수와 기준 시각을 지도에서 읽는다",
+      "steps": ["map:loading", "map", "detail"]
     },
     {
-      "steps": [
-        "list",
-        "list:empty",
-        "list",
-        "detail"
-      ],
-      "goal": "이름 검색으로 빈자리 확인"
+      "id": "search-and-open",
+      "goal": "이름이나 구로 찾아 그 주차장 상세를 본다",
+      "steps": ["map", "search", "map", "detail"]
     },
     {
-      "steps": [
-        "list:stale",
-        "list:loading",
-        "list"
-      ],
-      "goal": "오래된 숫자 확인 후 새로고침"
+      "id": "search-no-result",
+      "goal": "검색 결과가 없을 때 다시 입력한다",
+      "steps": ["map", "search:empty", "search"]
     },
     {
-      "steps": [
-        "list:error",
-        "list:loading",
-        "list"
-      ],
-      "goal": "불러오기 실패 후 다시 시도"
+      "id": "browse-list",
+      "goal": "목록에서 거리순/빈자리순으로 비교하고 상세를 연다",
+      "steps": ["map", "list", "detail"]
     },
     {
-      "steps": [
-        "list:no-realtime",
-        "detail:no-realtime"
-      ],
-      "goal": "실시간 없는 주차장 상세 확인"
+      "id": "recover-error",
+      "goal": "불러오기 실패 후 다시 시도한다",
+      "steps": ["map:error", "map:loading", "map"]
     },
     {
-      "steps": [
-        "detail",
-        "detail:stale",
-        "detail:error",
-        "list"
-      ],
-      "goal": "상세에서 요금·운영시간 확인"
+      "id": "location-denied",
+      "goal": "위치 권한을 거부해도 시청 근처에서 시작해 탐색한다",
+      "steps": ["map:permission-denied", "map"]
+    },
+    {
+      "id": "empty-viewport",
+      "goal": "화면 안에 주차장이 없을 때 목록이나 다른 곳으로 이동한다",
+      "steps": ["map:empty", "list", "map"]
+    },
+    {
+      "id": "no-webgl-start",
+      "goal": "3D를 못 그리는 기기에서 목록으로 시작해 상세를 본다",
+      "steps": ["list:no-webgl", "detail"]
+    },
+    {
+      "id": "judge-freshness",
+      "goal": "숫자가 오래됐거나 실시간이 아닌 곳을 구분한다",
+      "steps": ["map:stale", "detail:stale", "list:no-realtime", "detail:no-realtime"]
+    },
+    {
+      "id": "unlocated",
+      "goal": "위치 정보 없는 주차장을 목록·검색에서 확인한다",
+      "steps": ["list:no-location", "detail:no-location"]
     }
   ]
 }
